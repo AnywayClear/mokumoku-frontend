@@ -70,12 +70,10 @@ const Uploader = () => {
       </div>
 
       <div className="upload-button">
-        <Button variant="contained" onClick={() => inputRef?.click()}>
-          이미지등록
-        </Button>
-        <Button color="success" variant="contained" onClick={sendImageToServer}>
+        <button onClick={() => inputRef?.click()}>프로필 설정하기</button>
+        {/* <Button color="success" variant="contained" onClick={sendImageToServer}>
           Upload
-        </Button>
+      </Button>*/}
       </div>
     </div>
   );
