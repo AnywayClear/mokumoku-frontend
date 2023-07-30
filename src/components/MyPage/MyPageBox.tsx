@@ -15,7 +15,7 @@ const cols : colType[]  = [
     },
     {
         name : "제목",
-        flex : "w-4/12",
+        flex : "w-6/12",
     },
     {
         name : "단위",
@@ -27,7 +27,7 @@ const cols : colType[]  = [
     },
     {
         name : "낙찰일자",
-        flex : "w-1/12",
+        flex : "w-2/12",
     },
     {
         name : "배송상태",
@@ -35,7 +35,7 @@ const cols : colType[]  = [
     },
     {
         name : "후기작성",
-        flex : "w-1.5/12",
+        flex : "w-2/12",
     }
 ];
 
@@ -57,12 +57,62 @@ export default function MyPageBox(){
         {
             id : 1,
             img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "맛있는 감자ㅋㅋㅋㅋㅋ",
+            title: "맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다",
             unit : "1kg",
             price : 13000,
             date : "2023-07-28",
             deliv : "배송완료",
             review : true,        
+        },
+        {
+            id : 1,
+            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
+            title : "싱싱 야채 세트 많아요",
+            unit : "",
+            price : 15000,
+            date : "2023-07-28",
+            deliv : "결제하기",
+            review : false,        
+        },
+        {
+            id : 1,
+            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
+            title : "싱싱 야채 세트 많아요",
+            unit : "",
+            price : 15000,
+            date : "2023-07-28",
+            deliv : "결제하기",
+            review : false,        
+        },
+        {
+            id : 1,
+            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
+            title : "싱싱 야채 세트 많아요",
+            unit : "",
+            price : 15000,
+            date : "2023-07-28",
+            deliv : "결제하기",
+            review : false,        
+        },
+        {
+            id : 1,
+            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
+            title : "싱싱 야채 세트 많아요",
+            unit : "",
+            price : 15000,
+            date : "2023-07-28",
+            deliv : "결제하기",
+            review : false,        
+        },
+        {
+            id : 1,
+            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
+            title : "싱싱 야채 세트 많아요",
+            unit : "",
+            price : 15000,
+            date : "2023-07-28",
+            deliv : "결제하기",
+            review : false,        
         },
         {
             id : 1,
@@ -94,7 +144,6 @@ export default function MyPageBox(){
                     </div>
                 <div className="flex items-center">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        
                             <DatePicker  
                             label="시작일" 
                             slotProps={{ textField: { size: 'small' } }} 
@@ -109,7 +158,6 @@ export default function MyPageBox(){
                             onChange={(newValue) => setValue(newValue)} 
                             className="w-44 mr-4"
                             />
-                        
                     </LocalizationProvider>  
                     <TextField
                         label="물품이름 검색"
@@ -118,7 +166,7 @@ export default function MyPageBox(){
                         className="w-52"
                     />
                     <button 
-                    className="bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 py-1.5 border-2 border-neutral-300"
+                    className="bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300"
                     >검색</button>
                     </div>
                     
@@ -140,15 +188,15 @@ export default function MyPageBox(){
                 </div>
             </div>
             <div>
-                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-700 truncate'>
-                    <thead className='font-bold  text-lg'>
+                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-700'>
+                    <thead className='font-bold  text-xl'>
                         <tr className="border-y">
-                            {cols.map((col, index)=>(<td key={index} className={col.flex}>{col.name}</td>))}
+                            {cols.map((col, index)=>(<td key={index} className={`${col.flex}`+" py-8"}>{col.name}</td>))}
                         </tr>
                     </thead>
                     <tbody>
                         {rows.map((row)=>
-                        (<tr key={row.id} className="border-y text-md">
+                        (<tr key={row.id} className="border-y text-lg">
                             <td>{row.img!==undefined?<Image src={row.img} alt='상품이미지' width={300} height={150}/>:null}</td>
                             <td><a href="#"><u>{row.title}</u></a></td>
                             <td><p>{row.unit}</p></td>
