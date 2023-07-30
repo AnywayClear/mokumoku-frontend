@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LogoImage from '../../../public/images/mokumokuLogo.svg';
+import LogoImage from '../../../../public/images/mokumokuLogo.svg';
 
 export default function BannerSelfConsumer(){
     return(
