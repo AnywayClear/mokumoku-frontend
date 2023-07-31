@@ -1,6 +1,6 @@
 "use client"
 import {useState} from "react";
-import MyPageTab from "./MyPageTap";
+import MyPageTab from "./customerSelf/CustomerMyPageTap";
 import MyPageBox from "./MyPageBox";
 
 export default function MyPageContent(){
