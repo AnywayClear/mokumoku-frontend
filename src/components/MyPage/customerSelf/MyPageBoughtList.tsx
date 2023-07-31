@@ -129,7 +129,7 @@ export default function BoughtList() {
 
 
     return (
-        <div>
+        <div className='mb-16'>
             <div className="flex space-x-2 mb-4 my-16">
                 <button className="bg-white text-green-500 rounded-full border-green-500 border-[3px] font-semibold px-3.5 py-0.5">결제전</button>
                 <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">출고전</button>
@@ -202,7 +202,7 @@ export default function BoughtList() {
                         {rows.map((row,index2)=>
                         (<tr key={index2} className="border-y text-lg">
                             <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
-                            <td><a href="#"><p className='px-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
+                            <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
                             <td><p>{row.unit}</p></td>
                             <td><p>{row.price}</p></td>
                             <td><p>{row.date}</p></td>
