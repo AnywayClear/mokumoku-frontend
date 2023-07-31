@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Dongle } from 'next/font/google';
 import localFont from 'next/font/local';
+import AuthContext from '@/context/AuthContext';
 
 const RobotoMono = Dongle({
   subsets: ['latin'],
@@ -42,8 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spokaFont.className}>
-        <Header />
-        <main>{children}</main>
+        <AuthContext>
+          <Header />
+          <main>{children}</main>
+        </AuthContext>
       </body>
     </html>
   );
