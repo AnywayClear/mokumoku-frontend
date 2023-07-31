@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
 
-export default function BannerSelfConsumer(){
+export default function CustomerBannerSelf(){
     return(
         <>
             <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12 pr-10">

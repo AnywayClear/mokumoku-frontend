@@ -1,11 +1,11 @@
-import BannerSelfConsumer from "@/components/MyPage/customerSelf/CustomerBannerSelf";
-import MyPageContent from "@/components/MyPage/MyPageContent";
+import CustomerBannerSelf from "@/components/MyPage/customerSelf/CustomerBannerSelf";
+import CustomerContent from "@/components/MyPage/customerSelf/CustomerContent";
 
 export default function MyPage(){
     return(
         <>
-            <BannerSelfConsumer></BannerSelfConsumer>
-            <MyPageContent></MyPageContent>
+            <CustomerBannerSelf></CustomerBannerSelf>
+            <CustomerContent></CustomerContent>
         </>
     );
 }

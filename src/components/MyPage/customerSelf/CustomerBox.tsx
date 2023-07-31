@@ -1,7 +1,6 @@
-import { Props } from "next/script";
-import BoughtList from "./customerSelf/MyPageBoughtList";
-import SubscribeList from "./customerSelf/MyPageSubscribeList";
-import WishList from "./customerSelf/MyPageWishList";
+import BoughtList from "./BoughtList";
+import SubscribeList from "./SubscribeList";
+import WishList from "./WishList";
 
 const boxItems = [
     {
@@ -22,7 +21,7 @@ type Props = {
     boxItemNum: number;
 }
 
-export default function MyPageBox({boxItemNum}:Props){
+export default function CustomerBox({boxItemNum}:Props){
 
     
 

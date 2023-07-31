@@ -35,7 +35,7 @@ type Props={
     setBoxItemNum: Function
 }
 
-export default function MyPageTab({boxItemNum, setBoxItemNum}:Props){
+export default function CustomerTab({boxItemNum, setBoxItemNum}:Props){
 
     const [itemSelected,selectItem] = useState<number>(boxItemNum);
     const [itemFocused, focusItem] = useState<number>(boxItemNum);
