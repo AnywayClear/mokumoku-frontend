@@ -16,7 +16,7 @@ export default function ProductCardGrid() {
   return (
     <>
       {products.map(({ status }, index) => (
-        <ProductCard key="index" status={status} />
+        <ProductCard key={index} status={status} />
       ))}
     </>
   );
