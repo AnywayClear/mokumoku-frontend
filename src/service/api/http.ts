@@ -1,7 +1,9 @@
 import Axios from 'axios';
-const axios = Axios.create();
+const axios = Axios.create(
+  
+);
 
-const get = async (url: string) => {
+export const get = async (url: string) => {
   const res = await axios.get<Response>(url);
   return res.data;
 };
@@ -16,4 +18,5 @@ const put = async (url: string, body?: Request) => {
   return res.data;
 };
 
-const 
+
+
