@@ -1,12 +1,25 @@
 import Image from 'next/image';
 import tempImage from '../../public/images/mokumokuLogo.svg';
 import { FiHeart } from 'react-icons/fi';
+import { Produce } from './ProductCardGrid';
 
 type Props = {
-  status: number;
+  produce: Produce;
 };
 
-export default function ProductCard({ status }: Props) {
+export default function ProductCard({ produce }: Props) {
+  const {
+    name,
+    description,
+    image,
+    startPrice,
+    kg,
+    ea,
+    startDate,
+    endDate,
+    status,
+  } = produce;
+
   return (
     <div className="w-72 shadow-md m-4">
       <Image alt="temp" src={tempImage} />
@@ -24,13 +37,13 @@ export default function ProductCard({ status }: Props) {
           ></div>
         </div>
         <div className="flex justify-between m-2 mt-0">
-          <p>종합 야채 세트</p>
-          <p className="font-medium">5kg X 3</p>
+          <p>{name}</p>
+          <p className="font-medium">{`${kg}kg X ${ea}`}</p>
         </div>
 
         {status === 0 ? (
           <div className="flex justify-between m-2">
-            <p className="font-bold">50,000원</p>
+            <p className="font-bold">{`${startPrice }원`}</p>
           </div>
         ) : (
           <>
