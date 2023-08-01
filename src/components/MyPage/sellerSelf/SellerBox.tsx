@@ -1,5 +1,6 @@
 import AuctionList from "./AuctionList";
 import AuctionChart from "./AuctionChart";
+import ReviewList from "./ReviewList";
 const boxItems = [
     {
         tag : <AuctionList/>,
@@ -9,6 +10,10 @@ const boxItems = [
         tag : <AuctionChart/>,
         number : 1
     },
+    {
+        tag : <ReviewList/>,
+        number : 2
+    },
 
 ];
 
@@ -17,8 +22,6 @@ type Props = {
 }
 
 export default function SellerBox({boxItemNum}:Props){
-
-    
 
     return (
         <div className="border-y-4 border-neutral-500 my-4">
