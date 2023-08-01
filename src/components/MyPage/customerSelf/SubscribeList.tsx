@@ -165,12 +165,12 @@ export default function SubscribeList() {
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const handleMouseDown = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setStartPos(e.clientX);
     setScrollLeft(e.currentTarget.scrollLeft);
   };
-  const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const delta = e.clientX - startPos;
     e.currentTarget.scrollLeft = scrollLeft - delta;
