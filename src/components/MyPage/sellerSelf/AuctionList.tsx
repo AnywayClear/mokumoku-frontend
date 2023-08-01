@@ -6,7 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Image from 'next/image';
-import {FcCancel} from 'react-icons/Fc';
+import {FcCancel} from 'react-icons/fc';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
