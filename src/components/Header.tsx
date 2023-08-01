@@ -51,20 +51,22 @@ export default function Header() {
       <section className="flex justify-between items-center">
         <Image alt="MokuMoku" src={LogoImage} />
         <nav className="flex gap-6">
-          {topButton.map(({ icon, title, link }, index) => (
-            <>
-              <Link href={link} className="flex items-center gap-2 text-sm">
-                {icon}
-                <p>{title}</p>
-              </Link>
-            </>
-          ))}
+          <ul>
+            {topButton.map(({ icon, title, link }, index) => (
+              <li key={index}>
+                <Link href={link} className="flex items-center gap-2 text-sm">
+                  {icon}
+                  <p>{title}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
       </section>
-      <div className='flex justify-between items-center'>
+      <div className="flex justify-between items-center">
         <section className="flex gap-6 m-6">
           {menu.map(({ title, link }, index) => (
-            <Link key={link} href={link}>
+            <Link key={index} href={link}>
               <p className="text-lg">{title}</p>
             </Link>
           ))}
