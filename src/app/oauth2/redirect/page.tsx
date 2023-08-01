@@ -22,7 +22,7 @@ export default function Page() {
   //   console.log("hi");
   // }
 
-  console.log('session' + session);
+  // console.log('session' + session);
   return (
     <>
       <div>hi</div>
