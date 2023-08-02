@@ -44,12 +44,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={spokaFont.className}>
+    <html lang="en" className={spokaFont.className}>
+      <body className="w-full max-w-screen-2xl mx-auto">
         <QueryProvider>
           <AuthContextProvider>
             <Header />
-            <main>{children}</main>
+            <main className="grow">{children}</main>
           </AuthContextProvider>
         </QueryProvider>
       </body>
