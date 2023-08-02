@@ -20,7 +20,7 @@ const menu: menuData[] = [
   },
   {
     title: '경매',
-    link: '/',
+    link: '/product',
   },
   {
     title: '이용후기',
