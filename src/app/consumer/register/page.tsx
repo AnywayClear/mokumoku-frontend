@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -63,10 +63,15 @@ export default function ConsumerRegister() {
     setModalState(false);
   }; // onCompletePost 함수
 
+  const checkKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter') e.preventDefault();
+  };
+
   return (
     <form
       className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center"
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={checkKeyDown}
     >
       <h2 className="text-2xl font-extrabold text-center">회원정보 수정</h2>
       <hr className="w-48 h-1 mx-auto my-4 bg-black" />
