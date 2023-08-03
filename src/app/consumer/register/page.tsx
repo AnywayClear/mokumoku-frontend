@@ -7,6 +7,7 @@ import DaumPostcode from 'react-daum-postcode';
 import Uploader from '@/components/Uploader';
 import { Modal } from 'antd';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const schema = yup
   .object({
@@ -39,6 +40,7 @@ const ADDRESS_STYLE =
 const BUTTON_STYLE = 'w-1/5 ml-3 bg-black text-white rounded-lg';
 
 export default function ConsumerRegister() {
+  const router = useRouter();
   const [inputAddress, setInputAddressValue] = useState('');
   const [inputZipCodeValue, setInputZipCodeValue] = useState('');
   const [modalState, setModalState] = useState(false);
@@ -122,7 +124,11 @@ export default function ConsumerRegister() {
       <button className="w-40 p-2 mt-2 bg-black text-white rounded-lg">
         수정완료
       </button>
-      <button type="button" className="text-gray-500">
+      <button
+        type="button"
+        className="text-gray-500"
+        onClick={() => router.push('/seller/register')}
+      >
         판매자로 전환하기
       </button>
     </form>
