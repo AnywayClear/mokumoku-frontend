@@ -1,15 +1,39 @@
+'use client';
+
 import Image from 'next/image';
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
+import { Produce } from '@/model/produce';
+import { useQuery } from '@tanstack/react-query';
+import { getProduce } from '@/service/api/produce';
 
 type Props = {
   params: {
-    slug: string;
+    slug: number;
   };
 };
 
-export default function page({ params: { slug } }: Props) {
+export default function ProductDetailPage({ params: { slug } }: Props) {
+  const { data: produce } = useQuery({
+    queryKey: ['produce', slug],
+    queryFn: () => getProduce(slug),
+  });
 
-  
+
+  // const {
+  //   id,
+  //   name,
+  //   seller,
+  //   description,
+  //   image,
+  //   startPrice,
+  //   kg,
+  //   ea,
+  //   startDate,
+  //   endDate,
+  //   status,
+  //   dibNum,
+  //   auctionResponseList,
+  // } = produce;
 
   return (
     <>
@@ -22,15 +46,15 @@ export default function page({ params: { slug } }: Props) {
           <div className="py-4 border-t-4 border-b-2 border-t-black border-b-gray-200">
             <div className="flex my-2">
               <Image alt="logo" width={100} height={100} src={LogoImage} />
-              <p className="font-bold">하니팜 스토어</p>
+              <p className="font-bold">{produce?.seller}</p>
             </div>
 
             <div className="w-full">
-              <p className="text-xl font-bold">종합 야채 세트 10kg</p>
+              <p className="text-xl font-bold">{produce?.name}</p>
               <div className="flex justify-between my-4 font-medium">
                 <div className="flex gap-6">
                   <p>시작 가격</p>
-                  <p>50,000원</p>
+                  <p>{produce?.startPrice}</p>
                 </div>
                 <div className="flex gap-6">
                   <div className="flex flex-col items-end gap-4">
@@ -38,8 +62,8 @@ export default function page({ params: { slug } }: Props) {
                     <p>물품당 무게</p>
                   </div>
                   <div className="flex flex-col items-end gap-4">
-                    <p>3</p>
-                    <p>10kg</p>
+                    <p>{produce?.ea}</p>
+                    <p>{`${produce?.kg}kg`}</p>
                   </div>
                 </div>
               </div>
@@ -63,6 +87,8 @@ export default function page({ params: { slug } }: Props) {
             </div>
           </div>
 
+
+          {/* {produce?.status === 0 ? } */}
           <input
             type="button"
             value="진행중       |       2023.07.23 16:00"
