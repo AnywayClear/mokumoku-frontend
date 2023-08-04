@@ -6,6 +6,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Image from 'next/image';
+import { useState } from 'react';
+import ReviewModal from './ReviewModal';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
@@ -41,7 +43,7 @@ const cols : colType[]  = [
 
 type rowType = {
     id:number,
-    img?:string,
+    img:string,
     title:string,
     unit:string,
     price:number,
@@ -50,10 +52,19 @@ type rowType = {
     review:boolean
 };
 
+type modalType = {
+    id:number,
+    title:string,
+    img: string
+    unit:string,
+    price:number
+}
+
 export default function BoughtList() {
     
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-
+    const [showModal, setShowModal] = useState(false);
+    const [modalInfo, setModalInfo] = useState<modalType>({id:0, title:"", img:"", unit:"",price:0});
     const rows : rowType[] = [
         {
             id : 1,
@@ -73,7 +84,7 @@ export default function BoughtList() {
             price : 15000,
             date : "2023-07-28",
             deliv : "결제하기",
-            review : false,        
+            review : true,        
         },
         {
             id : 1,
@@ -127,9 +138,24 @@ export default function BoughtList() {
         }
     ]
 
+    function closeModal(){
+        setShowModal(false);
+    }
+    function openModal(getModalInfo:rowType){
+        let newModalInfo :modalType = {
+            id:getModalInfo.id,
+            title:getModalInfo.title,
+            img:getModalInfo.img,
+            unit:getModalInfo.unit,
+            price:getModalInfo.price
+        }
+        setModalInfo(newModalInfo);
+        setShowModal(true);
+    }
 
     return (
         <div className='mb-16'>
+            {showModal?<ReviewModal deadID={modalInfo.id} img={modalInfo.img} title={modalInfo.title} unit={modalInfo.unit} price={modalInfo.price} closeModal={closeModal} />:null}
             <div className="flex space-x-2 mb-4 my-16">
                 <button className="bg-white text-green-500 rounded-full border-green-500 border-[3px] font-semibold px-3.5 py-0.5">결제전</button>
                 <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">출고전</button>
@@ -199,7 +225,7 @@ export default function BoughtList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row,index2)=>
+                        {rows.map((row:rowType,index2)=>
                         (<tr key={index2} className="border-y text-lg">
                             <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
                             <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
@@ -207,12 +233,11 @@ export default function BoughtList() {
                             <td><p>{row.price}</p></td>
                             <td><p>{row.date}</p></td>
                             <td><a href=''><u className='hover:opacity-70'>{row.deliv}</u></a></td>
-                            <td>{row.review?<button className='rounded-md bg-black text-white py-1 px-2' >후기작성</button>:<></>}</td>
+                            <td>{row.review?<button className='rounded-md bg-black text-white py-1 px-2' onClick={()=>{openModal(row)}}>후기작성</button>:<></>}</td>
                         </tr>))}
                     </tbody>
                 </table>
             </div>
-
         </div>
 
     );
