@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
       id: 'kakao2',
       name: 'Kakao2',
       type: 'oauth',
-      authorization: 'http://13.125.251.1:8080/oauth2/authorization/kakao',
+      authorization: `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth2/authorization/kakao`,
       profile(profile) {
         return {
           id: profile.id || '',
@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: 'http://13.125.251.1:8080/oauth2/authorization/kakao',
+    signIn: `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth2/authorization/kakao`,
   },
 };
 
