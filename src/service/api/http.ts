@@ -2,7 +2,11 @@ import Axios from 'axios';
 const axios = Axios.create({
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    Authorization:
+      localStorage && localStorage.getItem('accessToken')
+        ? `Bearer ${localStorage.getItem('accessToken')}`
+        : null,
+    'Content-Type': 'application/json',
   },
 });
 
