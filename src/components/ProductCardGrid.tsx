@@ -22,10 +22,6 @@ type Props = {
   status: string;
 };
 
-
-
-
-
 export default function ProductCardGrid() {
   const [status, setStatus] = useRecoilState<string>(filterState);
   const { data: produceList }: { data: ProduceList | undefined } = useQuery({

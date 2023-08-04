@@ -24,6 +24,7 @@
     "antd": "^5.7.3",
     "apexcharts": "^3.41.0",
     "autoprefixer": "10.4.14",
+    "aws-sdk": "^2.1429.0",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
