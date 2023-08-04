@@ -1,5 +1,10 @@
 import Axios from 'axios';
-const axios = Axios.create({ withCredentials: true });
+const axios = Axios.create({
+  withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  },
+});
 
 export const get = async (url: string) => {
   const res = await axios.get<Response>(url);
@@ -19,4 +24,4 @@ export const put = async (url: string, body?: Request) => {
 export const del = async (url: string) => {
   const res = await axios.delete<Response>(url);
   return res.data;
-}
+};
