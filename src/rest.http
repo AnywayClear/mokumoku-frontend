@@ -1,0 +1,153 @@
+@baseUrl = http://13.125.251.1:8080
+
+
+### 회원탈퇴
+DELETE {{baseUrl}}/api/members HTTP/1.1
+
+## 회원정보 수정
+PUT {{baseUrl}}/api/members HTTP/1.1
+Content-Type: application/json
+
+{
+    "nickname" : "flowerdonk",
+    "image" : "profile.img",
+    "emailAddress" : "flowerdonk@anyway.clear",
+    "role" : "ROLE_CONSUMER"
+}
+
+### 회원 상세
+GET {{baseUrl}}/api/members/S0001 HTTP/1.1
+
+
+### 후기 조회
+GET {{baseUrl}}/api/members/reviews?userId={userId} HTTP/1.1
+
+### 판매 통계 정보
+GET {{baseUrl}}/api/members/statistics HTTP/1.1
+
+
+
+
+### 물품 등록
+POST {{baseUrl}}/api/produces HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "강원도 감자",
+    "image": "https://s3.ap-northeast-2.amazonaws.com/mybucket/potato.jpg",
+    "description": "못났지만 맛있는 감자입니다.",
+    "startPrice": 20000,
+    "kg": 20,
+    "startDate": "2023-07-24T12:00:00",
+    "endDate": "2023-07-24T18:00:00",
+    "ea": 3
+}
+
+
+
+### 농산물 상세
+GET {{baseUrl}}/api/produces/1 HTTP/1.1
+
+### 농산물 전체 리스트
+GET {{baseUrl}}/api/produces?statusNoList=0 HTTP/1.1
+
+### 농산물 목록 검색
+GET {{baseUrl}}/api/produces/search?name=감자&page=1&size=10&userId={userId} HTTP/1.1
+
+### 농산물 삭제
+DELETE {{baseUrl}}/api/produces/1 HTTP/1.1
+
+
+
+### 낙찰목록 조회
+GET {{baseUrl}}/api/deals?userId={userId} HTTP/1.1
+
+### 거래포인트 수정
+PATCH {{baseUrl}}/api/points?userId={userId} HTTP/1.1
+Content-Type: application/json
+
+{
+    "userId": 12345678,
+    "amount": 100,
+    "is_plus" : true
+}
+
+### 포인트 조회
+GET {{baseUrl}}/api/points/1 HTTP/1.1
+
+
+
+### 구독하기
+POST {{baseUrl}}/api/subscribes HTTP/1.1
+Content-Type: application/json
+
+{
+    "sellerId" : "S0001"
+}
+
+### 구독자 목록 조회
+GET {{baseUrl}}/api/subscribes?userId=S0001 HTTP/1.1
+
+### 찜하기
+POST {{baseUrl}}/api/dibs HTTP/1.1
+Content-Type: application/json
+
+{
+    "consumerId" : "C0001",
+    "produceId" : "1"
+}
+
+### 찜목록 조회
+GET {{baseUrl}}/api/dibs?userId={userId} HTTP/1.1
+
+
+### 배송 정보 수정
+PATCH {{baseUrl}}/api/delivery/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "waybill_number" : 11223344556677,
+    "address" : "Korea"
+}
+
+### 배송 상세 조회
+GET {{baseUrl}}/api/delivery/1 HTTP/1.1
+
+### 배송 정보 등록
+POST {{baseUrl}}/api/delivery/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "waybill_number" : null,
+    "address" : null
+}
+
+
+### 실시간 인기 경매 목록 조회
+GET {{baseUrl}}/statistics/now-popular HTTP/1.1
+
+### 찜하기 인기 경매 목록 조회
+GET {{baseUrl}}/statistics/dibs-popular HTTP/1.1
+
+### 실시간 낙찰 목록 조회
+GET {{baseUrl}}/statistics/now-end-price HTTP/1.1
+
+### 사업자 진위 조회
+POST api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=aJh1MFEPBeYe3aujW%2Bhu1dIo8AMu%2BY%2BBA5s7kurKQNrVGr2q%2BRXmmhGudTNIvRKletsw2fPSkrDzwHC1TMkqkg%3D%3D HTTP/1.1
+Content-Type: application/json
+
+{
+  "businesses": [
+    {
+      "b_no": "0000000000",
+      "start_dt": "20000101",
+      "p_nm": "홍길동",
+      "p_nm2": "홍길동",
+      "b_nm": "(주)테스트",
+      "corp_no": "0000000000000",
+      "b_sector": "",
+      "b_type": "",
+      "b_adr": ""
+    }
+  ]
+}
