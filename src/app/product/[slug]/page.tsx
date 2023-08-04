@@ -1,7 +1,16 @@
 import Image from 'next/image';
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
 
-export default function page() {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function page({ params: { slug } }: Props) {
+
+  
+
   return (
     <>
       <section className="flex w-full">
@@ -74,25 +83,25 @@ export default function page() {
       <section>
         <p>경매 목록</p>
         <table>
-            <thead>
-                <tr>
-                   <th>남은 시간</th> 
-                   <th>현재 입찰자</th> 
-                   <th>현재 입찰가</th> 
-                   <th>다음 입찰가</th> 
-                   <th>입찰하기</th> 
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>23123</td>
-                </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>남은 시간</th>
+              <th>현재 입찰자</th>
+              <th>현재 입찰가</th>
+              <th>다음 입찰가</th>
+              <th>입찰하기</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>23123</td>
+            </tr>
+          </tbody>
         </table>
       </section>
       <section>
         <p>상품 설명</p>
-        <textarea>상품 설명</textarea>
+        <textarea defaultValue={'상품 설명'}></textarea>
       </section>
     </>
   );
