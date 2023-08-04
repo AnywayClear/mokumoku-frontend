@@ -11,7 +11,7 @@ export const getProduceList = async (status: string) => {
   return data;
 };
 
-export const getProduce = async (id: number): Promise<Produce> => {
+export const getProduce = async (id: number)=> {
   const url = getUrl(`/api/produces/${id}`);
   const data = await get(url);
   return data;

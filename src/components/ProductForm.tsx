@@ -69,7 +69,7 @@ const ERROR_STYLE = 'text-red-500 h-4 text-xs';
 
 export default function ProductForm() {
   const [dragging, setDragging] = useState(false);
-  const [file, setFile] = useState<File>(null);
+  const [file, setFile] = useState<File>();
 
   const {
     register,
@@ -274,7 +274,13 @@ export default function ProductForm() {
         {/* )} */}
       </form>
 
-      <div onClick={() => uploadS3(file)}>image upload button</div>
+      <div
+        onClick={() => {
+          if (file) uploadS3(file);
+        }}
+      >
+        image upload button
+      </div>
     </>
   );
 }

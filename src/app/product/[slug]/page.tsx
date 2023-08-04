@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
 import { Produce } from '@/model/produce';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getProduce } from '@/service/api/produce';
 
 type Props = {
@@ -13,11 +13,10 @@ type Props = {
 };
 
 export default function ProductDetailPage({ params: { slug } }: Props) {
-  const { data: produce } = useQuery({
+  const { data: produce }: UseQueryResult<Produce> = useQuery({
     queryKey: ['produce', slug],
     queryFn: () => getProduce(slug),
   });
-
 
   // const {
   //   id,
@@ -86,7 +85,6 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
               <p>1일 이내 출고(주말, 공휴일 제외)</p>
             </div>
           </div>
-
 
           {/* {produce?.status === 0 ? } */}
           <input
