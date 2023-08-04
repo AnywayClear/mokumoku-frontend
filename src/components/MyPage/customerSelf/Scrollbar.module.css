@@ -12,3 +12,20 @@
     border-radius: 10px !important;
     background-color: #8e896f !important;
 }
+
+
+
+.verticalScroll::-webkit-scrollbar-track {
+    border-radius: 20px !important;
+    background-color: transparent !important;
+}
+  
+.verticalScroll::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent !important;
+}
+  
+.verticalScroll::-webkit-scrollbar-thumb {
+    border-radius: 20px !important;
+    background-color: #8e896f !important;
+}
