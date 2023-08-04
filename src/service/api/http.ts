@@ -41,3 +41,7 @@ export const del = async (url: string) => {
   const res = await axios.delete<Response>(url, getConfig());
   return res.data;
 };
+
+export const getUrl = (path: string) => {
+  return `${process.env.NEXT_PUBLIC_BACKEND_URL}${path}`;
+};
