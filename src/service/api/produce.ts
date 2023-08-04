@@ -1,16 +1,11 @@
-import { put } from "./http";
+import { get, put } from './http';
 
-type Produce = {
-    name: string;
-    image: string;
-    description: string;
-    startPrice: number;
-    kg: number;
-    startDate: Date;
-    endDate: Date;
-    ea: number;
-}
+export const postProduces = async () => {
+  await put('');
+};
 
-export const addProduces = async () => {
-    await put("")
-}
+export const getProduceList = async (status: string) => {
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/produces?statusNoList=${status}`;
+  const data = await get(url);
+  return data;
+};

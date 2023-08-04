@@ -7,6 +7,7 @@ import { AuthContext } from '@/context/AuthContext';
 import { useAuth } from '@/hooks/useAuth';
 import AuthContextProvider from '@/context/AuthContextProvider';
 import QueryProvider from '@/context/QueryProvider';
+import RecoilProvider from '@/context/RecoilProvider';
 
 const RobotoMono = Dongle({
   subsets: ['latin'],
@@ -45,11 +46,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spokaFont.className}>
-      <body className="w-full max-w-screen-2xl mx-auto">
+      <body className="w-full max-w-screen-xl mx-auto">
         <QueryProvider>
           <AuthContextProvider>
-            <Header />
-            <main className="grow">{children}</main>
+            <RecoilProvider>
+              <Header />
+              <main className="grow">{children}</main>
+            </RecoilProvider>
           </AuthContextProvider>
         </QueryProvider>
       </body>

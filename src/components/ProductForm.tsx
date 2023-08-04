@@ -2,6 +2,9 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { FaPhotoVideo } from 'react-icons/fa';
+import { ChangeEvent, DragEvent, useState } from 'react';
+import Image from 'next/image';
 
 const schema = yup
   .object({
@@ -55,6 +58,9 @@ const WRAPPER_STYLE = 'flex gap-4 my-4';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
 
 export default function ProductForm() {
+  const [dragging, setDragging] = useState(false);
+  const [file, setFile] = useState<File>();
+
   const {
     register,
     handleSubmit,
@@ -77,9 +83,75 @@ export default function ProductForm() {
   //   console.log(watch());
   console.log(errors);
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const files = e.target?.files;
+    if (files && files[0]) {
+      setFile(files[0]);
+    }
+  };
+  const handleDrag = (e: DragEvent) => {
+    if (e.type === 'dragenter') {
+      setDragging(true);
+    } else if (e.type === 'dragleave') {
+      setDragging(false);
+    }
+  };
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+  };
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const files = e.dataTransfer?.files;
+    if (files && files[0]) {
+      setFile(files[0]);
+    }
+  };
+
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
+      <input
+        className="hidden"
+        name="input"
+        id="input-upload"
+        type="file"
+        accept="image/*"
+        onChange={handleChange}
+      />
+      <label
+        className={`w-full h-60 flex flex-col items-center justify-center ${
+          !file && 'border-2 border-sky-500 border-dashed'
+        }`}
+        htmlFor="input-upload"
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        {dragging && (
+          <div className="absolute inset-0 z-10 bg-sky-500/20 pointer-events-none" />
+        )}
+        {!file && (
+          <div className="flex flex-col items-center pointer-events-none">
+            <FaPhotoVideo className="w-20 h-20 text-gray-300" />{' '}
+            <p>Drag and Drop your image here or click</p>
+          </div>
+        )}
+        {file && (
+          <div className="relative w-full aspect-square">
+            <Image
+              className="object-cover"
+              src={URL.createObjectURL(file)}
+              alt="local file"
+              fill
+              sizes="650px"
+            />
+          </div>
+        )}
+      </label>
+
       <div className={WRAPPER_STYLE}>
         <label className={LABEL_STYLE}>제목</label>
         <div className={WRAPPER_INPUT_STYLE}>
