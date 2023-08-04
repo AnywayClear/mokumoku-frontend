@@ -6,18 +6,6 @@ import { useRecoilState } from 'recoil';
 import { filterState } from '@/store/atom';
 import { ProduceList } from '@/model/produce';
 
-const products = [
-  {
-    status: 0,
-  },
-  {
-    status: 1,
-  },
-  {
-    status: 2,
-  },
-];
-
 type Props = {
   status: string;
 };
