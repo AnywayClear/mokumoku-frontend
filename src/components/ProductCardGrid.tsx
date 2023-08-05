@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import ProductCard from './ProductCard';
 import { get } from '@/service/api/http';
 import { getProduceList } from '@/service/api/produce';
@@ -12,7 +12,7 @@ type Props = {
 
 export default function ProductCardGrid() {
   const [status, setStatus] = useRecoilState<string>(filterState);
-  const { data: produceList }: { data: ProduceList | undefined } = useQuery({
+  const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
     queryKey: ['produceList', status],
     queryFn: () => getProduceList(status),
   });
