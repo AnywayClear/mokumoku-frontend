@@ -6,6 +6,12 @@ import { FaPhotoVideo } from 'react-icons/fa';
 import { ChangeEvent, DragEvent, useState } from 'react';
 import Image from 'next/image';
 import AWS from 'aws-sdk';
+import { useMutation } from '@tanstack/react-query';
+import { postProduce } from '@/service/api/produce';
+import { PostProduce } from '@/model/produce';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const schema = yup
   .object({
@@ -13,8 +19,7 @@ const schema = yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다.')
       .required('제목을 입력하세요.'),
-    image: yup.string().max(30, '최대 30자까지 입력 가능합니다.').required(),
-    desc: yup
+    description: yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다.')
       .required('상품 설명을 입력하세요.'),
@@ -25,8 +30,7 @@ const schema = yup
       .typeError('시작 가격을 입력해주세요.'),
     kg: yup
       .number()
-      .min(9, '최소 9 글자를 입력해야 합니다.')
-      .max(16, '최대 16자까지 입력 가능합니다.')
+      .min(1, '무게는 1kg 이상이어야 합니다.')
       .required('무게는 1kg 이상이어야 합니다.')
       .typeError('무게를 입력해주세요.'),
     startDate: yup
@@ -35,21 +39,24 @@ const schema = yup
       .typeError('시작시간을 입력해주세요.'),
     endDate: yup
       .date()
+      .min(
+        yup.ref('startDate'),
+        '경매 종료 시간은 경매 시작 시간보다 늦어야 합니다.',
+      )
       .required('필수 입력 항목입니다.')
       .typeError('종료시간을 입력해주세요.'),
     ea: yup
       .number()
-      .min(9, '최소 9 글자를 입력해야 합니다.')
-      .max(16, '최대 16자까지 입력 가능합니다.')
+      .min(1, '개수는 1개 이상이어야 합니다.')
       .required('수량은 1개 이상이어야 합니다.')
       .typeError('수량을 입력해주세요.'),
   })
+  .shape({})
   .required();
 
 type Inputs = {
   name: string;
-  image: string;
-  desc: string;
+  description: string;
   startPrice: number;
   kg: number;
   startDate: Date;
@@ -68,6 +75,16 @@ const WRAPPER_STYLE = 'flex gap-4 my-4';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
 
 export default function ProductForm() {
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: (data: PostProduce) => {
+      return postProduce(data);
+    },
+    onSuccess: () => {
+      toast('농산물 등록에 성공했습니다.');
+      router.replace('/product');
+    },
+  });
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
 
@@ -77,22 +94,10 @@ export default function ProductForm() {
     watch,
     formState: { errors },
   } = useForm<Inputs>({
-    // defaultValues: {
-    //   name: '',
-    //   image: '',
-    //   desc: '',
-    //   startPrice: 0,
-    //   kg: 0,
-    //   startDate: '0000-00-00T00:00:00',
-    //   endDate: '0000-00-00T00:00:00',
-    //   ea: 0,
-    // },
     resolver: yupResolver(schema),
   });
 
-  //   console.log(watch());
-  console.log(errors);
-
+  console.log(watch());
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -136,10 +141,29 @@ export default function ProductForm() {
       },
     });
 
-    upload.promise().then((data) => console.log(data));
+    return upload.promise();
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let image = {
+      Location: '',
+    };
+    // s3 업로드
+    if (file) {
+      image = await uploadS3(file);
+    }
+
+    console.log(image);
+
+    const newData = {
+      ...data,
+      startDate: data.startDate.toISOString(),
+      endDate: data.endDate.toISOString(),
+      image: image.Location,
+    };
+
+    mutation.mutate(newData);
+  };
   return (
     <>
       <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
@@ -201,9 +225,9 @@ export default function ProductForm() {
             <input
               className={INPUT_STYLE}
               placeholder="상품 설명"
-              {...register('desc')}
+              {...register('description')}
             />
-            <p className={ERROR_STYLE}>{errors.desc?.message}</p>
+            <p className={ERROR_STYLE}>{errors.description?.message}</p>
           </div>
         </div>
 
@@ -251,7 +275,7 @@ export default function ProductForm() {
           <label className={LABEL_STYLE}>경매 시작 시간</label>
           <div className={WRAPPER_INPUT_STYLE}>
             <input
-              type="date"
+              type="datetime-local"
               className={INPUT_STYLE}
               {...register('startDate')}
             />
@@ -262,7 +286,7 @@ export default function ProductForm() {
           <label className={LABEL_STYLE}>경매 종료 시간</label>
           <div className={WRAPPER_INPUT_STYLE}>
             <input
-              type="date"
+              type="datetime-local"
               className={INPUT_STYLE}
               {...register('endDate')}
             />
