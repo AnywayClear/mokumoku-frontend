@@ -56,11 +56,10 @@ const people = [
 ];
 
 type Props = {
-  auctionList: AuctionList;
+  auctionList: AuctionList | undefined;
 };
 
 export default function ProduceAuctionList({ auctionList }: Props) {
-    
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {people.map((person) => (

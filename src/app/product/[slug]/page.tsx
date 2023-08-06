@@ -111,7 +111,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
       </section>
       <section className="w-full">
         <p className="font-bold">경매 목록</p>
-        <ProduceAuctionList />
+        <ProduceAuctionList auctionList={produce?.auctionResponseList[0]} />
       </section>
       <section className="w-full my-4">
         <p className="font-bold">상품 설명</p>
