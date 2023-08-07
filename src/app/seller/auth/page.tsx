@@ -59,8 +59,10 @@ export default function SellerAuth() {
       });
 
       if (response.status === 200) {
-        console.log(response.data);
-        alert('확인할 수 없는 사업자입니다.');
+        if (response?.data?.data?.[0]?.valid == '02') {
+          console.log(response.data);
+          alert('확인할 수 없는 사업자입니다.');
+        }
         if (response?.data?.data?.[0]?.valid == '01') {
           alert('인증되었습니다.');
           router.push('/seller/register');
