@@ -8,6 +8,11 @@ import Uploader from '@/components/Uploader';
 import { Modal } from 'antd';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { File } from 'buffer';
+import AWS from 'aws-sdk';
+import { toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query';
+import { patch } from '@/service/api/http';
 
 const schema = yup
   .object({
@@ -15,7 +20,7 @@ const schema = yup
       .string()
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
-    image: yup.string().max(30, '최대 30자까지 입력 가능합니다.').required(),
+
     address: yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다')
@@ -25,7 +30,6 @@ const schema = yup
 
 type Inputs = {
   nickName: string;
-  image: string;
   address: string;
 };
 
@@ -44,6 +48,69 @@ export default function ConsumerRegister() {
   const [inputAddress, setInputAddressValue] = useState('');
   const [inputZipCodeValue, setInputZipCodeValue] = useState('');
   const [modalState, setModalState] = useState(false);
+  const [file, setFile] = useState<File>();
+
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    var base64Payload = token.split('.')[1];
+    var payload = Buffer.from(base64Payload, 'base64');
+    var { userId, role } = JSON.parse(payload.toString());
+    console.log(userId);
+  }
+
+  const mutation = useMutation({
+    mutationFn: (data: Inputs) => {
+      return patch(`/api/members/${userId}`, data);
+    },
+    onSuccess: () => {
+      toast('프로필 수정에 성공했습니다.');
+      router.replace('/mypage');
+    },
+  });
+
+  const handleImageSelected = (file: File) => {
+    setFile(file);
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let image = {
+      Location: '',
+    };
+    // s3 업로드
+    if (file) {
+      image = await uploadS3(file);
+      console.log('업로드 완');
+    }
+
+    console.log(image);
+
+    const newData = {
+      ...data,
+      image: image.Location,
+    };
+
+    mutation.mutate(newData);
+  };
+
+  const uploadS3 = (image: File) => {
+    AWS.config.update({
+      region: process.env.NEXT_PUBLIC_REGION,
+      accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY_ID,
+    });
+
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        ACL: 'public-read',
+        Bucket: 'mokumoku-image',
+        Key: `upload/${image.name}`,
+        Body: image,
+      },
+    });
+
+    return upload.promise();
+  };
+
   const {
     register,
     handleSubmit,
@@ -53,7 +120,6 @@ export default function ConsumerRegister() {
     resolver: yupResolver(schema),
   });
   console.log(errors);
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   const modalToggle = () => {
     setModalState(!modalState);
@@ -77,7 +143,7 @@ export default function ConsumerRegister() {
     >
       <h2 className="text-2xl font-extrabold text-center">회원정보 수정</h2>
       <hr className="w-48 h-1 mx-auto my-4 bg-black" />
-      <Uploader></Uploader>
+      <Uploader onImageSelected={handleImageSelected}></Uploader>
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
@@ -121,7 +187,11 @@ export default function ConsumerRegister() {
         ></input>
         <p className={ERROR_STYLE}>{errors.address?.message}</p>
       </div>
-      <button className="w-40 p-2 mt-2 bg-black text-white rounded-lg">
+      <button
+        type="submit"
+        value="submit"
+        className="w-40 p-2 mt-2 bg-black text-white rounded-lg"
+      >
         수정완료
       </button>
       <button
