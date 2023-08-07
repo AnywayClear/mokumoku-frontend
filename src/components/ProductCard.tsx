@@ -36,13 +36,25 @@ export default function ProductCard({
       className="shadow-md m-4 w-64 cursor-pointer"
       onClick={(e) => handleClick(e, id)}
     >
-      <Image
+      {/* <Image
         className="w-full"
         alt="temp"
         src={tempImage}
-        width={300}
-        height={200}
-      />
+        // fill
+        // width={300}
+        // height={500}
+      /> */}
+
+      <div className="relative w-full aspect-square">
+        <Image
+          className="object-contain"
+          src={tempImage}
+          alt="temp"
+          fill
+          sizes="650px"
+        />
+      </div>
+
       <div className="">
         <div className="flex justify-between items-center m-2 mb-0">
           <p className="font-bold underline decoration-solid">{seller}</p>

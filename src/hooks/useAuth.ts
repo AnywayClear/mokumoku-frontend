@@ -7,13 +7,6 @@ import { redirect } from 'next/navigation';
 export const useAuth = () => {
   const { user, setUser, addUser, removeUser } = useUser();
 
-  // useEffect(() => {
-  //   if (!user?.id) {
-  //     console.log(user);
-  //     // redirect('/');
-  //   }
-  // }, [user]);
-
   const login = (user: User) => {
     addUser(user);
   };
