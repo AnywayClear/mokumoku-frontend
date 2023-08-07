@@ -49,18 +49,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spokaFont.className}>
-      <QueryProvider>
-        <AuthContextProvider>
-          <RecoilProvider>
-            <body className="w-full flex flex-col min-h-screen max-w-screen-xl mx-auto">
+      <body className="w-full flex flex-col min-h-screen max-w-screen-xl mx-auto">
+        <QueryProvider>
+          <AuthContextProvider>
+            <RecoilProvider>
               <ToastContainer />
               <Header />
               <main className="grow">{children}</main>
               <Footer />
-            </body>
-          </RecoilProvider>
-        </AuthContextProvider>
-      </QueryProvider>
+            </RecoilProvider>
+          </AuthContextProvider>
+        </QueryProvider>
+      </body>
     </html>
   );
 }
