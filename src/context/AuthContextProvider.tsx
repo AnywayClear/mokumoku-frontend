@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function AuthContextProvider({ children }: Props) {
-  const { user, login, logout, setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

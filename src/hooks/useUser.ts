@@ -1,22 +1,22 @@
 import { AuthContext } from '@/context/AuthContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  authToekn?: string;
+  userId: string;
+  role: 0 | 1; // 0 : 구매자, 1 : 판매자
+  authToken?: string;
 }
 
 export const useUser = () => {
-  const { user, setUser } = useContext(AuthContext);
+  // const { user, setUser } = useContext(AuthContext);
+  const [user, setUser] = useState<User | null>(null);
 
   const addUser = (user: User) => {
     setUser(user);
   };
 
   const removeUser = () => {
-    setUser(null);
+    // setUser(null);
   };
 
   return { user, setUser, addUser, removeUser };

@@ -14,8 +14,8 @@ export default function LoginButton() {
 
   return (
     <>
-      {!user?.id ? (
-        <Link href="/" className="flex items-center gap-2 text-sm">
+      {!user?.userId ? (
+        <Link href="/login" className="flex items-center gap-2 text-sm">
           <GrLogin />
           <p>로그인</p>
         </Link>

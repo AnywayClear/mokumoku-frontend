@@ -20,10 +20,18 @@ export default function Page() {
 
   useEffect(() => {
     localStorage.setItem('accessToken', token || '');
-    redirect('/');
-    // get(`/api/members/S0001`).then(console.log);
-    // console.log(user);
-  }, [token]);
+    if (token) {
+      const base64Payload = token.split('.')[1];
+      const payload = Buffer.from(base64Payload, 'base64');
+      const { userId, role } = JSON.parse(payload.toString());
+      setUser({
+        userId,
+        role : role === "ROLE_CONSUMER" ? 0 : 1,
+      });
+
+    }
+    redirect("/");
+  }, [setUser, token]);
 
   return (
     <div className="flex h-[60vh] justify-center items-center">
