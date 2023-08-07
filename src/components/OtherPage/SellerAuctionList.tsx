@@ -6,14 +6,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Image from 'next/image';
-import { useState } from 'react';
-import ReviewModal from './ReviewModal';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
     {
         name : "상품이미지",
-        flex : "w-2/12",
+        flex : "w-3/12",
     },
     {
         name : "제목",
@@ -24,15 +22,15 @@ const cols : colType[]  = [
         flex : "w-1/12",
     },
     {
-        name : "입찰가격",
+        name : "시작가격",
         flex : "w-1/12",
     },
     {
-        name : "낙찰일자",
+        name : "경매일자",
         flex : "w-2/12",
     },
     {
-        name : "배송상태",
+        name : "경매상태",
         flex : "w-1/12",
     },
     {
@@ -43,28 +41,21 @@ const cols : colType[]  = [
 
 type rowType = {
     id:number,
-    img:string,
+    img?:string,
     title:string,
     unit:string,
     price:number,
     date:string,
-    deliv:string,
+    state:number,
     review:boolean
 };
 
-type modalType = {
-    id:number,
-    title:string,
-    img: string
-    unit:string,
-    price:number
-}
+const auctionStateArr : string[] = ["경매전","경매중","경매완료"];
 
-export default function BoughtList() {
+export default function SellerAuctionList() {
     
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
-    const [showModal, setShowModal] = useState(false);
-    const [modalInfo, setModalInfo] = useState<modalType>({id:0, title:"", img:"", unit:"",price:0});
+
     const rows : rowType[] = [
         {
             id : 1,
@@ -73,94 +64,28 @@ export default function BoughtList() {
             unit : "1kg",
             price : 13000,
             date : "2023-07-28",
-            deliv : "배송완료",
+            state : 2,
             review : true,        
         },
         {
             id : 1,
             img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
             title : "싱싱 야채 세트 많아요",
-            unit : "",
+            unit : "10kg",
             price : 15000,
             date : "2023-07-28",
-            deliv : "결제하기",
-            review : true,        
-        },
-        {
-            id : 1,
-            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "싱싱 야채 세트 많아요",
-            unit : "",
-            price : 15000,
-            date : "2023-07-28",
-            deliv : "결제하기",
-            review : false,        
-        },
-        {
-            id : 1,
-            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "싱싱 야채 세트 많아요",
-            unit : "",
-            price : 15000,
-            date : "2023-07-28",
-            deliv : "결제하기",
-            review : false,        
-        },
-        {
-            id : 1,
-            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "싱싱 야채 세트 많아요",
-            unit : "",
-            price : 15000,
-            date : "2023-07-28",
-            deliv : "결제하기",
-            review : false,        
-        },
-        {
-            id : 1,
-            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "싱싱 야채 세트 많아요",
-            unit : "",
-            price : 15000,
-            date : "2023-07-28",
-            deliv : "결제하기",
-            review : false,        
-        },
-        {
-            id : 1,
-            img : "https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80",
-            title : "싱싱 야채 세트 많아요",
-            unit : "",
-            price : 15000,
-            date : "2023-07-28",
-            deliv : "결제하기",
+            state : 1,
             review : false,        
         }
     ]
 
-    function closeModal(){
-        setShowModal(false);
-    }
-    function openModal(getModalInfo:rowType){
-        let newModalInfo :modalType = {
-            id:getModalInfo.id,
-            title:getModalInfo.title,
-            img:getModalInfo.img,
-            unit:getModalInfo.unit,
-            price:getModalInfo.price
-        }
-        setModalInfo(newModalInfo);
-        setShowModal(true);
-    }
 
     return (
-        <div className='mb-16'>
-            {showModal?<ReviewModal deadID={modalInfo.id} img={modalInfo.img} title={modalInfo.title} unit={modalInfo.unit} price={modalInfo.price} closeModal={closeModal} />:null}
+        <div className='mb-16 mx-36 border-y-4'>
             <div className="flex space-x-2 mb-4 my-16">
-                <button className="bg-white text-green-500 rounded-full border-green-500 border-[3px] font-semibold px-3.5 py-0.5">결제전</button>
-                <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">출고전</button>
-                <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">배송중</button>
-                <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">배송완료</button>
+                <button className="bg-white text-green-500 rounded-full border-green-500 border-[3px] font-semibold px-3.5 py-0.5">경매중</button>
+                <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">진행중</button>
+                <button className="bg-white text-neutral-400 rounded-full border-neutral-300 font-semibold border-2 px-3.5 py-0.5">경매완료</button>
             </div>
             <div className="flex justify-between">
                 <div className="flex space-x-2 items-center">
@@ -215,7 +140,7 @@ export default function BoughtList() {
                 </div>
             </div>
             <div>
-                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-700'>
+                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-10 mb-20  border-neutral-700'>
                     <thead className='font-bold  text-xl'>
                         <tr className="border-y">
                             {cols.map((col, index) => (
@@ -225,19 +150,20 @@ export default function BoughtList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row:rowType,index2)=>
+                        {rows.map((row,index2)=>
                         (<tr key={index2} className="border-y text-lg">
                             <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
                             <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
                             <td><p>{row.unit}</p></td>
                             <td><p>{row.price}</p></td>
                             <td><p>{row.date}</p></td>
-                            <td><a href=''><u className='hover:opacity-70'>{row.deliv}</u></a></td>
-                            <td>{row.review?<button className='rounded-md bg-black text-white py-1 px-2' onClick={()=>{openModal(row)}}>후기작성</button>:<></>}</td>
+                            <td><p>{auctionStateArr[row.state]}</p></td>
+                            <td>{row.review?<button className='rounded-md bg-black text-white py-1 px-2' >후기작성</button>:<></>}</td>
                         </tr>))}
                     </tbody>
                 </table>
             </div>
+
         </div>
 
     );
