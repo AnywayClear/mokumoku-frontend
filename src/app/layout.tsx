@@ -8,6 +8,9 @@ import { useAuth } from '@/hooks/useAuth';
 import AuthContextProvider from '@/context/AuthContextProvider';
 import QueryProvider from '@/context/QueryProvider';
 import RecoilProvider from '@/context/RecoilProvider';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import Footer from '@/components/Footer';
 
 const RobotoMono = Dongle({
   subsets: ['latin'],
@@ -46,16 +49,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spokaFont.className}>
-      <body className="w-full max-w-screen-xl mx-auto">
-        <QueryProvider>
-          <AuthContextProvider>
-            <RecoilProvider>
+      <QueryProvider>
+        <AuthContextProvider>
+          <RecoilProvider>
+            <body className="w-full flex flex-col min-h-screen max-w-screen-xl mx-auto">
+              <ToastContainer />
               <Header />
               <main className="grow">{children}</main>
-            </RecoilProvider>
-          </AuthContextProvider>
-        </QueryProvider>
-      </body>
+              <Footer />
+            </body>
+          </RecoilProvider>
+        </AuthContextProvider>
+      </QueryProvider>
     </html>
   );
 }

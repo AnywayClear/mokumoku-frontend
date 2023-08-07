@@ -1,8 +1,10 @@
 'use client';
 
+import { AuthContext } from '@/context/AuthContext';
+import { get } from '@/service/api/http';
 import { getSession, signIn, useSession } from 'next-auth/react';
 import { redirect, useSearchParams } from 'next/navigation';
-import { useEffect, CSSProperties } from 'react';
+import { useEffect, CSSProperties, useContext } from 'react';
 import CircleLoader from 'react-spinners/CircleLoader';
 
 const override: CSSProperties = {
@@ -13,12 +15,15 @@ const override: CSSProperties = {
 
 export default function Page() {
   const searchParams = useSearchParams();
-  const search = searchParams?.get('accessToken');
+  const token = searchParams?.get('accessToken');
+  const { user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
-    localStorage.setItem('accessToken', search || '');
+    localStorage.setItem('accessToken', token || '');
     redirect('/');
-  }, [search]);
+    // get(`/api/members/S0001`).then(console.log);
+    // console.log(user);
+  }, [token]);
 
   return (
     <div className="flex h-[60vh] justify-center items-center">

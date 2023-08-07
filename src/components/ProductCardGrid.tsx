@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 import { get } from '@/service/api/http';
 import { getProduceList } from '@/service/api/produce';
 import { useRecoilState } from 'recoil';
-import { filterState } from '@/store/atom';
+import { filterState } from '@/store/produce';
 import { ProduceList } from '@/model/produce';
 
 type Props = {
