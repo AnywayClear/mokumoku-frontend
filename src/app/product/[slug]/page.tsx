@@ -19,27 +19,16 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
     queryFn: () => getProduce(slug),
   });
 
-  // const {
-  //   id,
-  //   name,
-  //   seller,
-  //   description,
-  //   image,
-  //   startPrice,
-  //   kg,
-  //   ea,
-  //   startDate,
-  //   endDate,
-  //   status,
-  //   dibNum,
-  //   auctionResponseList,
-  // } = produce;
-
   return (
     <div className="flex flex-col items-center">
       <section className="flex w-full">
         <div className="basis-5/12 relative">
-          <Image alt="logo" className="object-fill" fill src={LogoImage} />
+          <Image
+            alt="logo"
+            className="object-contain"
+            fill
+            src={produce?.image ?? LogoImage}
+          />
         </div>
 
         <div className="basis-7/12">
@@ -90,19 +79,19 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
             {produce?.status === 0 ? (
               <input
                 type="button"
-                value="경매 대기       |       2023.07.23 16:00"
+                value={`경매 대기       |       ${produce?.startDate}`}
                 className="bg-yellow-300  border-2 border-black rounded-md py-2 px-10"
               />
             ) : produce?.status === 1 ? (
               <input
                 type="button"
-                value="진행중       |       2023.07.23 16:00"
+                value={`진행중       |       ${produce?.startDate}`}
                 className="bg-green-500  border-2 border-black rounded-md py-2 px-10"
               />
             ) : (
               <input
                 type="button"
-                value="경매 종료       |       2023.07.23 16:00"
+                value={`경매 종료       |       ${produce?.startDate}`}
                 className="bg-red-500  border-2 border-black rounded-md py-2 px-10"
               />
             )}
@@ -111,10 +100,22 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
       </section>
       <section className="w-full">
         <p className="font-bold">경매 목록</p>
-        <ProduceAuctionList auctionList={produce?.auctionResponseList[0]} />
+        <ProduceAuctionList auctionList={produce?.auctionResponseList} />
       </section>
       <section className="w-full my-4">
         <p className="font-bold">상품 설명</p>
+        <p className="my-4 text-center">상품 설명</p>
+      </section>
+      <section className="w-full my-4">
+        <p className="font-bold">판매자 정보</p>
+        <p className="my-4 text-center">상품 설명</p>
+      </section>
+      <section className="w-full my-4">
+        <p className="font-bold">관련 상품</p>
+        <p className="my-4 text-center">상품 설명</p>
+      </section>
+      <section className="w-full my-4">
+        <p className="font-bold">판매자 리뷰</p>
         <p className="my-4 text-center">상품 설명</p>
       </section>
     </div>
