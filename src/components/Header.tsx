@@ -8,6 +8,7 @@ import { FaCircleUser, FaHeart, FaBagShopping } from 'react-icons/fa6';
 import { ReactNode } from 'react';
 import LoginButton from './LoginButton';
 import Search from './Search';
+import ToMyPageButton from './ToMyPageButton';
 
 type menuData = {
   title: string;
@@ -63,6 +64,7 @@ export default function Header() {
               <p>{title}</p>
             </Link>
           ))}
+          <ToMyPageButton/>
           <LoginButton />
         </nav>
       </section>

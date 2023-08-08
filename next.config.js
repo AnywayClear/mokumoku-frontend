@@ -5,8 +5,9 @@ const nextConfig = {
       'images.unsplash.com',
       'mokumoku-image.s3.ap-northeast-2.amazonaws.com',
       's3.ap-northeast-2.amazonaws.com',
+      'k.kakaocdn.net',
     ],
   },
 };
 
-module.exports = nextConfig;
+module.exports = nextConfig
