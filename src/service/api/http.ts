@@ -42,6 +42,11 @@ export const del = async (url: string) => {
   return res.data;
 };
 
+export const patch = async (url: string, body?: any) => {
+  const res = await axios.patch<Response>(getUrl(url), body, getConfig());
+  return res.data;
+};
+
 export const getUrl = (path: string) => {
   return `${process.env.NEXT_PUBLIC_BACKEND_URL}${path}`;
 };

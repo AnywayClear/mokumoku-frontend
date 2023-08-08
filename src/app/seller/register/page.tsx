@@ -1,10 +1,15 @@
 'use client';
 
 import Uploader from '@/components/Uploader';
+import { AuthContext } from '@/context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { patch } from '@/service/api/http';
+import { toast } from 'react-toastify';
+import AWS from 'aws-sdk';
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs w-80 align-middle mx-auto';
@@ -15,7 +20,7 @@ const DESC_STYLE =
 
 const schema = yup
   .object({
-    nickName: yup
+    nickname: yup
       .string()
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('대표자 이름을 입력하세요.'),
@@ -23,21 +28,83 @@ const schema = yup
       .string()
       .max(200, '최대 200자까지 입력 가능합니다.')
       .required('소개글을 입력하세요.'),
-    place: yup.string().required('사업장 위치를 입력하세요'),
-    sellerNumber: yup.string().required('사업자 번호를 입력하세요'),
+    companyAddress: yup.string().required('사업장 위치를 입력하세요'),
+    companyRegistrationNumber: yup
+      .string()
+      .required('사업자 번호를 입력하세요'),
     phoneNumber: yup.string().required('판매처 전화번호를 입력하세요'),
   })
   .required();
 
 type Inputs = {
-  nickName: string;
+  nickname: string;
   description: string;
-  place: string;
-  sellerNumber: string;
+  companyAddress: string;
+  companyRegistrationNumber: string;
   phoneNumber: string;
+  role: string;
 };
 
 export default function SellerRegister() {
+  const [file, setFile] = useState<File>();
+  const { user } = useContext(AuthContext);
+
+  if (!user?.userId) {
+    // redirect('/product');
+  }
+
+  const mutation = useMutation({
+    mutationFn: (data: Inputs) => {
+      return patch(`/api/members/${user?.userId}`, data);
+    },
+    onSuccess: () => {
+      toast('판매자 전환에 성공했습니다.');
+    },
+  });
+
+  const handleImageSelected = (file: File) => {
+    setFile(file);
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let image = {
+      Location: '',
+    };
+    // s3 업로드
+    if (file) {
+      image = await uploadS3(file);
+      console.log('업로드 완');
+    }
+
+    console.log(image);
+
+    const newData = {
+      ...data,
+      image: image.Location,
+    };
+
+    mutation.mutate(newData);
+  };
+
+  const uploadS3 = (image: File) => {
+    AWS.config.update({
+      region: process.env.NEXT_PUBLIC_REGION,
+      accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY_ID,
+    });
+
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        ACL: 'public-read',
+        Bucket: 'mokumoku-image',
+        Key: `upload/${image.name}`,
+        Body: image,
+      },
+    });
+
+    return upload.promise();
+  };
+
   const {
     register,
     handleSubmit,
@@ -45,15 +112,15 @@ export default function SellerRegister() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      nickName: '로그인 유저의 닉네임',
+      nickname: '로그인 유저의 닉네임',
       description: '',
-      place: '',
-      sellerNumber: '방금 입력한 판매자 번호',
+      companyAddress: '',
+      companyRegistrationNumber: '방금 입력한 판매자 번호',
       phoneNumber: '',
+      role: 'ROLE_SELLER',
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   const checkKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter') e.preventDefault();
@@ -67,14 +134,14 @@ export default function SellerRegister() {
     >
       <h2 className="text-2xl font-extrabold text-center">판매자 정보 등록</h2>
       <hr className="w-48 h-1 mx-auto my-4 bg-black" />
-      <Uploader></Uploader>
+      <Uploader onImageSelected={handleImageSelected}></Uploader>
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
           placeholder="닉네임"
-          {...register('nickName')}
+          {...register('nickname')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.nickName?.message}</p>
+        <p className={ERROR_STYLE}>{errors.nickname?.message}</p>
       </div>
       <div className={WRAPPER_INPUT_STYLE}>
         <textarea
@@ -95,15 +162,15 @@ export default function SellerRegister() {
         <input
           className={NICK_STYLE}
           placeholder="위치"
-          {...register('place')}
+          {...register('companyAddress')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.place?.message}</p>
+        <p className={ERROR_STYLE}>{errors.companyAddress?.message}</p>
       </div>
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
           placeholder="사업자 등록번호"
-          {...register('sellerNumber')}
+          {...register('companyRegistrationNumber')}
           //value={'이전 pg에서 입력한 판매자 번호'}
         ></input>
       </div>
