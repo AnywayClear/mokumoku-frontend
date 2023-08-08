@@ -24,7 +24,7 @@ type Props = {
 export default function SellerBox({boxItemNum}:Props){
 
     return (
-        <div className="border-y-4 border-neutral-500 my-4">
+        <div className="my-4">
             {boxItems.map((boxItem,index)=>(
                 boxItemNum===boxItem.number?boxItem.tag:null
             ))}

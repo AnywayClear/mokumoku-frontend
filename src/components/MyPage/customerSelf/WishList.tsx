@@ -1,6 +1,6 @@
 "use client"
 import {useState} from 'react';
-import { TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { TextField, MenuItem, Select, InputLabel, FormControl, SelectChangeEvent } from '@mui/material';
 import {ImHeartBroken} from "react-icons/im"
 import Image from "next/image";
 
@@ -47,7 +47,14 @@ type rowType = {
     date:string
 };
 
+
+const orderStateArr : string[] = ["시간순","이름순","가격순"];
+
+
 export default function WishList() {
+
+    const [orderState, setOrderState] = useState('');
+    
   const rows : rowType[] = [
     {
         id : 0,
@@ -68,41 +75,45 @@ export default function WishList() {
   }
   ];
 
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setOrderState(event.target.value);
+    };
+
+  
   return (
-    <div className='my-16'>
+    <div className='mb-16'>
            
            <div className="flex items-center justify-end">
-                <div>
                     <TextField
                         label="물품이름 검색"
-                        defaultValue="Small"
                         size="small"
                         className="w-52"
                     />
                     <button 
-                    className="bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300 mr-4"
+                    className="hover:opacity-70 bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300"
                     >검색</button>
+
                     
-                </div>
+                
                 <div className='font-bold'>
-                    <FormControl size="small">
+                    <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
                         <Select
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            value={10}
+                            value={orderState}
                             label="정렬기준"
+                            onChange={handleChange}
+                            inputProps={{MenuProps: {disableScrollLock: true}}}
                         >
-                            <MenuItem value={10}>시간순</MenuItem>
-                            <MenuItem value={20}>이름순</MenuItem>
-                            <MenuItem value={30}>가격순</MenuItem>
+                            {orderStateArr.map((orderStateArrItem,index)=><MenuItem value={index} key={index}>{orderStateArrItem}</MenuItem>)}
                         </Select>
                     </FormControl>
                 </div>
             </div>
-            
             <div>
-                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-700'>
+                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-300'>
                     <thead className='font-bold  text-xl'>
                         <tr className="border-y">
                             {cols.map((col, index) => (
