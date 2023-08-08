@@ -22,10 +22,10 @@ const schema = yup
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
 
-    address: yup
-      .string()
-      .max(30, '최대 30자까지 입력 가능합니다')
-      .required('주소를 입력하세요.'),
+    // address: yup
+    //   .string()
+    //   .max(30, '최대 30자까지 입력 가능합니다')
+    //   .required('주소를 입력하세요.'),
   })
   .required();
 

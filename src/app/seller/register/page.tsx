@@ -42,7 +42,7 @@ type Inputs = {
   companyAddress: string;
   companyRegistrationNumber: string;
   phoneNumber: string;
-  role: string;
+  // role: string;
 };
 
 export default function SellerRegister() {
@@ -117,7 +117,7 @@ export default function SellerRegister() {
       companyAddress: '',
       companyRegistrationNumber: '방금 입력한 판매자 번호',
       phoneNumber: '',
-      role: 'ROLE_SELLER',
+      // role: 'ROLE_SELLER',
     },
     resolver: yupResolver(schema),
   });
