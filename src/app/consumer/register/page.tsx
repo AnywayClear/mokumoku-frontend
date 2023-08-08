@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { KeyboardEvent, useContext, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -7,25 +7,30 @@ import DaumPostcode from 'react-daum-postcode';
 import Uploader from '@/components/Uploader';
 import { Modal } from 'antd';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { File } from 'buffer';
+import AWS from 'aws-sdk';
+import { toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query';
+import { patch } from '@/service/api/http';
+import { AuthContext } from '@/context/AuthContext';
 
 const schema = yup
   .object({
-    nickName: yup
+    nickname: yup
       .string()
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
-    image: yup.string().max(30, '최대 30자까지 입력 가능합니다.').required(),
-    address: yup
-      .string()
-      .max(30, '최대 30자까지 입력 가능합니다')
-      .required('주소를 입력하세요.'),
+
+    // address: yup
+    //   .string()
+    //   .max(30, '최대 30자까지 입력 가능합니다')
+    //   .required('주소를 입력하세요.'),
   })
   .required();
 
 type Inputs = {
-  nickName: string;
-  image: string;
-  address: string;
+  nickname: string;
 };
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
@@ -39,9 +44,65 @@ const ADDRESS_STYLE =
 const BUTTON_STYLE = 'w-1/5 ml-3 bg-black text-white rounded-lg';
 
 export default function ConsumerRegister() {
+  const router = useRouter();
   const [inputAddress, setInputAddressValue] = useState('');
   const [inputZipCodeValue, setInputZipCodeValue] = useState('');
   const [modalState, setModalState] = useState(false);
+  const [file, setFile] = useState<File>();
+  const { user } = useContext(AuthContext);
+
+  const mutation = useMutation({
+    mutationFn: (data: Inputs) => {
+      return patch(`/api/members/${user?.userId}`, data);
+    },
+    onSuccess: () => {
+      toast('프로필 수정에 성공했습니다.');
+    },
+  });
+
+  const handleImageSelected = (file: File) => {
+    setFile(file);
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let image = {
+      Location: '',
+    };
+    // s3 업로드
+    if (file) {
+      image = await uploadS3(file);
+      console.log('업로드 완');
+    }
+
+    console.log(image);
+
+    const newData = {
+      ...data,
+      image: image.Location,
+    };
+
+    mutation.mutate(newData);
+  };
+
+  const uploadS3 = (image: File) => {
+    AWS.config.update({
+      region: process.env.NEXT_PUBLIC_REGION,
+      accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY_ID,
+    });
+
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        ACL: 'public-read',
+        Bucket: 'mokumoku-image',
+        Key: `upload/${image.name}`,
+        Body: image,
+      },
+    });
+
+    return upload.promise();
+  };
+
   const {
     register,
     handleSubmit,
@@ -51,7 +112,6 @@ export default function ConsumerRegister() {
     resolver: yupResolver(schema),
   });
   console.log(errors);
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   const modalToggle = () => {
     setModalState(!modalState);
@@ -63,21 +123,26 @@ export default function ConsumerRegister() {
     setModalState(false);
   }; // onCompletePost 함수
 
+  const checkKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter') e.preventDefault();
+  };
+
   return (
     <form
       className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center"
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={checkKeyDown}
     >
       <h2 className="text-2xl font-extrabold text-center">회원정보 수정</h2>
       <hr className="w-48 h-1 mx-auto my-4 bg-black" />
-      <Uploader></Uploader>
+      <Uploader onImageSelected={handleImageSelected}></Uploader>
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
-          placeholder="닉네임"
-          {...register('nickName')}
+          placeholder={'닉네임'}
+          {...register('nickname')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.nickName?.message}</p>
+        <p className={ERROR_STYLE}>{errors.nickname?.message}</p>
       </div>
       <div className="flex flex-col m-3 gap-2">
         <div className="flex w-80">
@@ -109,15 +174,23 @@ export default function ConsumerRegister() {
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={ADDRESS_STYLE}
-          placeholder="상세주소를 입력해주세요"
-          {...register('address')}
+          placeholder="상세주소 입력창 - 여기서 안쓸듯"
+          // {...register('address')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.address?.message}</p>
+        {/* <p className={ERROR_STYLE}>{errors.address?.message}</p> */}
       </div>
-      <button className="w-40 p-2 mt-2 bg-black text-white rounded-lg">
+      <button
+        type="submit"
+        value="submit"
+        className="w-40 p-2 mt-2 bg-black text-white rounded-lg"
+      >
         수정완료
       </button>
-      <button type="button" className="text-gray-500">
+      <button
+        type="button"
+        className="text-gray-500"
+        onClick={() => router.push('/seller/register')}
+      >
         판매자로 전환하기
       </button>
     </form>

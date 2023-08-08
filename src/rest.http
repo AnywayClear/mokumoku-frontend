@@ -139,15 +139,25 @@ Content-Type: application/json
 {
   "businesses": [
     {
-      "b_no": "0000000000",
-      "start_dt": "20000101",
-      "p_nm": "홍길동",
-      "p_nm2": "홍길동",
-      "b_nm": "(주)테스트",
-      "corp_no": "0000000000000",
+    "b_no": "1048407514",
+      "start_dt": "20090212",
+      "p_nm": "김희철",
+      "p_nm2": "",
+      "b_nm": "",
+      "corp_no": "",
       "b_sector": "",
       "b_type": "",
       "b_adr": ""
     }
+  ]
+}
+
+### 사업자 상태 조회
+POST api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=aJh1MFEPBeYe3aujW%2Bhu1dIo8AMu%2BY%2BBA5s7kurKQNrVGr2q%2BRXmmhGudTNIvRKletsw2fPSkrDzwHC1TMkqkg%3D%3D HTTP/1.1
+Content-Type: application/json
+
+{
+
+        "b_no": ["1048407514"
   ]
 }

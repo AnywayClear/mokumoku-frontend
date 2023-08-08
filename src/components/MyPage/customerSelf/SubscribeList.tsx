@@ -8,6 +8,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  SelectChangeEvent
 } from '@mui/material';
 
 type subscribeUserType = {
@@ -162,6 +163,7 @@ export default function SubscribeList() {
     },
   ];
 
+  const [orderState, setOrderState] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -182,10 +184,17 @@ export default function SubscribeList() {
     setIsDragging(false);
   };
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setOrderState(event.target.value);
+  };
+
+  const orderStateArr : string[] = ["시간순","이름순","가격순"];
+
+
   return (
     <div>
       <div
-        className={`${styles.scroll} flex items-center mx-9 my-8 overflow-x-scroll place-items-center`}
+        className={`${styles.scroll} flex items-center my-8 overflow-x-scroll place-items-center`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -212,33 +221,33 @@ export default function SubscribeList() {
         ))}
       </div>
       <div className="flex items-center justify-end">
-        <div>
-          <TextField
-            label="물품이름 검색"
-            defaultValue="Small"
-            size="small"
-            className="w-52"
-          />
-          <button className="bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300 mr-4">
-            검색
-          </button>
-        </div>
-        <div className="font-bold">
-          <FormControl size="small">
-            <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              value={10}
-              label="정렬기준"
-            >
-              <MenuItem value={10}>시간순</MenuItem>
-              <MenuItem value={20}>이름순</MenuItem>
-              <MenuItem value={30}>가격순</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+                    <TextField
+                        label="물품이름 검색"
+                        size="small"
+                        className="w-52"
+                    />
+                    <button 
+                    className="hover:opacity-70 bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300"
+                    >검색</button>
+
+                    
+                
+                <div className='font-bold'>
+                    <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
+                        <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            value={orderState}
+                            label="정렬기준"
+                            onChange={handleChange}
+                            inputProps={{MenuProps: {disableScrollLock: true}}}
+                        >
+                            {orderStateArr.map((orderStateArrItem,index)=><MenuItem value={index} key={index}>{orderStateArrItem}</MenuItem>)}
+                        </Select>
+                    </FormControl>
+                </div>
+            </div>
       <table className="table-fixed border-collapse border-y-2 w-full text-center mt-6 my-20 border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">

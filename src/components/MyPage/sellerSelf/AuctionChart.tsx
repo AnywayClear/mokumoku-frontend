@@ -1,12 +1,19 @@
 'use client';
 import * as React from 'react';
-import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-// import Chart from "react-apexcharts";
+import { MenuItem, Select, InputLabel, FormControl,SelectChangeEvent } from '@mui/material';
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
-import { red } from '@mui/material/colors';
+
+
+const orderStateArr : string[] = ["7일전","14일전","31일전"];
 
 export default function AuctionChart() {
+
+  const [orderState, setOrderState] = React.useState('');
+  const handleChange = (event: SelectChangeEvent) => {
+    setOrderState(event.target.value);
+};
+
   var pieOptions: any = {
     type: 'pie',
     series: [9000, 1000],
@@ -128,24 +135,24 @@ export default function AuctionChart() {
   };
 
   return (
-    <div className="mb-16 px-48 relative">
-      <div className="font-bold mt-14 mb-6 flex justify-end">
-        <FormControl size="small">
-          <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
-          <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
-            value={10}
-            label="정렬기준"
-          >
-            <MenuItem value={10}>7일전</MenuItem>
-            <MenuItem value={20}>14일전</MenuItem>
-            <MenuItem value={30}>한달전</MenuItem>
-          </Select>
-        </FormControl>
+    <div className="mb-16 px-40 relative">
+      <div className="font-bold mt-20 flex justify-between items-start">
+          <p className="text-4xl font-bold mb-5">총 낙찰 금액</p>
+          <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
+              <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={orderState}
+                  label="정렬기준"
+                  onChange={handleChange}
+                  inputProps={{MenuProps: {disableScrollLock: true}}}
+              >
+                  {orderStateArr.map((orderStateArrItem,index)=><MenuItem value={index} key={index}>{orderStateArrItem}</MenuItem>)}
+              </Select>
+          </FormControl>
       </div>
       <div>
-        <p className="text-4xl font-bold mb-5">총 낙찰 금액</p>
         <p className="text-5xl mb-10">10,000,000원</p>
 
         <div className="flex w-full justify-between mb-10">

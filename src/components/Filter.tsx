@@ -1,4 +1,4 @@
-import { filterState } from '@/store/atom';
+import { filterState } from '@/store/produce';
 import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlineCheckSquare, AiFillCheckSquare } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
@@ -28,7 +28,7 @@ export default function Filter() {
   }, [filter, setStatus]);
 
   return (
-    <div className='basis-1/5'>
+    <div className="basis-1/5">
       <div className="w-48 border-t-4 border-t-black m-6">
         <div className="flex justify-between items-center mt-4 mb-10">
           <p className="font-bold text-xl">필터</p>

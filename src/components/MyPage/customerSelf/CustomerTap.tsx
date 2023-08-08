@@ -49,7 +49,7 @@ export default function CustomerTab({boxItemNum, setBoxItemNum}:Props){
 
     return(
         <>
-            <div className="flex ml-10 space-x-8 mb-7">
+            <div className="flex ml-10 space-x-8 mb-4">
 
                 {itemInfo.map((item,index)=>(
                     <a href={`${item.link}`}  key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(itemSelected)} onClick={()=>clickItem(item.id)}>

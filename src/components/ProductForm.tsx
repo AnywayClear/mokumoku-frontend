@@ -6,6 +6,12 @@ import { FaPhotoVideo } from 'react-icons/fa';
 import { ChangeEvent, DragEvent, useState } from 'react';
 import Image from 'next/image';
 import AWS from 'aws-sdk';
+import { useMutation } from '@tanstack/react-query';
+import { postProduce } from '@/service/api/produce';
+import { PostProduce } from '@/model/produce';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const schema = yup
   .object({
@@ -13,8 +19,7 @@ const schema = yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다.')
       .required('제목을 입력하세요.'),
-    image: yup.string().max(30, '최대 30자까지 입력 가능합니다.').required(),
-    desc: yup
+    description: yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다.')
       .required('상품 설명을 입력하세요.'),
@@ -25,8 +30,7 @@ const schema = yup
       .typeError('시작 가격을 입력해주세요.'),
     kg: yup
       .number()
-      .min(9, '최소 9 글자를 입력해야 합니다.')
-      .max(16, '최대 16자까지 입력 가능합니다.')
+      .min(1, '무게는 1kg 이상이어야 합니다.')
       .required('무게는 1kg 이상이어야 합니다.')
       .typeError('무게를 입력해주세요.'),
     startDate: yup
@@ -35,21 +39,24 @@ const schema = yup
       .typeError('시작시간을 입력해주세요.'),
     endDate: yup
       .date()
+      .min(
+        yup.ref('startDate'),
+        '경매 종료 시간은 경매 시작 시간보다 늦어야 합니다.',
+      )
       .required('필수 입력 항목입니다.')
       .typeError('종료시간을 입력해주세요.'),
     ea: yup
       .number()
-      .min(9, '최소 9 글자를 입력해야 합니다.')
-      .max(16, '최대 16자까지 입력 가능합니다.')
+      .min(1, '개수는 1개 이상이어야 합니다.')
       .required('수량은 1개 이상이어야 합니다.')
       .typeError('수량을 입력해주세요.'),
   })
+  .shape({})
   .required();
 
 type Inputs = {
   name: string;
-  image: string;
-  desc: string;
+  description: string;
   startPrice: number;
   kg: number;
   startDate: Date;
@@ -68,6 +75,16 @@ const WRAPPER_STYLE = 'flex gap-4 my-4';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
 
 export default function ProductForm() {
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: (data: PostProduce) => {
+      return postProduce(data);
+    },
+    onSuccess: () => {
+      toast('농산물 등록에 성공했습니다.');
+      router.replace('/product');
+    },
+  });
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
 
@@ -77,22 +94,10 @@ export default function ProductForm() {
     watch,
     formState: { errors },
   } = useForm<Inputs>({
-    // defaultValues: {
-    //   name: '',
-    //   image: '',
-    //   desc: '',
-    //   startPrice: 0,
-    //   kg: 0,
-    //   startDate: '0000-00-00T00:00:00',
-    //   endDate: '0000-00-00T00:00:00',
-    //   ea: 0,
-    // },
     resolver: yupResolver(schema),
   });
 
-  //   console.log(watch());
-  console.log(errors);
-
+  console.log(watch());
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -136,151 +141,156 @@ export default function ProductForm() {
       },
     });
 
-    upload.promise().then((data) => console.log(data));
+    return upload.promise();
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let image = {
+      Location: '',
+    };
+    // s3 업로드
+    if (file) {
+      image = await uploadS3(file);
+    }
+
+    console.log(image);
+
+    const newData = {
+      ...data,
+      startDate: data.startDate.toISOString(),
+      endDate: data.endDate.toISOString(),
+      image: image.Location,
+    };
+
+    mutation.mutate(newData);
+  };
   return (
-    <>
-      <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
-        <input
-          className="hidden"
-          name="input"
-          id="input-upload"
-          type="file"
-          accept="image/*"
-          onChange={handleChange}
-        />
-        <label
-          className={`w-full h-60 flex flex-col items-center justify-center ${
-            !file && 'border-2 border-sky-500 border-dashed'
-          }`}
-          htmlFor="input-upload"
-          onDragEnter={handleDrag}
-          onDragLeave={handleDrag}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          {dragging && (
-            <div className="absolute inset-0 z-10 bg-sky-500/20 pointer-events-none" />
-          )}
-          {!file && (
-            <div className="flex flex-col items-center pointer-events-none">
-              <FaPhotoVideo className="w-20 h-20 text-gray-300" />{' '}
-              <p>제품 사진을 등록해주세요.</p>
-            </div>
-          )}
-          {file && (
-            <div className="relative w-full aspect-square">
-              <Image
-                className="object-cover"
-                src={URL.createObjectURL(file)}
-                alt="local file"
-                fill
-                sizes="650px"
-              />
-            </div>
-          )}
-        </label>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>제목</label>
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              className={INPUT_STYLE}
-              placeholder="상품 제목"
-              {...register('name')}
-            />
-            <p className={ERROR_STYLE}>{errors.name?.message}</p>
-          </div>
-        </div>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>내용</label>
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              className={INPUT_STYLE}
-              placeholder="상품 설명"
-              {...register('desc')}
-            />
-            <p className={ERROR_STYLE}>{errors.desc?.message}</p>
-          </div>
-        </div>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>시작가격</label>
-
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              type="number"
-              className={INPUT_STYLE}
-              placeholder="원"
-              {...register('startPrice')}
-            />
-            <p className={ERROR_STYLE}>{errors.startPrice?.message}</p>
-          </div>
-        </div>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>무게</label>
-
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              type="number"
-              className={INPUT_STYLE}
-              placeholder="kg"
-              {...register('kg')}
-            />
-            <p className={ERROR_STYLE}>{errors.kg?.message}</p>
-          </div>
-        </div>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>수량</label>
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              className={INPUT_STYLE}
-              placeholder="개"
-              {...register('ea')}
-            />
-            <p className={ERROR_STYLE}>{errors.ea?.message}</p>
-          </div>
-        </div>
-
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>경매 시작 시간</label>
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              type="date"
-              className={INPUT_STYLE}
-              {...register('startDate')}
-            />
-            <p className={ERROR_STYLE}>{errors.startDate?.message}</p>
-          </div>
-        </div>
-        <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>경매 종료 시간</label>
-          <div className={WRAPPER_INPUT_STYLE}>
-            <input
-              type="date"
-              className={INPUT_STYLE}
-              {...register('endDate')}
-            />
-            <p className={ERROR_STYLE}>{errors.endDate?.message}</p>
-          </div>
-        </div>
-        {/* {Object.keys(errors).length !== 0 && ( */}
-        <input className="cursor-pointer" type="submit" value="submit" />
-        {/* )} */}
-      </form>
-
-      <div
-        onClick={() => {
-          if (file) uploadS3(file);
-        }}
+    <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
+      <input
+        className="hidden"
+        name="input"
+        id="input-upload"
+        type="file"
+        accept="image/*"
+        onChange={handleChange}
+      />
+      <label
+        className={`w-full h-60 flex flex-col items-center justify-center ${
+          !file && 'border-2 border-sky-500 border-dashed'
+        }`}
+        htmlFor="input-upload"
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
       >
-        image upload button
+        {dragging && (
+          <div className="absolute inset-0 z-10 bg-sky-500/20 pointer-events-none" />
+        )}
+        {!file && (
+          <div className="flex flex-col items-center pointer-events-none">
+            <FaPhotoVideo className="w-20 h-20 text-gray-300" />{' '}
+            <p>제품 사진을 등록해주세요.</p>
+          </div>
+        )}
+        {file && (
+          <div className="relative w-full aspect-square">
+            <Image
+              className="object-cover"
+              src={URL.createObjectURL(file)}
+              alt="local file"
+              fill
+              sizes="650px"
+            />
+          </div>
+        )}
+      </label>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>제목</label>
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            className={INPUT_STYLE}
+            placeholder="상품 제목"
+            {...register('name')}
+          />
+          <p className={ERROR_STYLE}>{errors.name?.message}</p>
+        </div>
       </div>
-    </>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>내용</label>
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            className={INPUT_STYLE}
+            placeholder="상품 설명"
+            {...register('description')}
+          />
+          <p className={ERROR_STYLE}>{errors.description?.message}</p>
+        </div>
+      </div>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>시작가격</label>
+
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            type="number"
+            className={INPUT_STYLE}
+            placeholder="원"
+            {...register('startPrice')}
+          />
+          <p className={ERROR_STYLE}>{errors.startPrice?.message}</p>
+        </div>
+      </div>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>무게</label>
+
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            type="number"
+            className={INPUT_STYLE}
+            placeholder="kg"
+            {...register('kg')}
+          />
+          <p className={ERROR_STYLE}>{errors.kg?.message}</p>
+        </div>
+      </div>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>수량</label>
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input className={INPUT_STYLE} placeholder="개" {...register('ea')} />
+          <p className={ERROR_STYLE}>{errors.ea?.message}</p>
+        </div>
+      </div>
+
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>경매 시작 시간</label>
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            type="datetime-local"
+            className={INPUT_STYLE}
+            {...register('startDate')}
+          />
+          <p className={ERROR_STYLE}>{errors.startDate?.message}</p>
+        </div>
+      </div>
+      <div className={WRAPPER_STYLE}>
+        <label className={LABEL_STYLE}>경매 종료 시간</label>
+        <div className={WRAPPER_INPUT_STYLE}>
+          <input
+            type="datetime-local"
+            className={INPUT_STYLE}
+            {...register('endDate')}
+          />
+          <p className={ERROR_STYLE}>{errors.endDate?.message}</p>
+        </div>
+      </div>
+      {/* {Object.keys(errors).length !== 0 && ( */}
+      <input className="cursor-pointer" type="submit" value="submit" />
+      {/* )} */}
+    </form>
   );
 }

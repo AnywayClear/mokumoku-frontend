@@ -1,16 +1,34 @@
+"use client"
 import Image from "next/image";
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
+import { AuthContext } from "@/context/AuthContext";
+import { useContext } from "react";
+import { userData } from "@/model/user";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/service/api/user";
+
+
 
 export default function CustomerBannerSelf(){
+    
+    const {user} = useContext(AuthContext);
+
+    const { data: userData }: UseQueryResult<userData> = useQuery({
+        queryKey: ['userData'],
+        queryFn: () => getUserInfo(user?.userId ?? ""),
+        enabled: !!user?.userId
+    });
+    
+    console.log(userData);
     return(
         <>
-            <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12 pr-10">
+            <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12">
                 <div className="text-center pr-20">
                     <h1 className="text-4xl font-bold pb-4">마이페이지</h1>
-                    <Image alt="MokuMoku" src={LogoImage} className="w-72 h-72 bg-white rounded-full"/>
+                    <Image alt="MokuMoku" src={userData?.image ?? LogoImage} width={1000} height={1000} className="w-72 h-72 bg-white rounded-full"/>
                 </div>
-                <div className="text-left pt-28 w-96">
-                    <p className="text-5xl font-bold">송수현짱짱짱짱짱</p>
+                <div className="text-left pt-24 w-[25rem]">
+                    <p className="text-5xl font-bold">{userData?.nickname ?? "닉네임이없어요"}</p>
                     <p className="pt-8 text-lg">포인트</p>
                     <div className="flex items-end">
                         <p className="text-5xl font-bold pr-6">1000</p>

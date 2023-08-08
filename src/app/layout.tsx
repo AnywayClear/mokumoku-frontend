@@ -5,9 +5,17 @@ import { Dongle } from 'next/font/google';
 import localFont from 'next/font/local';
 import { AuthContext } from '@/context/AuthContext';
 import { useAuth } from '@/hooks/useAuth';
-import AuthContextProvider from '@/context/AuthContextProvider';
 import QueryProvider from '@/context/QueryProvider';
 import RecoilProvider from '@/context/RecoilProvider';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const AuthContextProvider = dynamic(
+  () => import('@/context/AuthContextProvider'),
+  { ssr: false },
+);
 
 const RobotoMono = Dongle({
   subsets: ['latin'],
@@ -46,12 +54,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spokaFont.className}>
-      <body className="w-full max-w-screen-xl mx-auto">
+      <body className="w-full flex flex-col min-h-screen max-w-screen-xl mx-auto">
         <QueryProvider>
           <AuthContextProvider>
             <RecoilProvider>
+              <ToastContainer />
               <Header />
               <main className="grow">{children}</main>
+              <Footer />
             </RecoilProvider>
           </AuthContextProvider>
         </QueryProvider>

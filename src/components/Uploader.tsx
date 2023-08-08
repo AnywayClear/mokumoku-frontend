@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
 
-const Uploader = () => {
+const Uploader = ({ onImageSelected }: any) => {
   const [image, setImage] = useState({
     image_file: '' as File | string,
     preview_URL: '/images/user.png',
@@ -21,6 +21,8 @@ const Uploader = () => {
         image_file: e.target.files[0],
         preview_URL: preview_URL,
       });
+
+      onImageSelected(e.target.files[0]);
     }
   };
 
@@ -70,7 +72,9 @@ const Uploader = () => {
       </div>
 
       <div className="upload-button">
-        <button onClick={() => inputRef?.click()}>프로필 설정하기</button>
+        <button type="button" onClick={() => inputRef?.click()}>
+          프로필 설정하기
+        </button>
         {/* <Button color="success" variant="contained" onClick={sendImageToServer}>
           Upload
       </Button>*/}

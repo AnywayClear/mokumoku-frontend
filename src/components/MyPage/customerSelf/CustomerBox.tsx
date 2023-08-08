@@ -26,7 +26,7 @@ export default function CustomerBox({boxItemNum}:Props){
     
 
     return (
-        <div className="border-y-4 border-neutral-500 my-4">
+        <div className="border-neutral-500 mb-32">
             {boxItems.map((boxItem,index)=>(
                 boxItemNum===boxItem.number?boxItem.tag:null
             ))}
