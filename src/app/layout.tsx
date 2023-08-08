@@ -5,12 +5,17 @@ import { Dongle } from 'next/font/google';
 import localFont from 'next/font/local';
 import { AuthContext } from '@/context/AuthContext';
 import { useAuth } from '@/hooks/useAuth';
-import AuthContextProvider from '@/context/AuthContextProvider';
 import QueryProvider from '@/context/QueryProvider';
 import RecoilProvider from '@/context/RecoilProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const AuthContextProvider = dynamic(
+  () => import('@/context/AuthContextProvider'),
+  { ssr: false },
+);
 
 const RobotoMono = Dongle({
   subsets: ['latin'],

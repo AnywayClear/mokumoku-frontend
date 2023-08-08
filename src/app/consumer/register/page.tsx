@@ -1,5 +1,5 @@
 'use client';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useContext, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -13,10 +13,11 @@ import AWS from 'aws-sdk';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { patch } from '@/service/api/http';
+import { AuthContext } from '@/context/AuthContext';
 
 const schema = yup
   .object({
-    nickName: yup
+    nickname: yup
       .string()
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
@@ -29,8 +30,7 @@ const schema = yup
   .required();
 
 type Inputs = {
-  nickName: string;
-  address: string;
+  nickname: string;
 };
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
@@ -49,22 +49,14 @@ export default function ConsumerRegister() {
   const [inputZipCodeValue, setInputZipCodeValue] = useState('');
   const [modalState, setModalState] = useState(false);
   const [file, setFile] = useState<File>();
-
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    var base64Payload = token.split('.')[1];
-    var payload = Buffer.from(base64Payload, 'base64');
-    var { userId, role } = JSON.parse(payload.toString());
-    console.log(userId);
-  }
+  const { user } = useContext(AuthContext);
 
   const mutation = useMutation({
     mutationFn: (data: Inputs) => {
-      return patch(`/api/members/${userId}`, data);
+      return patch(`/api/members/${user?.userId}`, data);
     },
     onSuccess: () => {
       toast('프로필 수정에 성공했습니다.');
-      router.replace('/mypage');
     },
   });
 
@@ -147,10 +139,10 @@ export default function ConsumerRegister() {
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
-          placeholder="닉네임"
-          {...register('nickName')}
+          placeholder={'닉네임'}
+          {...register('nickname')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.nickName?.message}</p>
+        <p className={ERROR_STYLE}>{errors.nickname?.message}</p>
       </div>
       <div className="flex flex-col m-3 gap-2">
         <div className="flex w-80">
@@ -182,10 +174,10 @@ export default function ConsumerRegister() {
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={ADDRESS_STYLE}
-          placeholder="상세주소를 입력해주세요"
-          {...register('address')}
+          placeholder="상세주소 입력창 - 여기서 안쓸듯"
+          // {...register('address')}
         ></input>
-        <p className={ERROR_STYLE}>{errors.address?.message}</p>
+        {/* <p className={ERROR_STYLE}>{errors.address?.message}</p> */}
       </div>
       <button
         type="submit"
