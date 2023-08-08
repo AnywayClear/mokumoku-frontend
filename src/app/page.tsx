@@ -40,7 +40,6 @@ export default function Home() {
         </Carousel>
       </div>
       <h1>main</h1>
-      <Link href={'/consumer/register'}>오오</Link>
     </>
   );
 }
