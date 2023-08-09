@@ -1,16 +1,9 @@
 'use client';
 import Image from 'next/image';
-import { useState, MouseEvent } from 'react';
-import {
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  SelectChangeEvent
-} from '@mui/material';
+import { useState } from 'react';
 import SubscribeScroll from './SubsribeScroll';
 import { subscribeUserType } from '@/model/mypage';
+import SearchTab from '../searchTab';
 
 type colType = { name: string; flex: string };
 
@@ -113,44 +106,13 @@ export default function SubscribeList() {
     
   ];
 
-  const [orderState, setOrderState] = useState('');
   const [selectedNickname, setSelectedNickname] = useState('');
-  
-  const handleChange = (event: SelectChangeEvent) => {
-    setOrderState(event.target.value);
-  };
-
-  const orderStateArr : string[] = ["시간순","이름순","가격순"];
 
 
   return (
     <div>
       <SubscribeScroll subscribeUsers={subscribeUsers} selected={selectedNickname} selectNickname={setSelectedNickname}/>
-      <div className="flex items-center justify-end">
-                    <TextField
-                        label="물품이름 검색"
-                        size="small"
-                        className="w-52"
-                    />
-                    <button 
-                    className="hover:opacity-70 bg-white text-neutral-800 text-lg font-semibold rounded-md px-4 p-[0.28rem] border-2 border-neutral-300"
-                    >검색</button>
-                <div className='font-bold'>
-                    <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            value={orderState}
-                            label="정렬기준"
-                            onChange={handleChange}
-                            inputProps={{MenuProps: {disableScrollLock: true}}}
-                        >
-                            {orderStateArr.map((orderStateArrItem,index)=><MenuItem value={index} key={index}>{orderStateArrItem}</MenuItem>)}
-                        </Select>
-                    </FormControl>
-                </div>
-            </div>
+      <SearchTab tabType={3} />
       <table className="table-fixed border-collapse border-y-2 w-full text-center mt-6 my-20 border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">

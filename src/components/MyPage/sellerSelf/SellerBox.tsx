@@ -19,15 +19,11 @@ const boxItems = [
 
 ];
 
-type Props = {
-    boxItemNum: number;
-}
-
 export default function SellerBox(){
-    const [status, setStatus] = useRecoilState<number>(tapState);
+    const [status] = useRecoilState<number>(tapState);
     return (
         <div className="my-4">
-            {boxItems.map((boxItem,index)=>(
+            {boxItems.map((boxItem)=>(
                 status===boxItem.number?boxItem.tag:null
             ))}
         </div>

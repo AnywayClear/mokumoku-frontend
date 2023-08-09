@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { userData } from "@/model/user";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/service/api/user";
-import SearchTab from "../searchTab";
 
 
 
@@ -23,9 +22,6 @@ export default function CustomerBannerSelf(){
     console.log(userData);
     return(
         <>
-            <SearchTab tabType={0}/>
-            <SearchTab tabType={1}/>
-            <SearchTab tabType={2}/>
             <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12">
                 <div className="text-center pr-20">
                     <h1 className="text-4xl font-bold pb-4">마이페이지</h1>

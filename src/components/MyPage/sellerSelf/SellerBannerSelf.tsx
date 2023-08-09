@@ -1,6 +1,5 @@
 import Image from "next/image";
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
-import styles from './Scrollbar.module.css';
 
 export default function SellerBannerSelf(){
     return(
