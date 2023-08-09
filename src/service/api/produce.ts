@@ -34,3 +34,8 @@ export const getNowEnd = async () => {
   const res = await get(`/statistics/now-popular`);
   return res;
 };
+
+export const getPoint = async (userId: string) => {
+  const res = await get(`/api/points/${userId}`);
+  return res;
+}

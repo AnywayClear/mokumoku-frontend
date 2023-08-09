@@ -6,6 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { getPoint } from '@/service/api/produce';
+import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/AuthContext';
 
 const schema = yup
   .object({
@@ -25,13 +29,18 @@ const LABEL_STYLE = 'leading-loose text-left block text-black text-sm w-3/12';
 const INPUT_STYLE =
   'block box-border rounded-md w-full border-2 border-solid border-black py-2 px-3 text-sm text-black';
 
-const WRAPPER_INPUT_STYLE = 'w-9/12';
+const WRAPPER_INPUT_STYLE = '';
 
-const WRAPPER_STYLE = 'flex gap-4 my-4';
+const WRAPPER_STYLE = 'flex gap-4 my-4 justify-center';
 
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
-
+// UseQueryResult<Produce>
 export default function PayPage() {
+  const { user } = useContext(AuthContext);
+  const { data }: any = useQuery({
+    queryKey: ['point'],
+    queryFn: () => getPoint(user?.userId ?? ''),
+  });
   const router = useRouter();
 
   const {
@@ -65,8 +74,6 @@ export default function PayPage() {
         },
       })
       .then((res) => {
-        console.log(res);
-        // window.open(res.data.next_redirect_pc_url);
         router.push(res.data.next_redirect_pc_url);
       });
   };
@@ -76,12 +83,21 @@ export default function PayPage() {
       <h2 className="text-3xl font-bold text-center border-b-4 border-b-black w-4/12 pb-4 mb-8">
         결제하기
       </h2>
-      <Image alt="pay" src={PayImage} />
-      <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <p>현재 포인트</p>
+      </div>
+      <form
+        className="flex flex-col w-9/12 mt-10"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className={WRAPPER_STYLE}>
-          <label className={LABEL_STYLE}>내용</label>
+          <div>
+            <Image alt="pay" src={PayImage} />
+          </div>
+          {/* <label className={LABEL_STYLE}>내용</label> */}
           <div className={WRAPPER_INPUT_STYLE}>
             <input
+              type="number"
               className={INPUT_STYLE}
               placeholder="금액"
               {...register('money')}
