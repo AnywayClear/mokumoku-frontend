@@ -36,19 +36,7 @@ axios.interceptors.response.use(
 
 export const get = async (url: string) => {
   const res = await axios.get<Response>(getUrl(url), getConfig());
-  // .catch((error) => {
-  //   // console.log(error);
-  //   if (error.response.data.httpStatus === "UNAUTHORIZED") {
-  //     toast.error(error.response.data.message);
-  //     localStorage.removeItem("accessToken");
-  //             window.open("http://localhost:3000", "_self");
-
-  //   }
-  //   // console.log(error.response);
-  //   // throw new Error();
-    
-  // });
-  return res?.data;
+  return res.data;
 };
 
 export const post = async (url: string, body?: any) => {

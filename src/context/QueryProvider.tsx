@@ -21,24 +21,18 @@ export default function QueryProvider({ children }: Props) {
         defaultOptions: {
           queries: {
             // suspense: true,
+            staleTime: 1000 * 20,
           },
         },
         queryCache: new QueryCache({
           onError: (error, query) => {
-            if (typeof error === Error) {
-
+            if (error instanceof CustomError) {
+              if (error?.response?.data.httpStatus === 'UNAUTHORIZED') {
+                toast.error(error?.response?.data.message);
+                localStorage.removeItem('accessToken');
+                redirect('/');
+              }
             }
-            console.log(error.response);
-            // console.log(query);
-            // const err: Error = new Error(error);
-            // if (Object.keys(error).length !== 0) {
-            //   if (error?.response?.data.httpStatus === 'UNAUTHORIZED') {
-            //     toast.error(error?.response?.data.message);
-            //     localStorage.removeItem('accessToken');
-            //     redirect('/');
-            //   }
-            // }
-            // console.log(error.response);
           },
         }),
       }),
@@ -49,4 +43,12 @@ export default function QueryProvider({ children }: Props) {
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
+}
+class CustomError extends Error {
+  response?: {
+    data: {
+      httpStatus: string;
+      message: string;
+    };
+  };
 }
