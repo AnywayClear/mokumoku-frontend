@@ -67,6 +67,7 @@ export default function ProduceAuctionList({ id }: Props) {
     queryKey: ['auctionList', id],
     queryFn: () => getAuctionList(id),
     enabled: !!id,
+    refetchInterval: 1000,
   });
 
   return (
