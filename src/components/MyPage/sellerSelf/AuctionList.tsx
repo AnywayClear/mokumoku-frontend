@@ -237,7 +237,7 @@ export default function AuctionList() {
 
     return (
         <div className='mb-16'>
-            <div className="flex space-x-2 mt-16">
+            <div className="flex space-x-2 mt-8">
                 {auctionStateArr.map((autcionStateArrItem, index)=>
                 <button key="index" className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
                 )}

@@ -275,7 +275,7 @@ export default function BoughtList() {
     return (
         <div className='mb-16'>
             {showModal?<ReviewModal deadID={modalInfo.id} img={modalInfo.img} title={modalInfo.title} unit={modalInfo.unit} price={modalInfo.price} closeModal={closeModal} />:null}
-            <div className="flex space-x-2 mt-16">
+            <div className="flex space-x-2 mt-8">
                 {auctionStateArr.map((autcionStateArrItem, index)=>
                 <button key="index" className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
                 )}

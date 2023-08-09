@@ -194,7 +194,7 @@ export default function SubscribeList() {
   return (
     <div>
       <div
-        className={`${styles.scroll} flex items-center my-8 overflow-x-scroll place-items-center`}
+        className={`${styles.scroll} flex items-center my-8 overflow-x-scroll place-items-center mt-8`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

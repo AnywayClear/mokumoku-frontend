@@ -27,9 +27,9 @@ export default function CustomerBannerSelf(){
                     <h1 className="text-4xl font-bold pb-4">마이페이지</h1>
                     <Image alt="MokuMoku" src={userData?.image ?? LogoImage} width={1000} height={1000} className="w-72 h-72 bg-white rounded-full"/>
                 </div>
-                <div className="text-left pt-24 w-[25rem]">
+                <div className="text-left pt-28 w-[25rem]">
                     <p className="text-5xl font-bold">{userData?.nickname ?? "닉네임이없어요"}</p>
-                    <p className="pt-8 text-lg">포인트</p>
+                    <p className="pt-4 text-lg">포인트</p>
                     <div className="flex items-end">
                         <p className="text-5xl font-bold pr-6">1000</p>
                         <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">충전하기</u></a>
