@@ -12,11 +12,27 @@ import { Carousel } from 'react-responsive-carousel';
 export default function Home() {
   const { user } = useContext(AuthContext);
 
+
+  // const { data: produce }: UseQueryResult<Produce> = useQuery({
+  //   queryKey: ['produce', slug],
+  //   queryFn: () => getProduce(slug),
+  // });
+
+  // const { data: produce }: UseQueryResult<Produce> = useQuery({
+  //   queryKey: ['produce', slug],
+  //   queryFn: () => getProduce(slug),
+  // });
+
+  // const { data: produce }: UseQueryResult<Produce> = useQuery({
+  //   queryKey: ['produce', slug],
+  //   queryFn: () => getProduce(slug),
+  // });
+
   if (!user?.userId) {
     // redirect('/product');
   }
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <>
