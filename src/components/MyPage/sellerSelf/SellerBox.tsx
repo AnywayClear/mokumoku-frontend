@@ -1,6 +1,8 @@
 import AuctionList from "./AuctionList";
 import AuctionChart from "./AuctionChart";
 import ReviewList from "./ReviewList";
+import { useRecoilState } from "recoil";
+import { tapState } from "@/store/mypage";
 const boxItems = [
     {
         tag : <AuctionList/>,
@@ -21,12 +23,12 @@ type Props = {
     boxItemNum: number;
 }
 
-export default function SellerBox({boxItemNum}:Props){
-
+export default function SellerBox(){
+    const [status, setStatus] = useRecoilState<number>(tapState);
     return (
         <div className="my-4">
             {boxItems.map((boxItem,index)=>(
-                boxItemNum===boxItem.number?boxItem.tag:null
+                status===boxItem.number?boxItem.tag:null
             ))}
         </div>
     );

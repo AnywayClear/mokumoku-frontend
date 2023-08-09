@@ -1,6 +1,8 @@
 "use client"
+import { tapState } from '@/store/mypage';
 import { useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
+import { useRecoilState } from 'recoil';
 
 const itemSelectedColor = {
     text:"text-black",
@@ -35,27 +37,25 @@ type Props={
     setBoxItemNum: Function
 }
 
-export default function CustomerTab({boxItemNum, setBoxItemNum}:Props){
+export default function CustomerTab(){
 
-    const [itemSelected,selectItem] = useState<number>(boxItemNum);
-    const [itemFocused, focusItem] = useState<number>(boxItemNum);
+    const [status, setStatus] = useRecoilState<number>(tapState);
+    const [itemFocused, focusItem] = useState<number>(-1);
+
 
     function clickItem(clickedItem:number){
-        selectItem(clickedItem);
-        focusItem(clickedItem);
-        setBoxItemNum(clickedItem);
+        setStatus(clickedItem);
     }
     
 
     return(
         <>
             <div className="flex ml-10 space-x-8 mb-4">
-
                 {itemInfo.map((item,index)=>(
-                    <a href={`${item.link}`}  key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(itemSelected)} onClick={()=>clickItem(item.id)}>
+                    <a href={`${item.link}`}  key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(-1)} onClick={()=>clickItem(item.id)}>
                         <div className="flex items-center space-x-2">
-                        <BsFillCircleFill className={item.id===itemSelected || item.id===itemFocused?itemSelectedColor.circle:itemNotSelectedColor.circle}/>
-                        <p className={`font-bold text-3xl ${item.id===itemSelected || item.id===itemFocused?itemSelectedColor.text:itemNotSelectedColor.text}`}>{item.title}</p>
+                        <BsFillCircleFill className={item.id===status || item.id===itemFocused?itemSelectedColor.circle:itemNotSelectedColor.circle}/>
+                        <p className={`font-bold text-3xl ${item.id===status || item.id===itemFocused?itemSelectedColor.text:itemNotSelectedColor.text}`}>{item.title}</p>
                         </div>
                     </a>
                 ))}
