@@ -1,4 +1,6 @@
 import { AuctionList } from '@/model/produce';
+import { getAuctionList } from '@/service/api/produce';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 const people = [
   {
@@ -56,13 +58,20 @@ const people = [
 ];
 
 type Props = {
-  auctionList: AuctionList[] | undefined;
+  // auctionList: AuctionList[] | undefined;
+  id: number | undefined;
 };
 
-export default function ProduceAuctionList({ auctionList }: Props) {
+export default function ProduceAuctionList({ id }: Props) {
+  const { data: auctionList }: UseQueryResult<AuctionList> = useQuery({
+    queryKey: ['auctionList', id],
+    queryFn: () => getAuctionList(id),
+    enabled: !!id,
+  });
+
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {auctionList?.map((auction) => (
+      {auctionList?.auctionResponseList?.map((auction) => (
         <li key={auction.id} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
             {/* <img

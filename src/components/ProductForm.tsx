@@ -51,7 +51,6 @@ const schema = yup
       .required('수량은 1개 이상이어야 합니다.')
       .typeError('수량을 입력해주세요.'),
   })
-  .shape({})
   .required();
 
 type Inputs = {

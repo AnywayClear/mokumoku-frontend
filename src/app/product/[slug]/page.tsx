@@ -21,7 +21,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <section className="flex w-full">
+      <section className="flex w-full gap-2">
         <div className="basis-5/12 relative">
           <Image
             alt="logo"
@@ -100,7 +100,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
       </section>
       <section className="w-full">
         <p className="font-bold">경매 목록</p>
-        <ProduceAuctionList auctionList={produce?.auctionResponseList} />
+        <ProduceAuctionList id={produce?.id} />
       </section>
       <section className="w-full my-4">
         <p className="font-bold">상품 설명</p>
