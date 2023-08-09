@@ -1,11 +1,9 @@
-import { Dayjs } from "dayjs";
-
 export type searchType={
     title: string|null,
     auctionState: number|null,
     dateState:number|null,
-    startDate: string|null,
-    endDate : string|null,
+    startDateStr: string|null,
+    endDateStr : string|null,
     orderBy : string
 }
 
