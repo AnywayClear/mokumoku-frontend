@@ -239,14 +239,14 @@ export default function AuctionList() {
         <div className='mb-16'>
             <div className="flex space-x-2 mt-8">
                 {auctionStateArr.map((autcionStateArrItem, index)=>
-                <button key="index" className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
+                <button key={index} className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
                 )}
             </div>
             <div className="flex justify-between">
                 <div className="flex space-x-2 items-center">
                     <div className="flex space-x-2 mr-4">
                         {dateStateArr.map((dateStateArrItem, index)=>
-                        <button key="index" className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
+                        <button key={index} className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
                         )}
                     </div>
                 <div className="flex items-center">

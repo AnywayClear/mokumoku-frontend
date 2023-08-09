@@ -124,7 +124,7 @@ export default function ReviewList(){
                 <div className="flex space-x-2 items-center">
                     <div className="flex space-x-2 mr-4">
                         {dateStateArr.map((dateStateArrItem, index)=>
-                        <button key="index" className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
+                        <button key={index} className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
                         )}
                     </div>
                 <div className="flex items-center">

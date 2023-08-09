@@ -144,7 +144,7 @@ export default function BoughtList() {
     ]
 
     
-    const auctionStateArr : string[] = ["경매전","경매중","경매완료"];
+    const auctionStateArr : string[] = ["배송전","배송중","배송완료"];
     const dateStateArr : string[] = ["하루전","한달전","일년전"];
     const orderStateArr : string[] = ["시간순","이름순","가격순"];
 
@@ -277,14 +277,14 @@ export default function BoughtList() {
             {showModal?<ReviewModal deadID={modalInfo.id} img={modalInfo.img} title={modalInfo.title} unit={modalInfo.unit} price={modalInfo.price} closeModal={closeModal} />:null}
             <div className="flex space-x-2 mt-8">
                 {auctionStateArr.map((autcionStateArrItem, index)=>
-                <button key="index" className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
+                <button key={index} className={(index===auctionState?chipStyle.on:chipStyle.off)+chipStyle.common +chipStyle.hover } onClick={()=>changeAutionState(index)}>{autcionStateArrItem}</button>
                 )}
             </div>
             <div className="flex justify-between">
                 <div className="flex space-x-2 items-center">
                     <div className="flex space-x-2 mr-4">
                         {dateStateArr.map((dateStateArrItem, index)=>
-                        <button key="index" className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
+                        <button key={index} className={`${(index===dateState?chipStyle.on:chipStyle.off)+chipStyle.common + chipStyle.hover} `} onClick={()=>changeDateState(index)}>{dateStateArrItem}</button>
                         )}
                     </div>
                 <div className="flex items-center">

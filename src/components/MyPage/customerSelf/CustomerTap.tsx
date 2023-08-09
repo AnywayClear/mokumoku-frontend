@@ -52,14 +52,11 @@ export default function CustomerTab(){
         <>
             <div className="flex ml-10 space-x-8 mb-4">
                 {itemInfo.map((item,index)=>(
-                    <a href={`${item.link}`}  key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(-1)} onClick={()=>clickItem(item.id)}>
-                        <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 cursor-pointer select-none" key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(-1)} onClick={()=>clickItem(item.id)}>
                         <BsFillCircleFill className={item.id===status || item.id===itemFocused?itemSelectedColor.circle:itemNotSelectedColor.circle}/>
                         <p className={`font-bold text-3xl ${item.id===status || item.id===itemFocused?itemSelectedColor.text:itemNotSelectedColor.text}`}>{item.title}</p>
-                        </div>
-                    </a>
+                    </div>       
                 ))}
-
             </div>
         </>
     );
