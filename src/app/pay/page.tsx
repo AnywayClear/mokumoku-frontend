@@ -10,6 +10,7 @@ import { getPoint } from '@/service/api/produce';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { AuthContext } from '@/context/AuthContext';
+import { Button } from '@/components/Button';
 
 const schema = yup
   .object({
@@ -94,7 +95,6 @@ export default function PayPage() {
           <div>
             <Image alt="pay" src={PayImage} />
           </div>
-          {/* <label className={LABEL_STYLE}>내용</label> */}
           <div className={WRAPPER_INPUT_STYLE}>
             <input
               type="number"
@@ -105,7 +105,9 @@ export default function PayPage() {
             <p className={ERROR_STYLE}>{errors.money?.message}</p>
           </div>
         </div>
-        <input className="cursor-pointer" type="submit" value="submit" />
+        <div className="text-center pb-6">
+          <Button size="large">충전하기</Button>
+        </div>
       </form>
     </div>
   );
