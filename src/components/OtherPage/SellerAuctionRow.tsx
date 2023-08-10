@@ -1,6 +1,7 @@
 import { Popover } from '@mui/material';
 import React, { useState, MouseEvent } from 'react';
 import Image from 'next/image';
+import ReviewPopover from './ReviewPopover';
 
 type Props={
     row:rowType;
@@ -69,7 +70,8 @@ export default function SellerAuctionRow({row}:Props) {
                 onClose={handlePopoverClose}
                 disableRestoreFocus
                 disableScrollLock={ true }
-            >asdsadasdasdsa
+          >
+              <ReviewPopover id={row.id} />
             </Popover>
         </tr>)
   )
