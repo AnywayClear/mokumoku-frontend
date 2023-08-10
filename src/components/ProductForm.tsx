@@ -12,6 +12,7 @@ import { PostProduce } from '@/model/produce';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { Button } from './Button';
 
 const schema = yup
   .object({
@@ -91,12 +92,11 @@ export default function ProductForm() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
   });
 
-  console.log(watch());
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -287,9 +287,11 @@ export default function ProductForm() {
           <p className={ERROR_STYLE}>{errors.endDate?.message}</p>
         </div>
       </div>
-      {/* {Object.keys(errors).length !== 0 && ( */}
-      <input className="cursor-pointer" type="submit" value="submit" />
-      {/* )} */}
+      <div className="text-center pb-6">
+        <Button size="large" disabled={isSubmitting}>
+          제출
+        </Button>
+      </div>
     </form>
   );
 }
