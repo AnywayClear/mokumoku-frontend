@@ -4,6 +4,7 @@ import { useState } from 'react';
 import SubscribeScroll from './SubsribeScroll';
 import { subscribeUserType } from '@/model/mypage';
 import SearchTab from '../searchTab';
+import SubscribeRow from './SubscribeRow';
 
 type colType = { name: string; flex: string };
 
@@ -45,6 +46,9 @@ type rowType = {
 };
 
 export default function SubscribeList() {
+
+  const [selectedNickname, setSelectedNickname] = useState('');
+
   const rows: rowType[] = [
     {
       id: 1,
@@ -63,34 +67,7 @@ export default function SubscribeList() {
       price: 13000,
       date: '2023-07-28',
       state: '경매완료',
-    },
-    {
-      id: 3,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title: '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      state: '경매완료',
-    },
-    {
-      id: 4,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title: '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      state: '경매완료',
-    },
-    {
-      id: 5,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title: '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      state: '경매완료',
-    },
+    }
   ];
 
   const subscribeUsers: subscribeUserType[] = [
@@ -105,7 +82,7 @@ export default function SubscribeList() {
     
   ];
 
-  const [selectedNickname, setSelectedNickname] = useState('');
+  
 
 
   return (
@@ -123,40 +100,7 @@ export default function SubscribeList() {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
-            <tr key={index} className="border-y text-lg">
-              <td>
-                {row.img !== undefined ? (
-                  <Image
-                    src={row.img}
-                    alt="상품이미지"
-                    width={300}
-                    height={300}
-                    className="h-32 w-80 object-cover"
-                  />
-                ) : null}
-              </td>
-              <td>
-                <a href="#">
-                  <p className="px-6 py-6 underline truncate hover:opacity-70">
-                    {row.title}
-                  </p>
-                </a>
-              </td>
-              <td>
-                <p>{row.unit}</p>
-              </td>
-              <td>
-                <p>{row.date}</p>
-              </td>
-              <td>
-                <p>{row.state}</p>
-              </td>
-              <td>
-                <p>{row.price}</p>
-              </td>
-            </tr>
-          ))}
+          {rows.map((row, index) => <SubscribeRow row={row} key={index} />)}
         </tbody>
       </table>
     </div>
