@@ -38,4 +38,12 @@ export const getNowEnd = async () => {
 export const getPoint = async (userId: string) => {
   const res = await get(`/api/points/${userId}`);
   return res;
-}
+};
+
+export const postAuction = async (auctionId: number, price: number) => {
+  const res = await post(`/api/auctions/${auctionId}`, {
+    price,
+  });
+
+  return res;
+};

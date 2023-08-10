@@ -1,5 +1,6 @@
 export type ProduceList = {
-  produceResponseList: Produce[];
+  // produceResponseList: Produce[];
+  data: Produce[];
 };
 
 export type Produce = {
@@ -32,6 +33,9 @@ export type PostProduce = {
 export type Auction = {
   id: number;
   price: number;
+  nickname: string;
+  updatedAt: Date;
+  status: number;
 };
 
 export type AuctionList = {
