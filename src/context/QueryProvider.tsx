@@ -8,13 +8,17 @@ import {
 import { useState } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { toast } from 'react-toastify';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 type Props = {
   children: React.ReactNode;
 };
 
+
+
 export default function QueryProvider({ children }: Props) {
+  const router = useRouter();
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -22,15 +26,16 @@ export default function QueryProvider({ children }: Props) {
           queries: {
             // suspense: true,
             staleTime: 1000 * 20,
+            retry: false
           },
         },
         queryCache: new QueryCache({
           onError: (error, query) => {
-            if (error instanceof CustomError) {
+            if (error instanceof AxiosError) {
               if (error?.response?.data.httpStatus === 'UNAUTHORIZED') {
                 toast.error(error?.response?.data.message);
                 localStorage.removeItem('accessToken');
-                redirect('/');
+                router.push('/login');
               }
             }
           },
@@ -43,12 +48,4 @@ export default function QueryProvider({ children }: Props) {
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
-}
-class CustomError extends Error {
-  response?: {
-    data: {
-      httpStatus: string;
-      message: string;
-    };
-  };
 }
