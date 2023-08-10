@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<svg
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    id="svg2"
+    viewBox="0 0 539.66 432.47"
+    version="1.1"
+  >
+  <g
+      id="layer1"
+      transform="translate(-301.29 -564.44)"
+    >
+    <g
+        id="g3850"
+        stroke="#008000"
+        stroke-width="8"
+        transform="matrix(.066657 -.39224 .39224 .066657 248.8 964.11)"
+      >
+      <path
+          id="path3055"
+          d="m288.95 954.11c-2.02-1.88-91.49-206.64 86.55-397.62 178.03-190.98 556.48-296.23 558.5-294.35s-90.22 373.94-268.26 564.92c-178.03 190.94-374.78 128.93-376.79 127.05z"
+          style="color:#000000"
+          fill="#0f0"
+          fill-rule="evenodd"
+      />
+      <path
+          id="path3062"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m312.43 924.66 518.77-556.49"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3068"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m419.18 608.11c15.454 123.74 87.607 183.53 205.58 191.64"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3070"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m419.18 608.11c15.454 123.74 87.607 183.53 205.58 191.64"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3072"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m352.02 709.9c13.543 105.54 75.261 156.72 175.91 163.98"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3074"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m508.8 531.09c14.226 112.04 79.67 166.3 186.5 173.86"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3076"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m617.48 459.12c11.36 84.737 61.151 126.08 142 132.37"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3078"
+          stroke-linejoin="round"
+          style="color:#000000"
+          d="m716.72 420.65c6.9933 43.129 32.931 64.806 74.177 69.148"
+          stroke-linecap="round"
+          fill="none"
+      />
+      <path
+          id="path3848"
+          d="m284.78 954.53c-47.272 54.959-25.612 146.45 25.109 189.77"
+          style="color:#000000"
+          fill="none"
+      />
+    </g
+    >
+  </g
+  >
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+        <dc:title
+          >Leaf - Green Simple Leaf</dc:title
+        >
+        <dc:date
+          >2013-10-09T22:06:06</dc:date
+        >
+        <dc:description
+          >This is a very simple leaf that can be created by anyone using inkscape. If you have any interest in creating a leaf similar to this please take a look at my tutorial that http://www.simpletutorials.net/ I go through the creation of this leaf step-by-step using the wonderful drawing tool, inkscape. or go here also http://www.youtube.com/watch?v=y8EnnTiWDsw</dc:description
+        >
+        <dc:source
+          >https://openclipart.org/detail/184738/leaf---green-simple-leaf-by-simpletutorials.net-184738</dc:source
+        >
+        <dc:creator
+          >
+          <cc:Agent
+            >
+            <dc:title
+              >simpletutorials.net</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:creator
+        >
+        <dc:subject
+          >
+          <rdf:Bag
+            >
+            <rdf:li
+              >green</rdf:li
+            >
+            <rdf:li
+              >green leaf</rdf:li
+            >
+            <rdf:li
+              >icon</rdf:li
+            >
+            <rdf:li
+              >leaf</rdf:li
+            >
+            <rdf:li
+              >plant</rdf:li
+            >
+            <rdf:li
+              >simple leaf</rdf:li
+            >
+            <rdf:li
+              >tree</rdf:li
+            >
+          </rdf:Bag
+          >
+        </dc:subject
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>

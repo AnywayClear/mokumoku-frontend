@@ -40,9 +40,8 @@ type topButtonData = menuData & {
 
 // 로그인하고 포인트는 수정필요
 const topButton: topButtonData[] = [
-  { icon: <BiCoinStack />, title: '10000p', link: '/' },
+  { icon: <BiCoinStack />, title: '충전하기', link: '/pay' },
   { icon: <FaBagShopping />, title: '물품등록', link: '/product/register' },
-  { icon: <FaCircleUser />, title: '마이페이지', link: '/' },
   { icon: <FaHeart />, title: '찜 목록', link: '/' },
 ];
 

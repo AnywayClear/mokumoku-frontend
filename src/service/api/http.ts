@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { toast } from 'react-toastify';
 const axios = Axios.create({
   withCredentials: true,
   // headers: {
@@ -21,6 +22,17 @@ const getConfig = () => {
     },
   };
 };
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      // console.log(error);
+    }
+
+    return Promise.reject(error);
+  }
+)
 
 export const get = async (url: string) => {
   const res = await axios.get<Response>(getUrl(url), getConfig());

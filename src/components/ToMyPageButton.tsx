@@ -1,9 +1,11 @@
 "use client"
 
 import { AuthContext } from "@/context/AuthContext";
+import { searchState, tapState } from "@/store/mypage";
 import Link from "next/link";
 import { ReactNode, useContext } from "react";
 import { FaCircleUser } from "react-icons/fa6";
+import { useRecoilState, useResetRecoilState } from "recoil";
 
 type buttonType = {
     icon:ReactNode,
@@ -19,21 +21,16 @@ const buttonData:buttonType[] = [
     {
         icon: <FaCircleUser />, 
         title: '마이페이지', 
-        link: '/mypagec'
+        link: '/mypage'
     },
-    {
-        icon: <FaCircleUser />, 
-        title: '마이페이지', 
-        link: '/mypages'
-    },
-
-    
 ]
 
 export default function ToMyPageButton(){
 
     const {user} = useContext(AuthContext);
-
+    const [status, setStatus] = useRecoilState<number>(tapState);
+    const resetSearchTap = useResetRecoilState(searchState);
+    
     return (
         <>
             {!user?.userId ? 
@@ -45,23 +42,18 @@ export default function ToMyPageButton(){
               {buttonData[0].icon}
               <p>{buttonData[0].title}</p>
             </Link> ) : 
-                (user?.role === 0 ? 
-                    //구매자
-                    (<Link
-                      href={buttonData[1].link}
-                      className="flex items-center gap-2 text-sm"
-                    >
-                      {buttonData[1].icon}
-                      <p>{buttonData[1].title}</p>
-                    </Link>):
-                    //판매자
-                    (<Link
-                        href={buttonData[2].link}
-                        className="flex items-center gap-2 text-sm"
-                      >
-                        {buttonData[2].icon}
-                        <p>{buttonData[2].title}</p>
-                      </Link>))
+            
+              (<Link
+                href={buttonData[1].link}
+                className="flex items-center gap-2 text-sm"
+                onClick={()=>{
+                  setStatus(0);
+                  resetSearchTap();
+                }}
+              >
+                {buttonData[1].icon}
+                <p>{buttonData[1].title}</p>
+              </Link>)
             }
         </>
     );

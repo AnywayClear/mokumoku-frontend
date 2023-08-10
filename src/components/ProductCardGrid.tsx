@@ -20,7 +20,7 @@ export default function ProductCardGrid() {
   return (
     // <div className="grid gap-24 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     <div className="flex gap-1 flex-wrap justify-center basis-4/5">
-      {produceList?.produceResponseList?.map((produce, index) => (
+      {produceList?.data?.map((produce, index) => (
         <ProductCard key={index} produce={produce} />
       ))}
     </div>

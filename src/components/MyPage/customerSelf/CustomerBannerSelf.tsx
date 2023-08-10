@@ -19,7 +19,6 @@ export default function CustomerBannerSelf(){
         enabled: !!user?.userId
     });
     
-    console.log(userData);
     return(
         <>
             <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12">
@@ -31,7 +30,7 @@ export default function CustomerBannerSelf(){
                     <p className="text-5xl font-bold">{userData?.nickname ?? "닉네임이없어요"}</p>
                     <p className="pt-8 text-lg">포인트</p>
                     <div className="flex items-end">
-                        <p className="text-5xl font-bold pr-6">1000</p>
+                        <p className="text-5xl font-bold pr-6">0</p>
                         <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">충전하기</u></a>
                     </div>
                     <div className="flex pt-4">
