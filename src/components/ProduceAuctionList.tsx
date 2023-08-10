@@ -1,9 +1,4 @@
 import { AuctionList } from '@/model/produce';
-import { getAuctionList } from '@/service/api/produce';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { Button } from './Button';
-import ProduceAuction from './ProduceAuction';
 
 const people = [
   {
@@ -61,28 +56,45 @@ const people = [
 ];
 
 type Props = {
-  id: number | undefined;
-  status: number | undefined;
+  auctionList: AuctionList[] | undefined;
 };
 
-export default function ProduceAuctionList({ id, status }: Props) {
-  const [refetchTime, setRefetchTime] = useState<number>(20 * 1000);
-  const { data: auctionList }: UseQueryResult<AuctionList> = useQuery({
-    queryKey: ['auctionList', id],
-    queryFn: () => getAuctionList(id),
-    enabled: !!id,
-    refetchInterval: refetchTime,
-  });
-
-  useEffect(() => {
-    setRefetchTime(status === 1 ? 1000 : 20 * 1000);
-  }, [status]);
-
+export default function ProduceAuctionList({ auctionList }: Props) {
   return (
-    // <ul role="list" className="divide-y divide-gray-100">
-    <ul role="list" className="flex flex-wrap gap-20 justify-center my-4">
-      {auctionList?.auctionResponseList?.map((auction) => (
-        <ProduceAuction key={auction.id} auction={auction} />
+    <ul role="list" className="divide-y divide-gray-100">
+      {auctionList?.map((auction) => (
+        <li key={auction.id} className="flex justify-between gap-x-6 py-5">
+          <div className="flex min-w-0 gap-x-4">
+            {/* <img
+              className="h-12 w-12 flex-none rounded-full bg-gray-50"
+              src={auction.imageUrl}
+              alt=""
+            /> */}
+            <div className="min-w-0 flex-auto">
+              <p className="text-sm font-semibold leading-6 text-gray-900">
+                {auction.id}
+              </p>
+              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                {auction.id}
+              </p>
+            </div>
+          </div>
+          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+            <p className="text-sm leading-6 text-gray-900">{auction.id}</p>
+            {auction.id ? (
+              <p className="mt-1 text-xs leading-5 text-gray-500">
+                Last seen <time>{auction.price}</time>
+              </p>
+            ) : (
+              <div className="mt-1 flex items-center gap-x-1.5">
+                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </div>
+                <p className="text-xs leading-5 text-gray-500">Online</p>
+              </div>
+            )}
+          </div>
+        </li>
       ))}
     </ul>
   );

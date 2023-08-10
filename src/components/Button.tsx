@@ -1,8 +1,8 @@
 import { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'thirdly';
-  size?: 'small' | 'medium' | 'large';
+  variant?: 'primary' | 'secondary';
+  size?: 'medium' | 'large';
 }
 
 export function Button({
@@ -43,20 +43,9 @@ const TYPE_VARIANTS = {
       backgroundColor: '#53AD56',
     },
   },
-  thirdly: {
-    color: '#f9fafb',
-    backgroundColor: '#d1d5db',
-    '&:hover': {
-      backgroundColor: '#d1d5db',
-    },
-  }
 };
 
 const SIZE_VARIANTS = {
-  small: {
-    fontSize: '9px',
-    padding: '1px 12px',
-  },
   medium: {
     fontSize: '15px',
     padding: '11px 16px',

@@ -21,7 +21,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
 
   return (
     <div className="flex flex-col items-center">
-      <section className="flex w-full gap-4">
+      <section className="flex w-full">
         <div className="basis-5/12 relative">
           <Image
             alt="logo"
@@ -80,19 +80,19 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
               <input
                 type="button"
                 value={`경매 대기       |       ${produce?.startDate}`}
-                className="bg-yellow-300  border-2 border-black rounded-md py-2 px-20"
+                className="bg-yellow-300  border-2 border-black rounded-md py-2 px-10"
               />
             ) : produce?.status === 1 ? (
               <input
                 type="button"
                 value={`진행중       |       ${produce?.startDate}`}
-                className="bg-green-500  border-2 border-black rounded-md py-2 px-20"
+                className="bg-green-500  border-2 border-black rounded-md py-2 px-10"
               />
             ) : (
               <input
                 type="button"
                 value={`경매 종료       |       ${produce?.startDate}`}
-                className="bg-red-500  border-2 border-black rounded-md py-2 px-20"
+                className="bg-red-500  border-2 border-black rounded-md py-2 px-10"
               />
             )}
           </div>
@@ -100,7 +100,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
       </section>
       <section className="w-full">
         <p className="font-bold">경매 목록</p>
-        <ProduceAuctionList id={produce?.id} status={produce?.status} />
+        <ProduceAuctionList auctionList={produce?.auctionResponseList} />
       </section>
       <section className="w-full my-4">
         <p className="font-bold">상품 설명</p>
