@@ -97,7 +97,6 @@ export default function SubscribeList() {
     {
       img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
       nickname: '모쿠모쿠',
-      
     },
     {
       img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
@@ -124,8 +123,8 @@ export default function SubscribeList() {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index2) => (
-            <tr key={index2} className="border-y text-lg">
+          {rows.map((row, index) => (
+            <tr key={index} className="border-y text-lg">
               <td>
                 {row.img !== undefined ? (
                   <Image

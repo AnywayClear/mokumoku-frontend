@@ -18,7 +18,7 @@ const itemInfo = [
     { 
         id : 0,
         link : "#",
-        title : "구매 목록"
+        title : "낙찰 목록"
     },
     {
         id : 1,
