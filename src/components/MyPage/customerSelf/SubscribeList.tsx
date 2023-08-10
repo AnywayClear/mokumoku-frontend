@@ -110,10 +110,10 @@ export default function SubscribeList() {
 
 
   return (
-    <div>
+    <div className="mb-20">
       <SubscribeScroll subscribeUsers={subscribeUsers} selected={selectedNickname} selectNickname={setSelectedNickname}/>
       <SearchTab tabType={3} />
-      <table className="table-fixed border-collapse border-y-2 w-full text-center mt-6 my-20 border-neutral-300">
+      <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">
             {cols.map((col, index) => (

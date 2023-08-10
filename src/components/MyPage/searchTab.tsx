@@ -149,7 +149,7 @@ export default function SearchTab({tabType}:Props){
     
     if (tabType <= 2) {
         return (
-            <div className="mt-12">{tabType<=1?
+            <div className="mt-12 mb-4">{tabType<=1?
                 <div className="flex space-x-2">
                     {auctionStateArr.map((autcionStateArrItem, index) =>
                         <button key={index} className={(index === auctionState ? chipStyle.on : chipStyle.off) + chipStyle.common + chipStyle.hover} onClick={() => changeAutionState(index)}>{autcionStateArrItem}</button>

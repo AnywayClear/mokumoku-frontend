@@ -114,10 +114,10 @@ export default function AuctionList() {
     ]
     
     return (
-        <div className='mb-16'>
+        <div className='mb-20'>
             <SearchTab tabType={1}/>
             <div>
-                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-6 border-neutral-300'>
+                <table className='table-fixed border-collapse border-y-2 w-full text-center border-neutral-300'>
                     <thead className='font-bold  text-xl'>
                         <tr className="border-y">
                             {cols.map((col, index) => (

@@ -2,6 +2,8 @@
 import * as React from 'react';
 import Image from 'next/image';
 import SearchTab from '../MyPage/searchTab';
+import { useResetRecoilState } from 'recoil';
+import { searchState } from '@/store/mypage';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
@@ -74,12 +76,15 @@ export default function SellerAuctionList() {
     ]
     
     const auctionStateArr = ["경매전","경매중","경매완료"]
+    const resetSearchTap = useResetRecoilState(searchState);
+
+    resetSearchTap();
 
     return (
-        <div className='mb-16'>
+        <div className='mb-20'>
             <SearchTab tabType={1} />
             <div>
-                <table className='table-fixed border-collapse border-y-2 w-full text-center mt-5 mb-20  border-neutral-300'>
+                <table className='table-fixed border-collapse border-y-2 w-full text-center border-neutral-300'>
                     <thead className='font-bold  text-xl'>
                         <tr className="border-y">
                             {cols.map((col, index) => (
