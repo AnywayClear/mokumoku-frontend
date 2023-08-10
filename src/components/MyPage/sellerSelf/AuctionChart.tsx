@@ -136,7 +136,7 @@ export default function AuctionChart() {
 
   return (
     <div className="mb-16 px-40 relative">
-      <div className="font-bold mt-20 flex justify-between items-start">
+      <div className="font-bold mt-14 flex justify-between items-start">
           <p className="text-4xl font-bold mb-5">총 낙찰 금액</p>
           <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-select-small-label">정렬기준</InputLabel>
