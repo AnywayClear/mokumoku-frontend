@@ -1,8 +1,8 @@
 "use client"
-import { tapState } from '@/store/mypage';
+import { searchState, tapState } from '@/store/mypage';
 import { useState } from 'react';
 import { BsFillCircleFill } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 const itemSelectedColor = {
     text:"text-black",
@@ -32,15 +32,11 @@ const itemInfo = [
     },
 ];
 
-type Props={
-    boxItemNum: number,
-    setBoxItemNum: Function
-}
-
 export default function CustomerTab(){
 
     const [status, setStatus] = useRecoilState<number>(tapState);
     const [itemFocused, focusItem] = useState<number>(-1);
+    const resetSearchTap = useResetRecoilState(searchState);
 
 
     function clickItem(clickedItem:number){
@@ -52,7 +48,14 @@ export default function CustomerTab(){
         <>
             <div className="flex ml-10 space-x-8 mb-4">
                 {itemInfo.map((item,index)=>(
-                    <div className="flex items-center space-x-2 cursor-pointer select-none" key={`${item.id}`} onMouseOver={()=>focusItem(item.id)} onMouseLeave={()=>focusItem(-1)} onClick={()=>clickItem(item.id)}>
+                    <div className="flex items-center space-x-2 cursor-pointer select-none" 
+                        key={`${item.id}`} 
+                        onMouseOver={()=>focusItem(item.id)} 
+                        onMouseLeave={()=>focusItem(-1)} 
+                        onClick={()=>{
+                            clickItem(item.id);
+                            resetSearchTap();
+                            }}>
                         <BsFillCircleFill className={item.id===status || item.id===itemFocused?itemSelectedColor.circle:itemNotSelectedColor.circle}/>
                         <p className={`font-bold text-3xl ${item.id===status || item.id===itemFocused?itemSelectedColor.text:itemNotSelectedColor.text}`}>{item.title}</p>
                     </div>       

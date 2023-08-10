@@ -1,11 +1,11 @@
 "use client"
 
 import { AuthContext } from "@/context/AuthContext";
-import { tapState } from "@/store/mypage";
+import { searchState, tapState } from "@/store/mypage";
 import Link from "next/link";
 import { ReactNode, useContext } from "react";
 import { FaCircleUser } from "react-icons/fa6";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 
 type buttonType = {
     icon:ReactNode,
@@ -29,6 +29,7 @@ export default function ToMyPageButton(){
 
     const {user} = useContext(AuthContext);
     const [status, setStatus] = useRecoilState<number>(tapState);
+    const resetSearchTap = useResetRecoilState(searchState);
     
     return (
         <>
@@ -47,7 +48,7 @@ export default function ToMyPageButton(){
                 className="flex items-center gap-2 text-sm"
                 onClick={()=>{
                   setStatus(0);
-                  console.log(status);
+                  resetSearchTap();
                 }}
               >
                 {buttonData[1].icon}
