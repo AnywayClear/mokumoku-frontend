@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {ImHeartBroken} from "react-icons/im"
 import Image from "next/image";
 import SearchTab from '../searchTab';
+import WishRow from './WishRow';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
@@ -87,16 +88,7 @@ export default function WishList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row,index2)=>
-                        (<tr key={index2} className="border-y text-lg">
-                            <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
-                            <td><a href="#"><p className='px-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
-                            <td><a href="#" className='w-full h-full'><u className="hover:opacity-70">{row.seller}</u></a></td>
-                            <td><p>{row.unit}</p></td>
-                            <td><p>{row.date}</p></td>
-                            <td><p>{row.price}</p></td>
-                            <td><a className="hover:opacity-30 p-6" href="#"><ImHeartBroken className="mx-auto"/></a></td>
-                        </tr>))}
+                        {rows.map((row,index)=><WishRow key={index} row={row}/>)}
                     </tbody>
                 </table>
 
