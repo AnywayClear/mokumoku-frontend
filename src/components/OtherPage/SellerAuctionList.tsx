@@ -1,9 +1,9 @@
 "use client";
 import * as React from 'react';
-import Image from 'next/image';
 import SearchTab from '../MyPage/searchTab';
 import { useResetRecoilState } from 'recoil';
 import { searchState } from '@/store/mypage';
+import SellerAuctionRow from './SellerAuctionRow';
 
 type colType = { name:string , flex:string};
 const cols : colType[]  = [
@@ -71,14 +71,16 @@ export default function SellerAuctionList() {
             price : 15000,
             date : "2023-07-28",
             state : 1,
-            review : false,        
+            review : true,        
         }
     ]
     
-    const auctionStateArr = ["경매전","경매중","경매완료"]
+    
     const resetSearchTap = useResetRecoilState(searchState);
 
     resetSearchTap();
+
+   
 
     return (
         <div className='mb-20'>
@@ -94,16 +96,9 @@ export default function SellerAuctionList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row,index2)=>
-                        (<tr key={index2} className="border-y text-lg">
-                            <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
-                            <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
-                            <td><p>{row.unit}</p></td>
-                            <td><p>{row.price}</p></td>
-                            <td><p>{row.date}</p></td>
-                            <td><p>{auctionStateArr[row.state]}</p></td>
-                            <td>{row.review?<button className='rounded-md bg-black text-white py-1 px-2 hover:opacity-70' >후기확인</button>:<></>}</td>
-                        </tr>))}
+                        {rows.map((row,index)=>
+                            <SellerAuctionRow key={index} row={row}/>
+                        )}
                     </tbody>
                 </table>
             </div>
