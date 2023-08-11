@@ -21,6 +21,7 @@ const schema = yup
 
 type Props = {
   auction: Auction;
+  produceStatus: number | undefined;
 };
 
 type Inputs = {
@@ -36,7 +37,7 @@ const WRAPPER_STYLE = 'flex gap-4 my-4 justify-center';
 
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
 
-export default function ProduceAuction({ auction }: Props) {
+export default function ProduceAuction({ auction, produceStatus }: Props) {
   const mutation = useMutation({
     mutationFn: (data: { auctionId: number; price: number }) => {
       return postAuction(data.auctionId, data.price);
@@ -70,7 +71,10 @@ export default function ProduceAuction({ auction }: Props) {
   };
 
   return (
-    <li key={auction.id} className="flex justify-between gap-x-6 px-5 w-[500px] shadow-sm">
+    <li
+      key={auction.id}
+      className="flex justify-between gap-x-6 px-5 w-[500px] shadow-sm shadow-black py-5 rounded-md"
+    >
       <div className="flex min-w-0 gap-x-4 items-center">
         {/* <img
               className="h-12 w-12 flex-none rounded-full bg-gray-50"
@@ -81,6 +85,7 @@ export default function ProduceAuction({ auction }: Props) {
           <p className="text-sm font-semibold leading-6 text-gray-900">
             {`현재 가격 : ${auction.price}원`}
           </p>
+          
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             {auction.nickname || '입찰자 없음'}
           </p>
@@ -88,7 +93,7 @@ export default function ProduceAuction({ auction }: Props) {
             <p className="text-sm font-semibold leading-6 text-gray-900">
               {'남은시간 :'}
             </p>
-            {auction.status !== 1 ? (
+            {produceStatus !== 1 ? (
               <p className="text-sm font-semibold leading-6 text-gray-900">
                 {`5분 0초`}
               </p>
