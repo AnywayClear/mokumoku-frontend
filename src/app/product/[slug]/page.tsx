@@ -27,14 +27,20 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
             alt="logo"
             className="object-contain"
             fill
-            src={produce?.image ?? LogoImage}
+            src={produce?.image || LogoImage}
           />
         </div>
 
         <div className="basis-7/12">
           <div className="py-4 border-t-4 border-b-2 border-t-black border-b-gray-200">
             <div className="flex my-2">
-              <Image alt="logo" width={100} height={100} src={LogoImage} />
+              <div className="relative aspect-square w-6 h-6">
+                <Image
+                  alt="logo"
+                  fill
+                  src={produce?.sellerImage || LogoImage}
+                />
+              </div>
               <p className="font-bold">{produce?.seller}</p>
             </div>
 
