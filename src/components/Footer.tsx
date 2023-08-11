@@ -7,7 +7,7 @@ export default function Footer() {
       </div>
       <div className="text-xs leading-6">
         <p>상호명 : 모꾸모꾸 | 소재지 : 서울특별시 강남구 테헤란로 212 802호</p>
-        <p>소재지 : 서울특별시 강남구 테헤란로 212 802호</p>
+        <p>영업소 : 서울특별시 강남구 테헤란로 212 802호</p>
       </div>
       <div className="flex text-xs gap-8">
         <p>개인정보처리방침</p>
