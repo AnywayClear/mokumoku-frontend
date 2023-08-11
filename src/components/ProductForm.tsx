@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Button } from './Button';
+import dayjs from 'dayjs';
 
 const schema = yup
   .object({
@@ -152,15 +153,12 @@ export default function ProductForm() {
       image = await uploadS3(file);
     }
 
-    console.log(image);
-
     const newData = {
       ...data,
-      startDate: data.startDate.toISOString(),
-      endDate: data.endDate.toISOString(),
+      startDate: dayjs(data.startDate).format('YYYY-MM-DDTHH:mm:ss'),
+      endDate: dayjs(data.endDate).format('YYYY-MM-DDTHH:mm:ss'),
       image: image.Location,
     };
-
     mutation.mutate(newData);
   };
   return (
