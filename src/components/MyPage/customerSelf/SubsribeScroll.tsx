@@ -41,20 +41,19 @@ export default function SubscribeScroll({
         onMouseLeave={handleMouseLeave}>
         {subscribeUsers.map((subscribeUser:subscribeUserType, index) => (
                 <div
-                    className={`${selected===subscribeUser.nickname ? '' : 'hover:opacity-80 opacity-30'
-                    } px-4 select-none cursor-pointer`}
+                    className={`${selected===subscribeUser.nickname ? '' : 'hover:opacity-80 opacity-30'} px-4 select-none cursor-pointer`}
                     onClick={()=>selectNickname(subscribeUser.nickname)}
                     key={index}>
-                    <Image
-                    src={subscribeUser.img}
-                    width={200}
-                    height={200}
-                    alt={'UserImg' + `${subscribeUser.nickname}`}
-                    className="h-48 w-48 object-cover rounded-full pointer-events-none"
-                    />
-                    <p className="truncate text-2xl w-48 font-bold text-cente my-4 text-center select-none">
-                    {subscribeUser.nickname}
-                    </p>
+                      <Image
+                      src={subscribeUser.img}
+                      width={200}
+                      height={200}
+                      alt={'UserImg' + `${subscribeUser.nickname}`}
+                      className="h-48 w-48 object-cover rounded-full pointer-events-none"
+                      />
+                      <p className="truncate text-2xl w-48 font-bold text-cente my-4 text-center select-none">
+                        {subscribeUser.nickname}
+                      </p>
                 </div>
         ))}
       
