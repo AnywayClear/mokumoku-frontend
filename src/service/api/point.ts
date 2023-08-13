@@ -1,8 +1,8 @@
 import { string } from 'yup';
 import { get, post, put, patch } from './http';
 
-export const getPoint = async() => {
-    const res = await get(`/api/points`);
+export const getPoint = async (customerId: string) => {
+    const res = await get(`/api/points?userId=${customerId}`);
     return res;
 }
 

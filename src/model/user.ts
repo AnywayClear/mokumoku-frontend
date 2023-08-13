@@ -1,4 +1,5 @@
-export type userData={
+export type userData = {
+    userId: string|null,
     nickname: string|null,
     image: string|null,
     description:string|null,

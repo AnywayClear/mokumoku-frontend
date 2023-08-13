@@ -14,7 +14,7 @@ export const searchState = atom<searchType>({
     key:'searchState',    
     default: {
         title: null,
-        auctionState: null,
+        auctionState: [0,1,2],
         dateState: null,
         startDateStr: '',
         endDateStr : '',

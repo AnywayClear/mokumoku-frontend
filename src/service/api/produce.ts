@@ -47,3 +47,9 @@ export const postAuction = async (auctionId: number, price: number) => {
 
   return res;
 };
+
+export const getProduceList2 = async (status: string | null, title: string | null, seller: string | null | undefined, page: number, size: number) => {
+  const res = await get(`/api/produces?statusNoList=${status}&page=${page}&size=${size}&userId=${seller}&filter=notAll${title?`&name=${title}`:""}`);
+  console.log("헬로우 "+ `/api/produces?statusNoList=${status}&page=${page}&size=${size}&userId=${seller}&filter=notAll${title?`&name=${title}`:""}`);
+  return res;
+}
