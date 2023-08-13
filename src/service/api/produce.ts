@@ -1,17 +1,20 @@
 import { PostProduce, Produce } from '@/model/produce';
 import { get, post, put } from './http';
 
-export const getProduceList = async (status: string, userId = '') => {
+export const getProduceList = async (status: string, page = 0, name = '') => {
   const query = {
     // userId,
     statusNoList: status,
-    page:0,
-    size:10,
+    page,
+    size: 9,
     // filter:"all",
-    // name,
+    name,
   };
-  const res = await get(`/api/produces`, query);
-  return res;
+  const res: any = await get(`/api/produces`, query);
+  return {
+    data: res.data,
+    nextPage: page + 1,
+  };
 };
 
 export const getProduce = async (id: number) => {
