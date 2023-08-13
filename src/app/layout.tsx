@@ -59,7 +59,7 @@ export default function RootLayout({
         <QueryProvider>
           <AuthContextProvider>
             <RecoilProvider>
-              <ToastContainer />
+              <ToastContainer pauseOnFocusLoss={false} />
               <div className="w-full overflow-x-auto fixed top-0 left-0  h-screen ">
                 <div className="flex flex-col w-[1340px] min-h-screen items-center mx-auto">
                   <Header />
