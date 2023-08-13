@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { KeyboardEvent, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const schema = yup
   .object({
@@ -33,7 +34,11 @@ const ERROR_STYLE = 'text-red-500 h-4 text-xs w-80 align-middle mx-auto';
 const NICK_STYLE =
   'flex box-border h-4 w-80 border-2 p-4 align-middle mx-auto ';
 
-export default function SellerAuth() {
+type Props = {
+  setIsAuth: Function;
+};
+
+export default function SellerAuth({ setIsAuth }: Props) {
   async function auth(name: string, date: string, number: string) {
     try {
       const businesses = [
@@ -59,17 +64,18 @@ export default function SellerAuth() {
         data: { businesses },
       });
 
+      // 테스트 김형준 2013 04 01 2018632486
+
       if (response.status === 200) {
         if (response?.data?.data?.[0]?.valid == '02') {
           console.log(response.data);
-          alert('확인할 수 없는 사업자입니다.');
+          toast('확인할 수 없는 사업자입니다.');
         }
         if (response?.data?.data?.[0]?.valid == '01') {
-          alert('인증되었습니다.');
-          router.push('/seller/register');
+          toast('인증되었습니다.');
+          setIsAuth(true);
         }
       } else {
-        console.log('API 요청 실패');
       }
     } catch (error) {
       console.error('API 요청 에러:', error);
