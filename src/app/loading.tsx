@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import CircleLoader from 'react-spinners/CircleLoader';
+import GridLoader from 'react-spinners/GridLoader';
 
 const override: CSSProperties = {
   display: 'block',
@@ -11,7 +11,7 @@ export default function Loading() {
   return (
     <div className="flex h-[60vh] justify-center items-center">
       <div>
-        <CircleLoader size={100} color="#36d7b7" cssOverride={override} />
+        <GridLoader size={130} color="#4ade80" cssOverride={override} />
       </div>
     </div>
   );
