@@ -1,21 +1,33 @@
+"use client"
 import { subscribeUserType } from '@/model/mypage';
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent, useContext } from 'react'
 import Image from 'next/image';
 import styles from '../Scrollbar.module.css';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { getSubscribeList } from '@/service/api/subscribe';
+import { AuthContext } from '@/context/AuthContext';
 
 type Props = {
-    subscribeUsers: subscribeUserType[];
     selected: string;
     selectNickname: Function;
 };
 
 export default function SubscribeScroll({
-    subscribeUsers, selected, selectNickname
+    selected, selectNickname
 }: Props) {
+  
+  const { user } = useContext(AuthContext);
+
+    const { data: subscribeUsers }: UseQueryResult<subscribeUserType> = useQuery({
+      queryKey: ['subscribeUsers'],
+      queryFn: () => getSubscribeList(user?.userId),
+    });
+  
 
     const [isDragging, setIsDragging] = useState(false);
     const [startPos, setStartPos] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+  
     const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
       setIsDragging(true);
       setStartPos(e.clientX);
@@ -29,30 +41,30 @@ export default function SubscribeScroll({
     const handleMouseUp = () => {
       setIsDragging(false);
     };
-    const handleMouseLeave = () => {
-      setIsDragging(false);
-    };
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
 
   return (
     <div className={`${styles.scroll} flex items-center overflow-x-scroll place-items-center mt-12`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}>
-        {subscribeUsers.map((subscribeUser:subscribeUserType, index) => (
+      onMouseLeave={handleMouseLeave}>
+        {subscribeUsers?.subscribeResponseList?.map((subscribeUser, index) => (
                 <div
-                    className={`${selected===subscribeUser.nickname ? '' : 'hover:opacity-80 opacity-30'} px-4 select-none cursor-pointer`}
-                    onClick={()=>selectNickname(subscribeUser.nickname)}
+                    className={`${selected===subscribeUser.userId ? '' : 'hover:opacity-80 opacity-30'} px-4 select-none cursor-pointer`}
+                    onClick={()=>selectNickname(subscribeUser.userId)}
                     key={index}>
                       <Image
-                      src={subscribeUser.img}
+                      src={subscribeUser.image}
                       width={200}
                       height={200}
-                      alt={'UserImg' + `${subscribeUser.nickname}`}
+                      alt={'UserImg' + `${subscribeUser.userId}`}
                       className="h-48 w-48 object-cover rounded-full pointer-events-none"
                       />
                       <p className="truncate text-2xl w-48 font-bold text-cente my-4 text-center select-none">
-                        {subscribeUser.nickname}
+                        {subscribeUser.nickName}
                       </p>
                 </div>
         ))}
