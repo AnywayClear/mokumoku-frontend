@@ -104,7 +104,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
           </div>
         </div>
       </section>
-      <section className="w-full">
+      <section className="w-full mt-10">
         <p className="font-bold">경매 목록</p>
         <ProduceAuctionList id={produce?.id} status={produce?.status} />
       </section>
