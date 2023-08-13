@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import QueryProvider from '@/context/QueryProvider';
 import RecoilProvider from '@/context/RecoilProvider';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer';
 import dynamic from 'next/dynamic';
@@ -53,15 +54,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={spokaFont.className}>
-      <body className="w-full flex flex-col min-h-screen max-w-screen-xl mx-auto">
+    <html lang="ko" className={spokaFont.className}>
+      <body className="overflow-hidden m-0 p-0 ">
         <QueryProvider>
           <AuthContextProvider>
             <RecoilProvider>
               <ToastContainer />
-              <Header />
-              <main className="grow">{children}</main>
-              <Footer />
+              <div className="w-full overflow-x-auto fixed top-0 left-0  h-screen ">
+                <div className="flex flex-col w-[1340px] min-h-screen items-center mx-auto">
+                  <Header />
+                  <main className="grow w-[1280px]">{children}</main>
+                  <Footer />
+                </div>
+              </div>
             </RecoilProvider>
           </AuthContextProvider>
         </QueryProvider>
