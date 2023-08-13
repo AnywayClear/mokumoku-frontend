@@ -1,9 +1,8 @@
 'use client';
-import Image from 'next/image';
 import { useState } from 'react';
 import SubscribeScroll from './SubsribeScroll';
 import { subscribeUserType } from '@/model/mypage';
-import SearchTab from '../searchTab';
+import SearchTab from '../../searchTab/searchTab';
 import SubscribeRow from './SubscribeRow';
 
 type colType = { name: string; flex: string };
@@ -46,7 +45,6 @@ type rowType = {
 };
 
 export default function SubscribeList() {
-
   const [selectedNickname, setSelectedNickname] = useState('');
 
   const rows: rowType[] = [
@@ -67,7 +65,7 @@ export default function SubscribeList() {
       price: 13000,
       date: '2023-07-28',
       state: '경매완료',
-    }
+    },
   ];
 
   const subscribeUsers: subscribeUserType[] = [
@@ -79,15 +77,15 @@ export default function SubscribeList() {
       img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
       nickname: '모쿠모쿠공식판매스토어eeee',
     },
-    
   ];
-
-  
-
 
   return (
     <div className="mb-20">
-      <SubscribeScroll subscribeUsers={subscribeUsers} selected={selectedNickname} selectNickname={setSelectedNickname}/>
+      <SubscribeScroll
+        subscribeUsers={subscribeUsers}
+        selected={selectedNickname}
+        selectNickname={setSelectedNickname}
+      />
       <SearchTab tabType={3} />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
@@ -100,7 +98,9 @@ export default function SubscribeList() {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => <SubscribeRow row={row} key={index} />)}
+          {rows.map((row, index) => (
+            <SubscribeRow row={row} key={index} />
+          ))}
         </tbody>
       </table>
     </div>

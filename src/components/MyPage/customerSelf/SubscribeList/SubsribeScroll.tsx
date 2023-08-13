@@ -1,7 +1,7 @@
 import { subscribeUserType } from '@/model/mypage';
 import React, { useState, MouseEvent } from 'react'
 import Image from 'next/image';
-import styles from './Scrollbar.module.css'
+import styles from '../Scrollbar.module.css';
 
 type Props = {
     subscribeUsers: subscribeUserType[];
