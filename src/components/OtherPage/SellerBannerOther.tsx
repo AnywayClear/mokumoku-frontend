@@ -8,7 +8,7 @@ import { userData } from "@/model/user";
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/context/AuthContext";
 import { useContext, useState } from "react";
-import { doSubscribe, hasSubscribed } from "@/service/api/subscribe";
+import { cancelSubscribe, doSubscribe, hasSubscribed } from "@/service/api/subscribe";
 
 const titleClass = "font-bold text-xl mt-2";
 const contentClass = "text-xl";
@@ -25,11 +25,19 @@ export default function SellerBannerOther({ sellerInfo }: Props) {
     
     const { data: isSubscribed }: UseQueryResult<boolean> = useQuery({
         queryKey: ['isSubscribed'],
-        queryFn: () => hasSubscribed(sellerInfo?.userId),
+        queryFn: () => hasSubscribed(sellerInfo?.userId||""),
     });
 
-    const subscribe = useMutation(() => doSubscribe(sellerInfo?.userId, user?.userId), {
+    const subscribe = useMutation(() => doSubscribe(sellerInfo?.userId||""), {
         onSuccess: () => {
+            console.log("구독 성공");
+            queryClient.invalidateQueries({ queryKey: ['isSubscribed'] })
+        },
+    });
+
+    const cancelsubscribe = useMutation(() => cancelSubscribe(sellerInfo?.userId||""), {
+        onSuccess: () => {
+            console.log("캔슬 성공");
             queryClient.invalidateQueries({ queryKey: ['isSubscribed'] })
         },
     });
@@ -46,7 +54,7 @@ export default function SellerBannerOther({ sellerInfo }: Props) {
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독하기</p>
                             </button> :
-                            <button className="bg-black hover:bg-neutral-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => console.log("구독취소")}>
+                            <button className="bg-black hover:bg-neutral-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => cancelsubscribe}>
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독취소</p>
                             </button>)
