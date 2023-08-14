@@ -9,6 +9,14 @@ const nextConfig = {
       'i.ibb.co',
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/",
+        destination: process.env.NEXT_PUBLIC_BACKEND_URL
+      }
+    ]
+  }
 };
 
 module.exports = nextConfig;
