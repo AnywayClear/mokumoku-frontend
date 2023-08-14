@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import Image from 'next/image';
 import { Produce, ProduceList } from '@/model/produce';
@@ -7,6 +8,7 @@ import { useRecoilState } from 'recoil';
 import { searchState } from '@/store/mypage';
 import { searchType } from '@/model/mypage';
 import { getProduceList2 } from '@/service/api/produce';
+import Link from 'next/link';
 
   
 type Props = {
@@ -26,7 +28,7 @@ export default function SubscribeRow({ sellerId }: Props) {
     <>
         {   produceList?.data?.map((produce, index) => (
                 produce.auctionResponseList.map((auction, index2) => (
-                        <tr className="border-y text-lg">
+                        <tr key={index*10+index2} className="border-y text-lg">
                             <td>
                                 {produce.image !== undefined ? (
                                     <Image
@@ -39,9 +41,9 @@ export default function SubscribeRow({ sellerId }: Props) {
                                 ) : null}
                             </td>
                             <td>
-                            <a href="#">
+                            <Link href={`/product/${produce.id}`}>
                                 <p className="px-6 py-6 underline truncate hover:opacity-70">{produce.name}</p>
-                            </a>
+                            </Link>
                             </td>
                             <td><p>{produce.ea}</p></td>
                             <td><p>{dateToString(auction.updatedAt)}</p></td>
