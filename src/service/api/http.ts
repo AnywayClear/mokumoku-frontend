@@ -11,7 +11,7 @@ const axios = Axios.create({
   // },
 });
 
-const getConfig = () => {
+const getConfig = (params = {}) => {
   return {
     headers: {
       Authorization:
@@ -20,22 +20,24 @@ const getConfig = () => {
           : null,
       'Content-Type': 'application/json',
     },
+    params: {
+      ...params,
+    },
   };
 };
 
 axios.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response.status === 401) {
-      // console.log(error);
     }
 
     return Promise.reject(error);
-  }
-)
+  },
+);
 
-export const get = async (url: string) => {
-  const res = await axios.get<Response>(getUrl(url), getConfig());
+export const get = async (url: string, query = {}) => {
+  const res = await axios.get<Response>(getUrl(url), getConfig(query));
   return res.data;
 };
 

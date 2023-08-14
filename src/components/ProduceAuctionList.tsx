@@ -66,7 +66,9 @@ type Props = {
 };
 
 export default function ProduceAuctionList({ id, status }: Props) {
-  const [refetchTime, setRefetchTime] = useState<number>(20 * 1000);
+  const [refetchTime, setRefetchTime] = useState<number>(
+    status ? 1000 : 20 * 1000,
+  );
   const { data: auctionList }: UseQueryResult<AuctionList> = useQuery({
     queryKey: ['auctionList', id],
     queryFn: () => getAuctionList(id),
@@ -75,14 +77,13 @@ export default function ProduceAuctionList({ id, status }: Props) {
   });
 
   useEffect(() => {
-    setRefetchTime(status === 1 ? 1000 : 20 * 1000);
+    setRefetchTime(status ? 1000 : 20 * 1000);
   }, [status]);
 
   return (
-    // <ul role="list" className="divide-y divide-gray-100">
     <ul role="list" className="flex flex-wrap gap-20 justify-center my-4">
       {auctionList?.auctionResponseList?.map((auction) => (
-        <ProduceAuction key={auction.id} auction={auction} />
+        <ProduceAuction key={auction.id} auction={auction} produceStatus={status} />
       ))}
     </ul>
   );
