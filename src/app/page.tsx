@@ -12,6 +12,7 @@ import { Carousel } from 'react-responsive-carousel';
 import MainBoxImage from '../../public/images/main/main_box.svg';
 import MainDownImage from '../../public/images/main/main_down.svg';
 import MainLeafImage from '../../public/images/main/main_leaf.svg';
+import SSE from '@/components/SSE';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -112,6 +113,7 @@ export default function Home() {
           </div>
         </Carousel>
       </div>
+      <SSE />
     </>
   );
 }
