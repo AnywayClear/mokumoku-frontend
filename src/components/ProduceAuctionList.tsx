@@ -67,7 +67,7 @@ type Props = {
 
 export default function ProduceAuctionList({ id, status }: Props) {
   const [refetchTime, setRefetchTime] = useState<number>(
-    status ? 1000 : 20 * 1000,
+    status === 1 ? 1000 : 20 * 1000,
   );
   const { data: auctionList }: UseQueryResult<AuctionList> = useQuery({
     queryKey: ['auctionList', id],
@@ -77,7 +77,7 @@ export default function ProduceAuctionList({ id, status }: Props) {
   });
 
   useEffect(() => {
-    setRefetchTime(status ? 1000 : 20 * 1000);
+    setRefetchTime(status === 1 ? 1000 : 20 * 1000);
   }, [status]);
 
   return (

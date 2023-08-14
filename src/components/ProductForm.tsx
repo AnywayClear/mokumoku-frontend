@@ -39,14 +39,14 @@ const schema = yup
       .date()
       .required('필수 입력 항목입니다.')
       .typeError('시작시간을 입력해주세요.'),
-    endDate: yup
-      .date()
-      .min(
-        yup.ref('startDate'),
-        '경매 종료 시간은 경매 시작 시간보다 늦어야 합니다.',
-      )
-      .required('필수 입력 항목입니다.')
-      .typeError('종료시간을 입력해주세요.'),
+    // endDate: yup
+    //   .date()
+    //   .min(
+    //     yup.ref('startDate'),
+    //     '경매 종료 시간은 경매 시작 시간보다 늦어야 합니다.',
+    //   )
+    //   .required('필수 입력 항목입니다.')
+    //   .typeError('종료시간을 입력해주세요.'),
     ea: yup
       .number()
       .min(1, '개수는 1개 이상이어야 합니다.')
@@ -61,7 +61,7 @@ type Inputs = {
   startPrice: number;
   kg: number;
   startDate: Date;
-  endDate: Date;
+  // endDate: Date;
   ea: number;
 };
 
@@ -156,7 +156,7 @@ export default function ProductForm() {
     const newData = {
       ...data,
       startDate: dayjs(data.startDate).format('YYYY-MM-DDTHH:mm:ss'),
-      endDate: dayjs(data.endDate).format('YYYY-MM-DDTHH:mm:ss'),
+      // endDate: dayjs(data.endDate).format('YYYY-MM-DDTHH:mm:ss'),
       image: image.Location,
     };
     mutation.mutate(newData);
@@ -274,7 +274,7 @@ export default function ProductForm() {
           <p className={ERROR_STYLE}>{errors.startDate?.message}</p>
         </div>
       </div>
-      <div className={WRAPPER_STYLE}>
+      {/* <div className={WRAPPER_STYLE}>
         <label className={LABEL_STYLE}>경매 종료 시간</label>
         <div className={WRAPPER_INPUT_STYLE}>
           <input
@@ -284,7 +284,7 @@ export default function ProductForm() {
           />
           <p className={ERROR_STYLE}>{errors.endDate?.message}</p>
         </div>
-      </div>
+      </div> */}
       <div className="text-center pb-6">
         <Button size="large" disabled={isSubmitting}>
           제출

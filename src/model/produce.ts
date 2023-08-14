@@ -27,7 +27,7 @@ export type PostProduce = {
   startPrice: number;
   kg: number;
   startDate: string;
-  endDate: string;
+  // endDate: string;
   ea: number;
 };
 

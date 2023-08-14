@@ -93,7 +93,7 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
             <p className="text-sm font-semibold leading-6 text-gray-900">
               {'남은시간 :'}
             </p>
-            {!auction.status ? (
+            {produceStatus !== 1 ? (
               <p className="text-sm font-semibold leading-6 text-gray-900">
                 {`5분 0초`}
               </p>
@@ -105,7 +105,11 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
       </div>
 
       <div className="flex flex-col justify-center">
-        {produceStatus !== 2 ? (
+        {auction.status ? (
+          <div className='"text-sm font-semibold leading-6 text-gray-900"'>
+            {`최종 입찰가 :  ${auction.price}원`}
+          </div>
+        ) : (
           <>
             <label
               htmlFor="hi"
@@ -136,10 +140,6 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
               ))}
             </div>
           </>
-        ) : (
-          <div className='"text-sm font-semibold leading-6 text-gray-900"'>
-            {`최종 입찰가 :  ${auction.price}원`}
-          </div>
         )}
       </div>
 
@@ -148,29 +148,29 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
           <div className="mt-1 flex items-center gap-x-1.5">
             <div
               className={`flex-none rounded-full ${
-                produceStatus === 0
+                auction.status
+                  ? 'bg-red-500/20'
+                  : produceStatus === 0
                   ? 'bg-yellow-500/20'
-                  : produceStatus === 1
-                  ? 'bg-emerald-500/20'
-                  : 'bg-red-500/20'
+                  : 'bg-emerald-500/20'
               } p-1`}
             >
               <div
                 className={`h-1.5 w-1.5 rounded-full ${
-                  produceStatus === 0
+                  auction.status
+                    ? 'bg-red-500'
+                    : produceStatus === 0
                     ? 'bg-yellow-500'
-                    : produceStatus === 1
-                    ? 'bg-emerald-500'
-                    : 'bg-red-500'
+                    : 'bg-emerald-500'
                 }`}
               />
             </div>
             <p className="text-xs leading-5 text-gray-500">
-              {produceStatus === 0
+              {auction.status
+                ? '종료'
+                : produceStatus === 0
                 ? '대기중'
-                : produceStatus === 1
-                ? '경매중'
-                : '종료'}
+                : '경매중'}
             </p>
           </div>
         </div>
