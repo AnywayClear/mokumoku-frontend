@@ -68,11 +68,13 @@ export default function SellerAuctionList({slug}: Props) {
             </tr>
           </thead>
           <tbody>
-            {produceList?.data?.map((produce, index) => (
+            {produceList?.data.length!==0&&produceList!==undefined?(produceList?.data?.map((produce, index) => (
               produce.auctionResponseList.map((auction, index2) => (
                 <SellerAuctionRow key={index2} produce={produce} auction={auction} />
               ))
-            ))}
+            ))):
+            <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>
+          }
           </tbody>
         </table>
       </div>

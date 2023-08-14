@@ -26,13 +26,14 @@ export default function SubscribeRow({ sellerId }: Props) {
 
     return (
     <>
-        {   produceList?.data?.map((produce, index) => (
+        {   (produceList?.data.length!== 0 && produceList)?
+                (produceList?.data?.map((produce, index) => (
                 produce.auctionResponseList.map((auction, index2) => (
                         <tr key={index*10+index2} className="border-y text-lg">
                             <td>
                                 {produce.image !== undefined ? (
                                     <Image
-                                    src={produce.image}
+                                    src={produce.image||"https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"}
                                     alt="상품이미지"
                                     width={300}
                                     height={300}
@@ -51,7 +52,8 @@ export default function SubscribeRow({ sellerId }: Props) {
                             <td><p>{auction.price}</p></td>
                         </tr>
                     
-           ))))
+           ))))):
+           <tr className='h-32'><td className="text-xl font-semibold" colSpan={6}>검색된 게시물이 없습니다.</td></tr>
         }
     </>
     );
