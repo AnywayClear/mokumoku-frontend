@@ -2,6 +2,7 @@
 
 import styled from '@emotion/styled';
 import { motion, useAnimation } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -45,10 +46,10 @@ export default function Search() {
   const [searchOpen, setSearchOpen] = useState(false);
   const inputAnimation = useAnimation();
   const { register, handleSubmit } = useForm<IForm>();
+  const router = useRouter();
 
   const onValid = (data: IForm) => {
-    console.log(data);
-    // navigate(`/search?keyword=${data.keyword}`);
+    router.push(`/product?name=${data.keyword}`);
   };
   const toggleSearch = () => {
     if (searchOpen) {

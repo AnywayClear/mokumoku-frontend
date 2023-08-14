@@ -47,7 +47,7 @@ const topButton: topButtonData[] = [
 
 export default function Header() {
   return (
-    <header className="m-4 ml-0">
+    <header className="m-4 ml-0 w-[1280px]">
       <section className="flex justify-between items-center">
         <Link href={'/'}>
           <Image alt="MokuMoku" src={LogoImage} />
@@ -67,7 +67,7 @@ export default function Header() {
           <LoginButton />
         </nav>
       </section>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ml-3">
         <section className="flex gap-6 m-6 ml-0">
           {menu.map(({ title, link }, index) => (
             <Link key={index} href={link}>

@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'thirdly';
+  variant?: 'primary' | 'secondary' | 'thirdly' | 'fourthly';
   size?: 'small' | 'medium' | 'large';
 }
 
@@ -48,6 +48,13 @@ const TYPE_VARIANTS = {
     backgroundColor: '#d1d5db',
     '&:hover': {
       backgroundColor: '#d1d5db',
+    },
+  },
+  fourthly: {
+    color: '#030712',
+    backgroundColor: '#fde047',
+    '&:hover': {
+      backgroundColor: '#fde047',
     },
   }
 };

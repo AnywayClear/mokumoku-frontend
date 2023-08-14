@@ -48,7 +48,8 @@ export default function PayPage() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
   });
@@ -87,14 +88,24 @@ export default function PayPage() {
       <div>
         <p>현재 포인트</p>
       </div>
-      <form
-        className="flex flex-col w-9/12 mt-10"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+
+      <div className="flex gap-2">
+        <div>
+          <Image alt="pay" src={PayImage} />
+        </div>
+        {[5000, 10000, 20000, 50000].map((charge, index) => (
+          <Button key={index} size="small" variant="fourthly">
+            {charge}
+          </Button>
+        ))}
+      </div>
+
+      <form className="flex flex-col w-9/12" onSubmit={handleSubmit(onSubmit)}>
         <div className={WRAPPER_STYLE}>
-          <div>
-            <Image alt="pay" src={PayImage} />
-          </div>
+          <p className="text-sm font-semibold leading-6 text-gray-900 pt-2">
+            충전 금액
+          </p>
+
           <div className={WRAPPER_INPUT_STYLE}>
             <input
               type="number"
@@ -106,7 +117,9 @@ export default function PayPage() {
           </div>
         </div>
         <div className="text-center pb-6">
-          <Button size="large">충전하기</Button>
+          <Button size="large" variant="fourthly" disabled={isSubmitting}>
+            충전하기
+          </Button>
         </div>
       </form>
     </div>

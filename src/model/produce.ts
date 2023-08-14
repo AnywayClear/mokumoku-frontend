@@ -17,6 +17,7 @@ export type Produce = {
   status: number;
   dibNum: number;
   auctionResponseList: Auction[];
+  sellerImage: string;
 };
 
 export type PostProduce = {

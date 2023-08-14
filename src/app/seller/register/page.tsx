@@ -3,13 +3,16 @@
 import Uploader from '@/components/Uploader';
 import { AuthContext } from '@/context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation } from '@tanstack/react-query';
+import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
 import { KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { patch } from '@/service/api/http';
 import { toast } from 'react-toastify';
 import AWS from 'aws-sdk';
+import SellerAuth from '@/components/SellerAuth';
+import { getUserInfo } from '@/service/api/user';
+import { userData } from '@/model/user';
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs w-80 align-middle mx-auto';
@@ -46,6 +49,7 @@ type Inputs = {
 };
 
 export default function SellerRegister() {
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
   const { user } = useContext(AuthContext);
 
@@ -109,6 +113,7 @@ export default function SellerRegister() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -122,69 +127,87 @@ export default function SellerRegister() {
     resolver: yupResolver(schema),
   });
 
+  const { data: userData }: UseQueryResult<userData> = useQuery({
+    queryKey: ['userData'],
+    queryFn: () => getUserInfo(user?.userId ?? ''),
+    enabled: !!user?.userId,
+  });
+
+  useEffect(() => {
+    if (userData?.nickname) setValue('nickname', userData.nickname);
+  }, [setValue, userData?.nickname]);
+
   const checkKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter') e.preventDefault();
   };
 
   return (
-    <form
-      className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center"
-      onSubmit={handleSubmit(onSubmit)}
-      onKeyDown={checkKeyDown}
-    >
-      <h2 className="text-2xl font-extrabold text-center">판매자 정보 등록</h2>
-      <hr className="w-48 h-1 mx-auto my-4 bg-black" />
-      <Uploader onImageSelected={handleImageSelected}></Uploader>
-      <div className={WRAPPER_INPUT_STYLE}>
-        <input
-          className={NICK_STYLE}
-          placeholder="닉네임"
-          {...register('nickname')}
-        ></input>
-        <p className={ERROR_STYLE}>{errors.nickname?.message}</p>
-      </div>
-      <div className={WRAPPER_INPUT_STYLE}>
-        <textarea
-          className={DESC_STYLE}
-          placeholder="소개글"
-          maxLength={200}
-          {...register('description')}
-        ></textarea>
-        <div className="flex justify-center">
-          <p className="flex justify-end  w-80 ">
-            <span>{watch('description').length}</span>
-            <span>/200 자</span>
-          </p>
-        </div>
-        <p className={ERROR_STYLE}>{errors.description?.message}</p>
-      </div>
-      <div className={WRAPPER_INPUT_STYLE}>
-        <input
-          className={NICK_STYLE}
-          placeholder="위치"
-          {...register('companyAddress')}
-        ></input>
-        <p className={ERROR_STYLE}>{errors.companyAddress?.message}</p>
-      </div>
-      <div className={WRAPPER_INPUT_STYLE}>
-        <input
-          className={NICK_STYLE}
-          placeholder="사업자 등록번호"
-          {...register('companyRegistrationNumber')}
-          //value={'이전 pg에서 입력한 판매자 번호'}
-        ></input>
-      </div>
-      <div className={WRAPPER_INPUT_STYLE}>
-        <input
-          className={NICK_STYLE}
-          placeholder="판매자 전화번호"
-          {...register('phoneNumber')}
-        ></input>
-        <p className={ERROR_STYLE}>{errors.phoneNumber?.message}</p>
-      </div>
-      <button className="w-40 p-2 mt-2 bg-black text-white rounded-lg">
-        등록
-      </button>
-    </form>
+    <>
+      {!isAuth ? (
+        <SellerAuth setIsAuth={setIsAuth} />
+      ) : (
+        <form
+          className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center"
+          onSubmit={handleSubmit(onSubmit)}
+          onKeyDown={checkKeyDown}
+        >
+          <h2 className="text-2xl font-extrabold text-center">
+            판매자 정보 등록
+          </h2>
+          <hr className="w-48 h-1 mx-auto my-4 bg-black" />
+          <Uploader onImageSelected={handleImageSelected}></Uploader>
+          <div className={WRAPPER_INPUT_STYLE}>
+            <input
+              className={NICK_STYLE}
+              placeholder="닉네임"
+              {...register('nickname')}
+            ></input>
+            <p className={ERROR_STYLE}>{errors.nickname?.message}</p>
+          </div>
+          <div className={WRAPPER_INPUT_STYLE}>
+            <textarea
+              className={DESC_STYLE}
+              placeholder="소개글"
+              maxLength={200}
+              {...register('description')}
+            ></textarea>
+            <div className="flex justify-center">
+              <p className="flex justify-end  w-80 ">
+                <span>{watch('description').length}</span>
+                <span>/200 자</span>
+              </p>
+            </div>
+            <p className={ERROR_STYLE}>{errors.description?.message}</p>
+          </div>
+          <div className={WRAPPER_INPUT_STYLE}>
+            <input
+              className={NICK_STYLE}
+              placeholder="위치"
+              {...register('companyAddress')}
+            ></input>
+            <p className={ERROR_STYLE}>{errors.companyAddress?.message}</p>
+          </div>
+          <div className={WRAPPER_INPUT_STYLE}>
+            <input
+              className={NICK_STYLE}
+              placeholder="사업자 등록번호"
+              {...register('companyRegistrationNumber')}
+              //value={'이전 pg에서 입력한 판매자 번호'}
+            ></input>
+          </div>
+          <div className={WRAPPER_INPUT_STYLE}>
+            <input
+              className={NICK_STYLE}
+              placeholder="판매자 전화번호"
+              {...register('phoneNumber')}
+            ></input>
+            <p className={ERROR_STYLE}>{errors.phoneNumber?.message}</p>
+          </div>
+          <button className="w-40 p-2 mt-2 bg-black text-white rounded-lg">
+            등록
+          </button>
+        </form>
+      )}
+    </>
   );
 }
