@@ -2,24 +2,16 @@ import { Popover } from '@mui/material';
 import React, { useState, MouseEvent } from 'react';
 import Image from 'next/image';
 import ReviewPopover from './ReviewPopover';
-
+import { Auction, Produce} from '@/model/produce';
+import { dateToString } from '@/myFunc';
 type Props={
-    row:rowType;
+    produce: Produce;
+    auction: Auction;
 }
-type rowType = {
-    id:number,
-    img?:string,
-    title:string,
-    unit:string,
-    price:number,
-    date:string,
-    state:number,
-    review:boolean
-};
 
-const auctionStateArr = ["경매전","경매중","경매완료"]
+const auctionStateArr = ["경매전", "경매중", "경매완료"];
 
-export default function SellerAuctionRow({row}:Props) {
+export default function SellerAuctionRow({produce, auction}:Props) {
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement|null>(null);
 
@@ -34,15 +26,15 @@ export default function SellerAuctionRow({row}:Props) {
     const open = Boolean(anchorEl);
 
   return (
-    (<tr className="border-y text-lg">
-            <td>{row.img !== undefined ? 
-            <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
-            <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{row.title}</p></a></td>
-            <td><p>{row.unit}</p></td>
-            <td><p>{row.price}</p></td>
-            <td><p>{row.date}</p></td>
-            <td><p>{auctionStateArr[row.state]}</p></td>
-            <td>{row.review?
+        <tr className="border-y text-lg">
+          <td>
+            <Image src={produce.image?produce.image:"https://images.unsplash.com/photo-1690149347325-13435f400dd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80"} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' /></td>
+            <td><a href="#"><p className='p-6 underline truncate hover:opacity-70'>{produce.name}</p></a></td>
+            <td><p>{produce.kg}</p></td>
+            <td><p>{auction.price}</p></td>
+            <td><p>{dateToString(auction.updatedAt)}</p></td>
+            <td><p>{auctionStateArr[produce.status]}</p></td>
+            <td>{auction.status?
                 <button 
                     className='rounded-md bg-black text-white py-1 px-2 hover:opacity-70'
                     aria-owns={open ? `mouse-over-popover` : undefined}
@@ -71,8 +63,8 @@ export default function SellerAuctionRow({row}:Props) {
                 disableRestoreFocus
                 disableScrollLock={ true }
           >
-              <ReviewPopover id={row.id} />
+              <ReviewPopover id={auction.id}/>
             </Popover>
-        </tr>)
+        </tr>
   )
 }

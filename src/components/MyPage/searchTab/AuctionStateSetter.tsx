@@ -34,29 +34,33 @@ export default function AuctionStateSetter({ tabType }: Props) {
   }
 
   function changeAutionState(num: number) {
-    if (num === auctionState) {
-      setStatus((current) => ({ ...current, auctionState: -1 }));
+    if (auctionState?.includes(num)) {
+      setStatus((current) => ({ ...current, auctionState: auctionState.filter(item => item !== num) }));
     } else {
-      setStatus((current) => ({ ...current, auctionState: num }));
+      setStatus((current) => ({ ...current, auctionState: [...auctionState,num].sort()}));
     }
+    console.log(auctionState);
   }
 
   return (
     <>
       <div className="flex space-x-2">
-        {auctionStateArr.map((autcionStateArrItem, index) => (
-          <button
-            key={index}
-            className={
-              (index === auctionState ? chipStyle.on : chipStyle.off) +
-              chipStyle.common +
-              chipStyle.hover
-            }
+        {auctionStateArr.map((autcionStateArrItem, index) =>
+          (
+            <button
+              key={index}
+              className={
+                (auctionState.includes(index) ?
+                  chipStyle.on :
+                  chipStyle.off)
+                + chipStyle.common + chipStyle.hover}
             onClick={() => changeAutionState(index)}
           >
             {autcionStateArrItem}
           </button>
-        ))}
+          )
+        
+        )}
       </div>
     </>
   );

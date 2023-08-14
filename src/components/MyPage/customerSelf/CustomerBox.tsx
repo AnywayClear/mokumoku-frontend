@@ -6,15 +6,15 @@ import { tapState } from '@/store/mypage';
 
 const boxItems = [
   {
-    tag: <BoughtList />,
+    tag: <BoughtList key="0"/>,
     number: 0,
   },
   {
-    tag: <WishList />,
+    tag: <WishList key="1"/>,
     number: 1,
   },
   {
-    tag: <SubscribeList />,
+    tag: <SubscribeList key="2"/>,
     number: 2,
   },
 ];
