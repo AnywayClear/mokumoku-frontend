@@ -5,7 +5,7 @@ import { get } from '@/service/api/http';
 import { getSession, signIn, useSession } from 'next-auth/react';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, CSSProperties, useContext } from 'react';
-import CircleLoader from 'react-spinners/CircleLoader';
+import GridLoader from 'react-spinners/GridLoader';
 
 const override: CSSProperties = {
   display: 'block',
@@ -35,7 +35,7 @@ export default function Page() {
   return (
     <div className="flex h-[60vh] justify-center items-center">
       <div>
-        <CircleLoader size={100} color="#36d7b7" cssOverride={override} />
+        <GridLoader size={100} color="#4ade80" cssOverride={override} />
       </div>
     </div>
   );
