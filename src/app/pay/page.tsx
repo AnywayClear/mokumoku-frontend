@@ -41,6 +41,7 @@ export default function PayPage() {
   const { data }: any = useQuery({
     queryKey: ['point'],
     queryFn: () => getPoint(user?.userId ?? ''),
+    enabled: !!user?.userId
   });
   const router = useRouter();
 
