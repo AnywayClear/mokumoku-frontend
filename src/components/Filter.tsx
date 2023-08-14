@@ -1,10 +1,12 @@
 import { filterState } from '@/store/produce';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlineCheckSquare, AiFillCheckSquare } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 
 export default function Filter() {
   const [status, setStatus] = useRecoilState<string>(filterState);
+  const router = useRouter();
 
   const [filter, setFilter] = useState<boolean[]>([true, false, false]);
   const handleClick = (e: MouseEvent<HTMLDivElement>, index: number) => {
@@ -17,6 +19,7 @@ export default function Filter() {
 
   const handleClickReset = () => {
     setFilter([true, false, false]);
+    router.push('/product');
   };
 
   useEffect(() => {

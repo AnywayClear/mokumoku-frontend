@@ -48,7 +48,7 @@ export default function ProductCard({
       <div className="relative w-full aspect-square">
         <Image
           className="object-contain"
-          src={image ?? tempImage}
+          src={image || tempImage}
           alt="temp"
           fill
           sizes="650px"
