@@ -5,31 +5,33 @@ import { Produce } from '@/model/produce';
 import { getProduce } from '@/service/api/produce';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { dateToString } from '@/myFunc';
+import { Wish } from '@/model/wish';
+import Link from 'next/link';
 
 type Props = {
-    id: number;
+    wishItem: Wish
 }
 
-export default function WishRow({ id }: Props) {
+export default function WishRow({ wishItem }: Props) {
     
     const { data: produce }: UseQueryResult<Produce> = useQuery({
         queryKey: ['produce'],
-        queryFn: () => getProduce(id),
+        queryFn: () => getProduce(wishItem.id),
       });
 
   return (
     <>
         <tr className="border-y text-lg">
-            <td>{produce?.image !== undefined ? <Image src={produce?.image} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
+            <td>{wishItem?.image !== undefined ? <Image src={wishItem?.image} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
             <td>
-                <a href="#">
-                    <p className='px-6 underline truncate hover:opacity-70'>{produce?.name}</p>
-                </a>
+                <Link href={`/product/${wishItem.id}`}>
+                    <p className='px-6 underline truncate hover:opacity-70'>{wishItem?.title}</p>
+                </Link>
             </td>
             <td>
-                <a href="#" className='w-full h-full'>
-                    <u className="hover:opacity-70">{produce?.seller}</u>
-                </a>
+                <Link href={`otherpage/${wishItem?.userId}`}>
+                    <u className="hover:opacity-70">{wishItem?.sellerName}</u>
+                </Link>
             </td>
             <td><p>{produce?.ea}</p></td>
             <td><p>{produce?dateToString(produce.startDate):null}</p></td>

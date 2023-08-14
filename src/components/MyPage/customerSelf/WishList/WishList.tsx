@@ -1,16 +1,14 @@
 'use client';
 import { useContext, useState } from 'react';
-import { ImHeartBroken } from 'react-icons/im';
-import Image from 'next/image';
 import SearchTab from '../../searchTab/searchTab';
 import WishRow from './WishRow';
-import { ProduceList } from '@/model/produce';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getWishList } from '@/service/api/wish';
-import { AuthContext } from "@/context/AuthContext";
-
+import { AuthContext } from '@/context/AuthContext';
+import { Wish, WishListType } from '@/model/wish';
 
 type colType = { name: string; flex: string };
+
 const cols: colType[] = [
   {
     name: '상품이미지',
@@ -43,12 +41,11 @@ const cols: colType[] = [
 ];
 
 export default function WishList() {
-
   const { user } = useContext(AuthContext);
 
-  const { data: wishList }: UseQueryResult<ProduceList> = useQuery({
+  const { data: wishList }: UseQueryResult<WishListType> = useQuery({
     queryKey: ['wishList'],
-    queryFn: () => getWishList(user?.userId,0,5),
+    queryFn: () => getWishList(user?.userId, 0, 5),
   });
 
   return (
@@ -67,7 +64,7 @@ export default function WishList() {
           </thead>
           <tbody>
             {wishList?.data.map((wishItem, index) => (
-              <WishRow key={index} id={wishItem.id} />
+              <WishRow key={index} wishItem={wishItem} />
             ))}
           </tbody>
         </table>
