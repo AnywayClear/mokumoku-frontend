@@ -55,6 +55,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={spokaFont.className}>
+      <head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <body className="overflow-hidden m-0 p-0 ">
         <QueryProvider>
           <AuthContextProvider>
