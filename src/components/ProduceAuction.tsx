@@ -174,7 +174,7 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
             </p>
           </div>
         </div>
-        {auction.status && (
+        {produceStatus === 1 && (
           <Button
             onClick={() => auctionHandleClick(auction.id, watch('money'))}
           >
