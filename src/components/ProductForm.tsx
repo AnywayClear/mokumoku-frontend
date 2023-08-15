@@ -50,6 +50,7 @@ const schema = yup
     ea: yup
       .number()
       .min(1, '개수는 1개 이상이어야 합니다.')
+      .max(10, '개수는 최대 10개입니다.')
       .required('수량은 1개 이상이어야 합니다.')
       .typeError('수량을 입력해주세요.'),
   })
