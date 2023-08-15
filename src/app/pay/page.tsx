@@ -2,15 +2,22 @@
 import axios from 'axios';
 import PayImage from '../../../public/images/payment_icon_yellow_small.png';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getPoint } from '@/service/api/produce';
-import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 import { Button } from '@/components/Button';
+import { toast } from 'react-toastify';
+import { patch } from '@/service/api/http';
 
 const schema = yup
   .object({
@@ -35,15 +42,12 @@ const WRAPPER_INPUT_STYLE = '';
 const WRAPPER_STYLE = 'flex gap-4 my-4 justify-center';
 
 const ERROR_STYLE = 'text-red-500 h-4 text-xs';
-// UseQueryResult<Produce>
+
+type Point = {
+  balance: number;
+};
 export default function PayPage() {
   const { user } = useContext(AuthContext);
-  const { data }: any = useQuery({
-    queryKey: ['point'],
-    queryFn: () => getPoint(user?.userId ?? ''),
-    enabled: !!user?.userId
-  });
-  const router = useRouter();
 
   const {
     register,
@@ -54,6 +58,31 @@ export default function PayPage() {
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
   });
+  const queryClient = useQueryClient();
+
+  const { data: point }: UseQueryResult<Point> = useQuery({
+    queryKey: ['point'],
+    queryFn: () => getPoint(user?.userId ?? ''),
+    enabled: !!user?.userId,
+  });
+  const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: (data: Point) => {
+      return patch(`/api/points/${user?.userId}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['point'] });
+    },
+  });
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams?.get('pg_token')) {
+      toast.success('포인트 충전에 성공했습니다.');
+    }
+  }, [searchParams]);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const money = data.money + '';
@@ -77,6 +106,14 @@ export default function PayPage() {
         },
       })
       .then((res) => {
+        if (point) {
+          mutation.mutate({
+            balance: point.balance + data.money,
+          });
+        }
+        return res;
+      })
+      .then((res) => {
         router.push(res.data.next_redirect_pc_url);
       });
   };
@@ -87,7 +124,9 @@ export default function PayPage() {
         결제하기
       </h2>
       <div>
-        <p>현재 포인트</p>
+        <p className="text-sm font-semibold leading-6 text-gray-900 pt-2">
+          {`현재 포인트 : ${point?.balance}`}
+        </p>
       </div>
 
       <div className="flex gap-2">
