@@ -59,7 +59,7 @@ export default function SellerRegister() {
 
   const mutation = useMutation({
     mutationFn: (data: Inputs) => {
-      return patch(`/api/members/${user?.userId}`, data);
+      return patch(`/api/members`, data);
     },
     onSuccess: () => {
       toast('판매자 전환에 성공했습니다.');

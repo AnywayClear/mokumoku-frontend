@@ -9,6 +9,7 @@ import { ReactNode } from 'react';
 import LoginButton from './LoginButton';
 import Search from './Search';
 import ToMyPageButton from './ToMyPageButton';
+import ProduceRegisterButton from './ProduceRegisterButton';
 
 type menuData = {
   title: string;
@@ -37,8 +38,8 @@ type topButtonData = menuData & {
 // 로그인하고 포인트는 수정필요
 const topButton: topButtonData[] = [
   { icon: <BiCoinStack />, title: '충전하기', link: '/pay' },
-  { icon: <FaBagShopping />, title: '물품등록', link: '/product/register' },
-  { icon: <FaHeart />, title: '찜 목록', link: '/' },
+  // { icon: <FaBagShopping />, title: '물품등록', link: '/product/register' },
+  // { icon: <FaHeart />, title: '찜 목록', link: '/' },
 ];
 
 export default function Header() {
@@ -59,6 +60,7 @@ export default function Header() {
               <p>{title}</p>
             </Link>
           ))}
+          <ProduceRegisterButton />
           <ToMyPageButton />
           <LoginButton />
         </nav>
