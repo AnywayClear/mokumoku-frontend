@@ -3,7 +3,7 @@ import { Deal } from "./deal";
 export type Review = {
     id:number;
     comment: string;
-    rate: number;
+    score: number;
     img: string;
     title: string;
     unit: string;
