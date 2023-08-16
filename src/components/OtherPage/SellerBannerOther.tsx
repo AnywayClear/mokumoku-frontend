@@ -12,35 +12,32 @@ const titleClass = "font-bold text-xl mt-2";
 const contentClass = "text-xl";
 
 type Props={
-    sellerInfo : userData|undefined;
+    sellerInfo: userData | undefined;
+    slug: string;
 }
 type isSUbscribed={
     sub:boolean
 }
 
-export default function SellerBannerOther({ sellerInfo }: Props) {
+export default function SellerBannerOther({ sellerInfo, slug }: Props) {
 
     const { user } = useContext(AuthContext);
     const queryClient = useQueryClient();
     
     const { data: isSubscribed }: UseQueryResult<isSUbscribed> = useQuery({
         queryKey: ['isSubscribed'],
-        queryFn: () => hasSubscribed(sellerInfo?.userId||""),
+        queryFn: () => hasSubscribed(slug),
     });
 
-    const subscribe = useMutation(() => doSubscribe(sellerInfo?.userId||""), {
+    const subscribe = useMutation(() => doSubscribe(slug||""), {
         onSuccess: () => {
-            console.log("구독성공");
             queryClient.invalidateQueries({ queryKey: ['isSubscribed'] });
-            console.log(isSubscribed);
         },
     });
 
-    const cancelsubscribe = useMutation(() => cancelSubscribe(sellerInfo?.userId||""), {
+    const cancelsubscribe = useMutation(() => cancelSubscribe(slug||""), {
         onSuccess: () => {
-            console.log("취소성공");
             queryClient.invalidateQueries({ queryKey: ['isSubscribed'] });
-            console.log(isSubscribed);
         },
     });
 
@@ -60,7 +57,7 @@ export default function SellerBannerOther({ sellerInfo }: Props) {
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독취소</p>
                             </button>)
-                        :null}
+                        :<div className="h-10"></div>}
                         
                 </div>
                 <div className="text-left w-[29rem]">

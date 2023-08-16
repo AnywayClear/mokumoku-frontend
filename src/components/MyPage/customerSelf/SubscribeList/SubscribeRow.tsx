@@ -16,10 +16,11 @@ type Props = {
 const auctionStateArr = ['경매전', '경매중', '경매완료'];
 
 export default function SubscribeRow({ sellerId }: Props) {
-  const [{ title }] = useRecoilState<searchType>(searchState);
+  const [{ title, auctionState }] = useRecoilState<searchType>(searchState);
+  
   const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
-    queryKey: ['produceList', title, sellerId],
-    queryFn: () => getProduceList2('0,1,2', title, sellerId, 0, 10),
+    queryKey: ['produceList', title, sellerId, auctionState],
+    queryFn: () => getProduceList2(auctionState.toString(), title, sellerId, 0, 10),
   });
 
   return (
@@ -50,7 +51,7 @@ export default function SubscribeRow({ sellerId }: Props) {
                 </Link>
               </td>
               <td>
-                <p>{produce.ea}</p>
+                <p>{produce.kg}kg</p>
               </td>
               <td>
                 <p>{dateToStringDot(auction.updatedAt)}</p>

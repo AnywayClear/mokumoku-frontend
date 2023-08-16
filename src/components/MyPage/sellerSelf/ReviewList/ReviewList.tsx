@@ -1,7 +1,5 @@
 'use client';
 import * as React from 'react';
-import Image from 'next/image';
-import { BsStar, BsStarFill } from 'react-icons/bs';
 import SearchTab from '../../searchTab/searchTab';
 import ReviewRow from './ReviewRow';
 import { useContext } from 'react';
@@ -24,16 +22,19 @@ export default function ReviewList() {
     queryFn: () => getReviews(user?.userId, 0, 10,"start"),
   });
 
+  console.log(reviewList);
 
   return (
     <div className="mb-20">
-      <SearchTab tabType={2} />
+      {/* <SearchTab tabType={2} /> */}
       <table className="w-full mt-12">
-        {reviewList?.reviews?.length!==0 && reviewList?.reviews!==undefined?(reviewList?.reviews?.map((review, index) => (
+        <tbody>
+        {reviewList?.data?.length!==0 && reviewList?.data!==undefined?(reviewList?.data?.map((review, index) => (
           <ReviewRow key={index} review={review} />
         ))):
         <tr className='h-32 border-y-2'><td className="text-xl font-semibold text-center">검색된 게시물이 없습니다.</td></tr>
-      }
+          }
+        </tbody>
       </table>
     </div>
   );
