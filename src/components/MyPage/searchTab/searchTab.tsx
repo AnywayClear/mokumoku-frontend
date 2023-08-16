@@ -9,7 +9,7 @@ type Props = {
   hasDateState: boolean;
   hasNameState: boolean;
   hasOrderState: boolean;
-  auctionType: number;
+  auctionType?: number;
 };
 
 export default function SearchTab({
@@ -23,13 +23,13 @@ export default function SearchTab({
   if (tabType == 0) {
     return (
       <div className="mt-12 mb-4">
-        {hasAuctionState ? <AuctionStateSetter auctionType={auctionType} /> : null}
+        {(hasAuctionState  && auctionType!=null)? <AuctionStateSetter auctionType={auctionType} /> : null}
         <div className="flex justify-between">
           <div className="flex space-x-2 items-center">
-            <DateSetter />
+            {hasDateState ? <DateSetter /> : null}
             {hasNameState ? <NameSetter /> : null}
           </div>
-          {hasOrderState ? <OrderSetter /> : null}
+          {hasOrderState ? <OrderSetter /> : <p className='mt-8'>&nbsp;</p>}
         </div>
       </div>
     );
