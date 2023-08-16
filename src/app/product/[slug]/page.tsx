@@ -8,6 +8,7 @@ import { getProduce } from '@/service/api/produce';
 import ProduceAuctionList from '@/components/ProduceAuctionList';
 import Link from 'next/link';
 import DibButton from '@/components/DibButton';
+import ProduceReview from '@/components/ProduceReview';
 
 type Props = {
   params: {
@@ -37,7 +38,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
         <div className="basis-7/12">
           <div className="py-4 border-t-4 border-b-2 border-t-black border-b-gray-200">
             <div className="flex my-2 gap-2 items-center justify-between">
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <div className="relative aspect-square w-6 h-6">
                   <Image
                     alt="logo"
@@ -123,16 +124,8 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
         <p className="my-4 text-center">{produce?.description}</p>
       </section>
       <section className="w-full my-4">
-        <p className="font-bold">판매자 정보</p>
-        <p className="my-4 text-center">상품 설명</p>
-      </section>
-      <section className="w-full my-4">
-        <p className="font-bold">관련 상품</p>
-        <p className="my-4 text-center">상품 설명</p>
-      </section>
-      <section className="w-full my-4">
         <p className="font-bold">판매자 리뷰</p>
-        <p className="my-4 text-center">상품 설명</p>
+        <ProduceReview sellerId={produce?.sellerId || ''} />
       </section>
     </div>
   );
