@@ -43,7 +43,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
                   src={produce?.sellerImage || LogoImage}
                 />
               </div>
-              <Link href={`/otherpage/${produce?.seller}`}>
+              <Link href={`/otherpage/${produce?.sellerId}`}>
                 <p className="font-bold">{produce?.seller}</p>
               </Link>
             </div>

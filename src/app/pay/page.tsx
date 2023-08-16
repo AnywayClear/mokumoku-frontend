@@ -134,7 +134,12 @@ export default function PayPage() {
           <Image alt="pay" src={PayImage} />
         </div>
         {[5000, 10000, 20000, 50000].map((charge, index) => (
-          <Button key={index} size="small" variant="fourthly">
+          <Button
+            key={index}
+            size="small"
+            variant="fourthly"
+            onClick={() => setValue('money', charge)}
+          >
             {charge}
           </Button>
         ))}
