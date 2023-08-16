@@ -43,9 +43,11 @@ export default function ReviewList() {
     <div className="mb-20">
       <SearchTab tabType={2} />
       <table className="">
-        {reviews.map((review, index) => (
+        {reviews.length!==0 && reviews!==undefined?(reviews.map((review, index) => (
           <ReviewRow key={index} review={review} />
-        ))}
+        ))):
+        <tr className='h-32'><td className="text-xl font-semibold">검색된 게시물이 없습니다.</td></tr>
+      }
       </table>
     </div>
   );

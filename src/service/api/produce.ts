@@ -11,9 +11,11 @@ export const getProduceList = async (status: string, page = 0, name = '') => {
     name,
   };
   const res: any = await get(`/api/produces`, query);
+  // console.log(res)
   return {
     data: res.data,
-    nextPage: page + 1,
+    nextPage: page + 1 < res.pageInfo.totalPages ? page + 1 : null,
+    // nextPage: page + 1 ,
   };
 };
 
@@ -58,3 +60,9 @@ export const postAuction = async (auctionId: number, price: number) => {
 
   return res;
 };
+
+export const getProduceList2 = async (status: string | null, title: string | null, seller: string | null | undefined, page: number, size: number) => {
+  const res = await get(`/api/produces?statusNoList=${status}&page=${page}&size=${size}&userId=${seller}&filter=notAll${title?`&name=${title}`:""}`);
+  console.log("헬로우 "+ `/api/produces?statusNoList=${status}&page=${page}&size=${size}&userId=${seller}&filter=notAll${title?`&name=${title}`:""}`);
+  return res;
+}

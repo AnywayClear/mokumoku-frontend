@@ -84,17 +84,7 @@ export default function BoughtList() {
   }
 
   const rows: rowType[] = [
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title:
-        '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다eeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      deliv: '배송완료',
-      review: true,
-    },
+    
   ];
 
   return (
@@ -109,7 +99,7 @@ export default function BoughtList() {
           closeModal={closeModal}
         />
       ) : null}
-      <SearchTab tabType={1} />
+      <SearchTab tabType={2} />
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
@@ -122,9 +112,12 @@ export default function BoughtList() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row: rowType, index) => (
-              <BoughtRow row={row} key={index} openModal={openModal} />
-            ))}
+            {rows.length!=0?
+                (rows.map((row: rowType, index) => (
+                    <BoughtRow row={row} key={index} openModal={openModal} />
+              ))):
+              <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>
+              }
           </tbody>
         </table>
       </div>

@@ -1,39 +1,41 @@
 import React from 'react';
 import Image from 'next/image';
 import { ImHeartBroken } from 'react-icons/im';
-
-type rowType = {
-    id:number,
-    img?:string,
-    title:string,
-    seller:string,
-    unit:string,
-    price:number,
-    date:string
-};
+import { Produce } from '@/model/produce';
+import { getProduce } from '@/service/api/produce';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { dateToString } from '@/myFunc';
+import { Wish } from '@/model/wish';
+import Link from 'next/link';
 
 type Props = {
-    row:rowType;
+    wishItem: Wish
 }
 
-export default function WishRow({row}:Props) {
+export default function WishRow({ wishItem }: Props) {
+    
+    const { data: produce }: UseQueryResult<Produce> = useQuery({
+        queryKey: ['produce'],
+        queryFn: () => getProduce(wishItem.id),
+      });
+
   return (
     <>
         <tr className="border-y text-lg">
-            <td>{row.img !== undefined ? <Image src={row.img} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
+            <td>{wishItem?.image !== undefined ? <Image src={wishItem?.image} alt='상품이미지' width={300} height={300} className='h-32 w-80 object-cover' />:null}</td>
             <td>
-                <a href="#">
-                    <p className='px-6 underline truncate hover:opacity-70'>{row.title}</p>
-                </a>
+                <Link href={`/product/${wishItem.id}`}>
+                    <p className='px-6 underline truncate hover:opacity-70'>{wishItem?.title}</p>
+                </Link>
             </td>
             <td>
-                <a href="#" className='w-full h-full'>
-                    <u className="hover:opacity-70">{row.seller}</u>
-                </a>
+                <Link href={`otherpage/${wishItem?.userId}`}>
+                    <u className="hover:opacity-70">{wishItem?.sellerName}</u>
+                </Link>
             </td>
-            <td><p>{row.unit}</p></td>
-            <td><p>{row.date}</p></td>
-            <td><p>{row.price}</p></td>
+            <td><p>{produce?.ea}</p></td>
+            <td><p>{produce?dateToString(produce.startDate):null}</p></td>
+            <td><p>{produce?.startPrice}</p></td>
             <td>
                 <a className="hover:opacity-30 p-6" href="#">
                     <ImHeartBroken className="mx-auto"/>

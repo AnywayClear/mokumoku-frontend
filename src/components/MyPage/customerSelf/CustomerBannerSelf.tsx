@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { userData } from "@/model/user";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/service/api/user";
+import { getPoint } from "@/service/api/point";
+import { userPoint } from "@/model/point";
 
 
 
@@ -16,6 +18,12 @@ export default function CustomerBannerSelf(){
     const { data: userData }: UseQueryResult<userData> = useQuery({
         queryKey: ['userData'],
         queryFn: () => getUserInfo(user?.userId ?? ""),
+        enabled: !!user?.userId
+    });
+
+    const { data: userPoint }: UseQueryResult<userPoint> = useQuery({
+        queryKey: ['userPoint'],
+        queryFn: () => getPoint(user?.userId ?? ""),
         enabled: !!user?.userId
     });
     
@@ -30,7 +38,7 @@ export default function CustomerBannerSelf(){
                     <p className="text-5xl font-bold">{userData?.nickname ?? "닉네임이없어요"}</p>
                     <p className="pt-8 text-lg">포인트</p>
                     <div className="flex items-end">
-                        <p className="text-5xl font-bold pr-6">0</p>
+                        <p className="text-5xl font-bold pr-6">{userPoint?.balance}</p>
                         <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">충전하기</u></a>
                     </div>
                     <div className="flex pt-4">

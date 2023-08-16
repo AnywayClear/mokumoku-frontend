@@ -1,11 +1,14 @@
 'use client';
-import { useState } from 'react';
-import { ImHeartBroken } from 'react-icons/im';
-import Image from 'next/image';
+import { useContext, useState } from 'react';
 import SearchTab from '../../searchTab/searchTab';
 import WishRow from './WishRow';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { getWishList } from '@/service/api/wish';
+import { AuthContext } from '@/context/AuthContext';
+import { WishListType } from '@/model/wish';
 
 type colType = { name: string; flex: string };
+
 const cols: colType[] = [
   {
     name: '상품이미지',
@@ -37,41 +40,13 @@ const cols: colType[] = [
   },
 ];
 
-type rowType = {
-  id: number;
-  img?: string;
-  title: string;
-  seller: string;
-  unit: string;
-  price: number;
-  date: string;
-};
-
 export default function WishList() {
-  const [orderState, setOrderState] = useState('');
+  const { user } = useContext(AuthContext);
 
-  const rows: rowType[] = [
-    {
-      id: 0,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title:
-        '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다eeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      seller: '하니네팜',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title:
-        '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다eeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      seller: '하니네팜',
-    },
-  ];
+  const { data: wishList }: UseQueryResult<WishListType> = useQuery({
+    queryKey: ['wishList'],
+    queryFn: () => getWishList(user?.userId, 0, 5),
+  });
 
   return (
     <div className="mb-20">
@@ -88,9 +63,12 @@ export default function WishList() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, index) => (
-              <WishRow key={index} row={row} />
-            ))}
+            {(wishList?.data.length!==0&&wishList!==undefined)?
+              (wishList?.data.map((wishItem, index) => (
+                <WishRow key={index} wishItem={wishItem} />
+              )))
+              :
+              <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>}
           </tbody>
         </table>
       </div>
