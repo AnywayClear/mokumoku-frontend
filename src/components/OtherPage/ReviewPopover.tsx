@@ -4,16 +4,6 @@ import { getReview } from '@/service/api/review';
 import { Review } from '@/model/review';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-type reviewType = {
-    img: string,
-    title: string,
-    unit: string,
-    nickname: string,
-    content: string,
-    date: string,
-    rate: number
-};
-
 function getStar(num: number | undefined) {
     if (!num) { 
         num = 0;

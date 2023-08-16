@@ -12,6 +12,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer';
 import dynamic from 'next/dynamic';
+import SSE from '@/components/SSE';
 
 const AuthContextProvider = dynamic(
   () => import('@/context/AuthContextProvider'),
@@ -60,6 +61,7 @@ export default function RootLayout({
           <AuthContextProvider>
             <RecoilProvider>
               <ToastContainer pauseOnFocusLoss={false} />
+              {/* <SSE /> */}
               <div className="w-full overflow-x-auto fixed top-0 left-0  h-screen ">
                 <div className="flex flex-col w-[1340px] min-h-screen items-center mx-auto">
                   <Header />

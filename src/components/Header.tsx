@@ -25,12 +25,8 @@ const menu: menuData[] = [
     link: '/product',
   },
   {
-    title: '이용후기',
-    link: '/',
-  },
-  {
     title: '고객센터',
-    link: '/',
+    link: '/contact',
   },
 ];
 
@@ -63,7 +59,7 @@ export default function Header() {
               <p>{title}</p>
             </Link>
           ))}
-          <ToMyPageButton/>
+          <ToMyPageButton />
           <LoginButton />
         </nav>
       </section>

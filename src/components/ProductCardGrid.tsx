@@ -36,7 +36,7 @@ export default function ProductCardGrid() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    refetch
+    refetch,
   } = useInfiniteQuery({
     queryKey: ['produceList', status],
     queryFn: ({ pageParam = 0 }) => {
@@ -48,13 +48,13 @@ export default function ProductCardGrid() {
 
   useEffect(() => {
     refetch();
-  },[searchParams, refetch])
+  }, [searchParams, refetch]);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage, inView]);
+  }, [fetchNextPage, hasNextPage, inView]);
 
   return (
     <div>

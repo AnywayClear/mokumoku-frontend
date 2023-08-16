@@ -45,7 +45,7 @@ export default function SubscribeList() {
         selected={selectedId}
         selectNickname={setSelectedId}
       />
-      <SearchTab tabType={3} />
+      <SearchTab tabType={5} />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">

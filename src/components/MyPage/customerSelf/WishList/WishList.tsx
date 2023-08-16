@@ -5,7 +5,7 @@ import WishRow from './WishRow';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getWishList } from '@/service/api/wish';
 import { AuthContext } from '@/context/AuthContext';
-import { Wish, WishListType } from '@/model/wish';
+import { WishListType } from '@/model/wish';
 
 type colType = { name: string; flex: string };
 
@@ -48,10 +48,11 @@ export default function WishList() {
     queryFn: () => getWishList(user?.userId, 0, 5),
   });
 
+
   return (
     <div className="mb-20">
-      <SearchTab tabType={3} />
-      <div>
+      {/* <SearchTab tabType={3} /> */}
+      <div className="mt-20">
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
             <tr className="border-y">
@@ -63,9 +64,12 @@ export default function WishList() {
             </tr>
           </thead>
           <tbody>
-            {wishList?.data.map((wishItem, index) => (
-              <WishRow key={index} wishItem={wishItem} />
-            ))}
+            {(wishList?.data.length!==0&&wishList!==undefined)?
+              (wishList?.data.map((wishItem, index) => (
+                <WishRow key={index} wishItem={wishItem} />
+              )))
+              :
+              <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>}
           </tbody>
         </table>
       </div>

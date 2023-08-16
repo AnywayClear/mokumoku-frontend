@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { GrClose } from 'react-icons/gr';
 import { useState } from 'react';
 import styles from './Scrollbar.module.css';
-import { FaListCheck, FaP } from 'react-icons/fa6';
-import { type } from 'os';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postReview } from '@/service/api/review';
 
 interface review {
   id: number;
@@ -20,7 +20,7 @@ type Props = {
   deadID: number;
   title: string;
   img: string;
-  unit: string;
+  unit: number;
   price: number;
   closeModal: Function;
 };
@@ -36,18 +36,28 @@ export default function ReviewModal({
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     setValue,
     getValues,
   } = useForm<review>({ mode: 'onChange' });
+
+  const queryClient = useQueryClient();
   const [mouseDownOutside, setMouseDownOutside] = useState<boolean>(false);
   const [showRateErrMsg, setShowRateErrMsg] = useState<boolean>(true);
 
   const onSubmit: SubmitHandler<review> = (data) => {
-    console.log(typeof getValues('rate') + getValues('rate'));
+    post.mutate();
     closeModal();
   };
+
+  const post = useMutation(() => postReview(deadID,getValues('content'),getValues('rate')), {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dealList'] });
+      closeModal();
+    },
+  });
+
+
 
   const validateRate = (value: number | null) => {
     if (value === null) {
@@ -99,7 +109,7 @@ export default function ReviewModal({
           <div className="w-[400px] flex flex-col justify-around py-4">
             <p className="text-2xl font-semibold truncate">{title}</p>
             <p className="text-lg text-gray-500">
-              [{unit} {price}원]
+              [{unit}kg {price}원]
             </p>
           </div>
         </div>
@@ -111,6 +121,7 @@ export default function ReviewModal({
           <p className="font-semibold text-2xl mb-2">평점을 남겨주세요!</p>
           <Rating
             name="rates"
+            size="large"
             onChange={(event, newValue) => {
               console.log('새 밸류' + newValue);
               if (newValue !== null) {
@@ -121,7 +132,6 @@ export default function ReviewModal({
                 setShowRateErrMsg(true);
               }
             }}
-            className="text-5xl"
           />
           <input
             {...register('rate', { required: true, validate: validateRate })}
@@ -130,7 +140,7 @@ export default function ReviewModal({
           ></input>
           {errors.rate &&
             (errors.rate.type === 'required' ||
-            errors.rate.type === 'validate') &&
+              errors.rate.type === 'validate') &&
             showRateErrMsg && (
               <p className="text-red-500">평점을 입력해주세요.</p>
             )}
@@ -139,7 +149,11 @@ export default function ReviewModal({
             좋았던 점을 설명해주세요!
           </p>
           <textarea
-            {...register('content', { required: true , minLength:10, maxLength:200})}
+            {...register('content', {
+              required: true,
+              minLength: 10,
+              maxLength: 200,
+            })}
             placeholder="좋았던 점에 대해 글을 남겨주세요 (최소 10자)"
             className="bg-gray-100 w-5/6 h-28 mx-10 text-xl mb-2 resize-none"
           />

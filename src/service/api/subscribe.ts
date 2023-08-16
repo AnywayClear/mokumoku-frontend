@@ -1,16 +1,17 @@
-import { get, post, put } from './http';
+import { get, post, put , del} from './http';
 
-export const hasSubscribed = async(sellerId: string|null|undefined)=>{
+export const hasSubscribed = async(sellerId: string|undefined)=>{
     const res = await get(`/api/subscribes/${sellerId}/member`);
     return res;
 }
 
-export const doSubscribe = async(sellerId: string|null|undefined, consumerId: string|null|undefined)=>{
-    const data = {
-        consumerId : consumerId,
-        sellerId : sellerId
-    }
-    const res = await post(`/api/subscribes`,data);
+export const doSubscribe = async(sellerId: string|undefined)=>{
+    const res = await get(`/api/subscribes/${sellerId}/subscribe`);
+    return res;
+}
+
+export const cancelSubscribe = async(sellerId: string|undefined)=>{
+    const res = await del(`/api/subscribes/${sellerId}`);
     return res;
 }
 

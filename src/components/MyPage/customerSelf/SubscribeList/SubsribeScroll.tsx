@@ -25,6 +25,7 @@ export default function SubscribeScroll({
   
 
     const [isDragging, setIsDragging] = useState(false);
+    const [endPos, setEndPos] = useState(0);
     const [startPos, setStartPos] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
   
@@ -32,29 +33,37 @@ export default function SubscribeScroll({
       setIsDragging(true);
       setStartPos(e.clientX);
       setScrollLeft(e.currentTarget.scrollLeft);
+      console.log(e.clientX);
     };
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
       if (!isDragging) return;
       const delta = e.clientX - startPos;
       e.currentTarget.scrollLeft = scrollLeft - delta;
     };
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: MouseEvent<HTMLDivElement>) => {
       setIsDragging(false);
+      setEndPos(e.clientX);
     };
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
     setIsDragging(false);
+    setEndPos(e.clientX);
+    
   };
 
   return (
-    <div className={`${styles.scroll} flex items-center overflow-x-scroll place-items-center mt-12`}
+    <div className={`${styles.scroll } flex items-center overflow-x-scroll place-items-center mt-12 select-none`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}>
-        {subscribeUsers?.subscribeResponseList?.map((subscribeUser, index) => (
+        onMouseLeave={handleMouseLeave}>
+        {subscribeUsers?.subscribeResponseList.length!==0?(subscribeUsers?.subscribeResponseList?.map((subscribeUser, index) => (
                 <div
                     className={`${selected===subscribeUser.userId ? '' : 'hover:opacity-80 opacity-30'} px-4 select-none cursor-pointer`}
-                    onClick={()=>selectNickname(subscribeUser.userId)}
+                    onClick={()=>{
+                      if(startPos-endPos<30){
+                        selectNickname(subscribeUser.userId);
+                      }
+                    }}
                     key={index}>
                       <Image
                       src={subscribeUser.image}
@@ -67,7 +76,9 @@ export default function SubscribeScroll({
                         {subscribeUser.nickName}
                       </p>
                 </div>
-        ))}
+        ))):
+        <p>없엉...</p>
+        }
       
     </div>
   )

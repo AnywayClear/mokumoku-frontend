@@ -19,25 +19,40 @@ const chipStyle: chipStyleType = {
 };
 
 type Props = {
-  tabType: number;
+  auctionType: number;
 };
 
-export default function AuctionStateSetter({ tabType }: Props) {
+export default function AuctionStateSetter({ auctionType }: Props) {
   const [{ auctionState }, setStatus] = useRecoilState<searchType>(searchState);
 
   let auctionStateArr: string[] = [];
 
-  if (tabType == 0) {
+  if (auctionType == 0) {
     auctionStateArr = ['배송전', '배송중', '배송완료'];
-  } else if (tabType == 1) {
+  } else if (auctionType == 1) {
     auctionStateArr = ['경매전', '경매중', '경매후'];
+  } else if (auctionType == 2) {
+    auctionStateArr = ['경매전', '경매중', '경매후', '결제완료'];
   }
 
   function changeAutionState(num: number) {
-    if (auctionState?.includes(num)) {
-      setStatus((current) => ({ ...current, auctionState: auctionState.filter(item => item !== num) }));
+    if (num === 3) {
+      setStatus((current) => ({
+        ...current,
+        auctionState: [3],
+      }));
     } else {
-      setStatus((current) => ({ ...current, auctionState: [...auctionState,num].sort()}));
+      if (auctionState?.includes(num)) {
+        setStatus((current) => ({
+          ...current,
+          auctionState: auctionState.filter((item) => item !== num),
+        }));
+      } else {
+        setStatus((current) => ({
+          ...current,
+          auctionState: [...auctionState, num].sort(),
+        }));
+      }
     }
     console.log(auctionState);
   }
@@ -45,22 +60,19 @@ export default function AuctionStateSetter({ tabType }: Props) {
   return (
     <>
       <div className="flex space-x-2">
-        {auctionStateArr.map((autcionStateArrItem, index) =>
-          (
-            <button
-              key={index}
-              className={
-                (auctionState.includes(index) ?
-                  chipStyle.on :
-                  chipStyle.off)
-                + chipStyle.common + chipStyle.hover}
+        {auctionStateArr.map((autcionStateArrItem, index) => (
+          <button
+            key={index}
+            className={
+              (auctionState.includes(index) ? chipStyle.on : chipStyle.off) +
+              chipStyle.common +
+              chipStyle.hover
+            }
             onClick={() => changeAutionState(index)}
           >
             {autcionStateArrItem}
           </button>
-          )
-        
-        )}
+        ))}
       </div>
     </>
   );
