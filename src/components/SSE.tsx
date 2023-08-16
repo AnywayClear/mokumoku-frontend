@@ -9,7 +9,6 @@ export default function SSE() {
   const [listening, setListening] = useState(false);
   const [data, setData] = useState({ value: 0, target: 100 });
 
-
   useEffect(() => {
     //     let eventSource: EventSource | undefined = undefined;
     const EventSource = EventSourcePolyfill || NativeEventSource;
@@ -33,9 +32,11 @@ export default function SSE() {
       const data = event.data;
       console.log(event);
 
-      toast.info(data, {
-        autoClose: false,
-      });
+      if (event.type !== 'connection') {
+        toast.info(data, {
+          autoClose: false,
+        });
+      }
       // (async () => {
       //   // 브라우저 알림
       //   const showNotification = () => {
