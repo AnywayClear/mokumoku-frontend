@@ -1,9 +1,15 @@
 'use client';
 import * as React from 'react';
-import Image from 'next/image';
-import { FcCancel } from 'react-icons/fc';
 import SearchTab from '../../searchTab/searchTab';
 import AuctionRow from './AuctionRow';
+import { getProduceList2 } from '@/service/api/produce';
+import { useRecoilState } from 'recoil';
+import { searchType } from '@/model/mypage';
+import { searchState } from '@/store/mypage';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { ProduceList } from '@/model/produce';
+import { AuthContext } from '@/context/AuthContext';
+import { useContext } from 'react';
 
 type colType = { name: string; flex: string };
 const cols: colType[] = [
@@ -33,83 +39,15 @@ const cols: colType[] = [
   },
 ];
 
-type rowType = {
-  id: number;
-  img?: string;
-  title: string;
-  unit: string;
-  price: number;
-  date: string;
-  deliv: string;
-};
-
 export default function AuctionList() {
-  const rows: rowType[] = [
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title:
-        '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다eeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      deliv: '배송완료',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '3kg',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '',
-      price: 15000,
-      date: '2023-07-28',
-      deliv: '결제하기',
-    },
-  ];
+
+  const { user } = useContext(AuthContext);
+  const [{ auctionState, title }] = useRecoilState<searchType>(searchState);
+
+  const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
+    queryKey: ['produceList',auctionState, title],
+    queryFn: () => getProduceList2(auctionState.toString(), title, user?.userId, 0, 10),
+  });
 
   return (
     <div className="mb-20">
@@ -126,9 +64,13 @@ export default function AuctionList() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, index) => (
-              <AuctionRow key={index} row={row} />
-            ))}
+            {produceList?.data.length!==0 && produceList!==undefined?(produceList?.data?.map((produce, index) => (
+              produce.auctionResponseList.map((auction, index2) => (
+                <AuctionRow key={index2} produce={produce} auction={auction} />
+              ))
+            ))):
+            <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>
+          }
           </tbody>
         </table>
       </div>

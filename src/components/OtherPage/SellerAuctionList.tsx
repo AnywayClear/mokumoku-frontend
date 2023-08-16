@@ -1,9 +1,13 @@
 'use client';
 import * as React from 'react';
 import SearchTab from '../MyPage/searchTab/searchTab';
-import { useResetRecoilState } from 'recoil';
-import { searchState } from '@/store/mypage';
+import { useRecoilState} from 'recoil';
+import { searchState} from '@/store/mypage';
 import SellerAuctionRow from './SellerAuctionRow';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { ProduceList } from '@/model/produce';
+import { getProduceList2 } from '@/service/api/produce';
+import { searchType } from '@/model/mypage';
 
 type colType = { name: string; flex: string };
 const cols: colType[] = [
@@ -20,11 +24,11 @@ const cols: colType[] = [
     flex: 'w-1/12',
   },
   {
-    name: '시작가격',
+    name: '현재금액',
     flex: 'w-1/12',
   },
   {
-    name: '경매일자',
+    name: '갱신일자',
     flex: 'w-2/12',
   },
   {
@@ -37,45 +41,17 @@ const cols: colType[] = [
   },
 ];
 
-type rowType = {
-  id: number;
-  img?: string;
-  title: string;
-  unit: string;
-  price: number;
-  date: string;
-  state: number;
-  review: boolean;
-};
+type Props = {
+  slug: string
+}
+export default function SellerAuctionList({slug}: Props) {
 
-export default function SellerAuctionList() {
-  const rows: rowType[] = [
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1689852484069-3e0fe82cc7c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80',
-      title:
-        '맛있는 감자입니다 저희는 무조건 맛있는 제품만 판매합니다eeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      unit: '1kg',
-      price: 13000,
-      date: '2023-07-28',
-      state: 2,
-      review: true,
-    },
-    {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '싱싱 야채 세트 많아요',
-      unit: '10kg',
-      price: 15000,
-      date: '2023-07-28',
-      state: 1,
-      review: true,
-    },
-  ];
+  const [{ auctionState, title }] = useRecoilState<searchType>(searchState);
 
-  const resetSearchTap = useResetRecoilState(searchState);
-
-  resetSearchTap();
+  const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
+    queryKey: ['produceList',auctionState, title],
+    queryFn: () => getProduceList2(auctionState.toString(), title, slug, 0, 10),
+  });
 
   return (
     <div className="mb-20">
@@ -92,9 +68,13 @@ export default function SellerAuctionList() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, index) => (
-              <SellerAuctionRow key={index} row={row} />
-            ))}
+            {produceList?.data.length!==0&&produceList!==undefined?(produceList?.data?.map((produce, index) => (
+              produce.auctionResponseList.map((auction, index2) => (
+                <SellerAuctionRow key={index2} produce={produce} auction={auction} />
+              ))
+            ))):
+            <tr className='h-32'><td className="text-xl font-semibold" colSpan={cols.length}>검색된 게시물이 없습니다.</td></tr>
+          }
           </tbody>
         </table>
       </div>
