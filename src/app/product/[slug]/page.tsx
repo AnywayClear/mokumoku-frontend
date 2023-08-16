@@ -7,6 +7,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getProduce } from '@/service/api/produce';
 import ProduceAuctionList from '@/components/ProduceAuctionList';
 import Link from 'next/link';
+import DibButton from '@/components/DibButton';
 
 type Props = {
   params: {
@@ -18,7 +19,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
   const { data: produce }: UseQueryResult<Produce> = useQuery({
     queryKey: ['produce', slug],
     queryFn: () => getProduce(slug),
-    refetchInterval: 5000
+    refetchInterval: 5000,
   });
 
   return (
@@ -35,17 +36,22 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
 
         <div className="basis-7/12">
           <div className="py-4 border-t-4 border-b-2 border-t-black border-b-gray-200">
-            <div className="flex my-2 gap-2 items-center">
-              <div className="relative aspect-square w-6 h-6">
-                <Image
-                  alt="logo"
-                  fill
-                  src={produce?.sellerImage || LogoImage}
-                />
+            <div className="flex my-2 gap-2 items-center justify-between">
+              <div className='flex gap-2'>
+                <div className="relative aspect-square w-6 h-6">
+                  <Image
+                    alt="logo"
+                    fill
+                    src={produce?.sellerImage || LogoImage}
+                  />
+                </div>
+                <Link href={`/otherpage/${produce?.sellerId}`}>
+                  <p className="font-bold">{produce?.seller}</p>
+                </Link>
               </div>
-              <Link href={`/otherpage/${produce?.sellerId}`}>
-                <p className="font-bold">{produce?.seller}</p>
-              </Link>
+              <div>
+                <DibButton produceId={produce?.id || 0} />
+              </div>
             </div>
 
             <div className="w-full">
