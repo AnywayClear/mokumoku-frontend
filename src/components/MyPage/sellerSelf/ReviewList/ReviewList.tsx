@@ -28,11 +28,13 @@ export default function ReviewList() {
     <div className="mb-20">
       {/* <SearchTab tabType={2} /> */}
       <table className="w-full mt-12">
+        <tbody>
         {reviewList?.data?.length!==0 && reviewList?.data!==undefined?(reviewList?.data?.map((review, index) => (
           <ReviewRow key={index} review={review} />
         ))):
         <tr className='h-32 border-y-2'><td className="text-xl font-semibold text-center">검색된 게시물이 없습니다.</td></tr>
-      }
+          }
+        </tbody>
       </table>
     </div>
   );
