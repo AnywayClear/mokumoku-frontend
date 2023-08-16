@@ -11,9 +11,11 @@ export const getProduceList = async (status: string, page = 0, name = '') => {
     name,
   };
   const res: any = await get(`/api/produces`, query);
+  // console.log(res)
   return {
     data: res.data,
-    nextPage: page + 1,
+    nextPage: page + 1 < res.pageInfo.totalPages ? page + 1 : null,
+    // nextPage: page + 1 ,
   };
 };
 

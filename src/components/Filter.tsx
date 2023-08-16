@@ -8,7 +8,7 @@ export default function Filter() {
   const [status, setStatus] = useRecoilState<string>(filterState);
   const router = useRouter();
 
-  const [filter, setFilter] = useState<boolean[]>([true, false, false]);
+  const [filter, setFilter] = useState<boolean[]>([true, true, true]);
   const handleClick = (e: MouseEvent<HTMLDivElement>, index: number) => {
     setFilter((prev) => {
       const newFilter = structuredClone(prev);
@@ -18,7 +18,7 @@ export default function Filter() {
   };
 
   const handleClickReset = () => {
-    setFilter([true, false, false]);
+    setFilter([true, true, true]);
     router.push('/product');
   };
 

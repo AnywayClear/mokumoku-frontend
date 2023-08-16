@@ -11,7 +11,7 @@ const axios = Axios.create({
   // },
 });
 
-const getConfig = (params = {}) => {
+export const getConfig = (params = {}) => {
   return {
     headers: {
       Authorization:
@@ -29,7 +29,7 @@ const getConfig = (params = {}) => {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
     }
 
     return Promise.reject(error);
