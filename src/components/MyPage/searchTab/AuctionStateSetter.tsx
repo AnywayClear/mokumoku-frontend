@@ -1,7 +1,8 @@
 import { searchType } from '@/model/mypage';
 import { searchState } from '@/store/mypage';
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState, useResetRecoilState } from 'recoil';
 
 type chipStyleType = {
   on: string;
@@ -23,7 +24,9 @@ type Props = {
 };
 
 export default function AuctionStateSetter({ auctionType }: Props) {
-  const [{ auctionState }, setStatus] = useRecoilState<searchType>(searchState);
+  
+  const [{ auctionState,startDateStr,endDateStr,title,orderBy, dateState }, setStatus] = useRecoilState<searchType>(searchState);
+  
 
   let auctionStateArr: string[] = [];
 
@@ -37,25 +40,35 @@ export default function AuctionStateSetter({ auctionType }: Props) {
 
   function changeAutionState(num: number) {
     if (num === 3) {
-      setStatus((current) => ({
-        ...current,
-        auctionState: [3],
-      }));
-    } else {
-      if (auctionState?.includes(num)) {
+      if (auctionState[0] === 3) {
         setStatus((current) => ({
           ...current,
-          auctionState: auctionState.filter((item) => item !== num),
+          auctionState: [0, 1, 2],
         }));
       } else {
         setStatus((current) => ({
           ...current,
-          auctionState: [...auctionState, num].sort(),
+          auctionState: [3],
         }));
       }
-    }
-    console.log(auctionState);
+      
+    } else {
+      if (auctionState?.includes(num)) {
+        setStatus((current) => ({
+          ...current,
+          auctionState: auctionState.filter((item) => item !== num && item !== 3),
+        }));
+      } else {
+        setStatus((current) => ({
+          ...current,
+          auctionState: [...auctionState.filter((item) => item !== 3), num].sort(),
+        }));
+      }
+          }
+    
   }
+ 
+  
 
   return (
     <>
