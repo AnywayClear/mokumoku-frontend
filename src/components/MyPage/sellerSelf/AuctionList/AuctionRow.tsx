@@ -25,21 +25,12 @@ export default function AuctionRow({ produce, auction }: Props) {
             />
           ) : null}
         </td>
-        <td>
-          <div className="flex items-center justify-center">
+        <td className="flex items-center justify-center">
             <Link href={`/product/${produce.id}`} className='pl-4 py-10 max-w-[85%] underline hover:opacity-70 '>
               <p className="truncate ">
                 {produce.name}
               </p>
             </Link>
-            <a
-              href="#"
-              className="pr-4 py-10 hover:opacity-70 text-sm flex items-center"
-            >
-              <p>삭제</p>
-              <FcCancel />
-            </a>
-          </div>
         </td>
         <td>
           <p>{produce.kg}kg</p>
