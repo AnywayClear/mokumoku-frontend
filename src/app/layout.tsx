@@ -61,7 +61,7 @@ export default function RootLayout({
           <AuthContextProvider>
             <RecoilProvider>
               <ToastContainer pauseOnFocusLoss={false} />
-              {/* <SSE /> */}
+              <SSE />
               <div className="w-full overflow-x-auto fixed top-0 left-0  h-screen ">
                 <div className="flex flex-col w-[1340px] min-h-screen items-center mx-auto">
                   <Header />

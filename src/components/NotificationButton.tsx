@@ -1,28 +1,36 @@
 'use client';
 
+import { AuthContext } from '@/context/AuthContext';
+import { Alarm, Message } from '@/model/alarm';
+import { getAlarmMessage } from '@/service/alarm';
 import { get } from '@/service/api/http';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import Link from 'next/link';
+import { useContext, useState } from 'react';
 
 // type : 0 - 농산물, 1 - 판매자, 2 - 낙찰
-type Notification = {
-  type: number;
-  senderId: string;
-  senderName: string;
-};
 
 export default function NotificationButton() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
 
-  const { data: produce }: UseQueryResult<Notification[]> = useQuery({
+  const { data: produce }: UseQueryResult<Message[]> = useQuery({
     queryKey: ['alarm'],
-    queryFn: () => get('/api/notifications/list'),
-
+    queryFn: async () => {
+      const res: any = await get('/api/notifications/list');
+      return res.map((el: Alarm) => getAlarmMessage(el));
+    },
+    enabled: !!user?.userId,
   });
+
+  // const messageData = getAlarmMessage(data);
+  //       toast.info(messageData.message, {
+  //         autoClose: false,
+  //       });
 
   return (
     <div className="flex justify-center">
@@ -53,109 +61,31 @@ export default function NotificationButton() {
             className="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
             style={{ width: '20rem' }}
           >
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                  alt="avatar"
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                  alt="avatar"
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                  alt="avatar"
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                  alt="avatar"
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <div className="py-2">
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                  alt="avatar"
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the{' '}
-                  <span className="font-bold text-blue-500">Upload Image</span>{' '}
-                  article. 2m
-                </p>
-              </a>
-            </div>
-            <a
+            {!!produce?.length ? (
+              produce?.map((el, index) => (
+                <Link
+                  key={index}
+                  href={el.link}
+                  className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
+                >
+                  <div>
+                    <p className="text-gray-600 text-sm mx-2">{el.message}</p>
+                    <p className="text-gray-600 text-sm mx-2">2m</p>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className='py-6'>
+                <p className="text-gray-600 text-sm mx-2">알림이 없습니다.</p>
+              </div>
+            )}
+
+            {/* <a
               href="#"
               className="block bg-gray-800 text-white text-center font-bold py-2"
             >
               See all notifications
-            </a>
+            </a> */}
           </div>
         )}
       </div>
