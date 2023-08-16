@@ -60,7 +60,7 @@ export default function SellerBannerOther({ sellerInfo }: Props) {
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독취소</p>
                             </button>)
-                        :null}
+                        :<div className="h-10"></div>}
                         
                 </div>
                 <div className="text-left w-[29rem]">
