@@ -1,21 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
 import { BsStar, BsStarFill } from 'react-icons/bs';
-
-type reviewType={
-    img: string,
-    title: string,
-    unit: string,
-    nickname: string,
-    content: string,
-    date: string,
-    rate: number
-}
+import { Review } from '@/model/review';
+import { getProduce } from '@/service/api/produce';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { Produce } from '@/model/produce';
 
 type Props = {
-    review : reviewType,
+    review : Review,
 }
 
+  
 function getStar(num:number){
     const arr = [];
     for(let i=0; i<num;i++){
@@ -28,6 +23,12 @@ function getStar(num:number){
 }
 
 export default function ReviewRow({review}:Props) {
+
+    const { data: produce }: UseQueryResult<Produce> = useQuery({
+        queryKey: ['reviewList'],
+        queryFn: () => getProduce(review.id),
+      });
+
   return (
     <>
         <tr className='border-y-2 border-neutral-300 border-collapse'>

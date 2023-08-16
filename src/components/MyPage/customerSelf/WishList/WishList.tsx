@@ -48,9 +48,10 @@ export default function WishList() {
     queryFn: () => getWishList(user?.userId, 0, 5),
   });
 
+
   return (
     <div className="mb-20">
-      <SearchTab tabType={3} />
+      {/* <SearchTab tabType={3} /> */}
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
