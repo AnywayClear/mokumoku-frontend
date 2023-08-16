@@ -1,8 +1,8 @@
 import { get, post, put , del} from './http';
 
 export const hasSubscribed = async(sellerId: string|undefined)=>{
+    console.log(sellerId);
     const res = await get(`/api/subscribes/${sellerId}/member`);
-    console.log(`has: /api/subscribes/${sellerId}/member`);
     return res;
 }
 
