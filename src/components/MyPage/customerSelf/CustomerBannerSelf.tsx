@@ -8,6 +8,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/service/api/user";
 import { getPoint } from "@/service/api/point";
 import { userPoint } from "@/model/point";
+import Link from "next/link";
 
 
 
@@ -39,10 +40,10 @@ export default function CustomerBannerSelf(){
                     <p className="pt-8 text-lg">포인트</p>
                     <div className="flex items-end">
                         <p className="text-5xl font-bold pr-6">{userPoint?.balance}</p>
-                        <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">충전하기</u></a>
+                        <Link href={`/pay`}><u className="text-xl text-stone-700 hover:opacity-70">충전하기</u></Link>
                     </div>
                     <div className="flex pt-4">
-                        <a href="#"><u className="text-xl text-stone-700 pr-4 hover:opacity-70">회원정보수정</u></a>
+                        <Link href={`/consumer/modify`}><u className="text-xl text-stone-700 pr-4 hover:opacity-70">회원정보수정</u></Link>
                         <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">회원탈퇴</u></a>
                     </div>
                     
