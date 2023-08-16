@@ -11,7 +11,11 @@ export const addWishList = async (produceId: number) => {
 };
 
 export const cancelWishList = async (produceId: number) => {
-  console.log("HAHAHAHAHAHAH"+produceId);
   const res = await del(`/api/dibs/${produceId}`);
+  return res;
+};
+
+export const hasWished = async (produceId: number) => {
+  const res = await get(`/api/dibs/${produceId}/member`);
   return res;
 };
