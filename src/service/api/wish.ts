@@ -1,15 +1,17 @@
-import { get, post, put } from './http';
+import { get, post, put ,del} from './http';
 
 export const getWishList = async (consumerId: string|undefined, page: number, size: number) => {
-  const res = await get(`/api/dibs/${consumerId}?page=${page}&size=${size}`);
+  const res = await get(`/api/dibs/user/${consumerId}?page=${page}&size=${size}`);
   return res;
 };
 
-export const addWishList = async (consumerId: string, produceId: number) => {
-    let data = {
-        consumerId: consumerId,
-        produceId: produceId
-    }
-    const res = await post(`/api/dibs`, data);
+export const addWishList = async (produceId: number) => {
+    const res = await post(`/api/dibs/${produceId}/dib`);
     return res;
+};
+
+export const cancelWishList = async (produceId: number) => {
+  console.log("HAHAHAHAHAHAH"+produceId);
+  const res = await del(`/api/dibs/${produceId}`);
+  return res;
 };
