@@ -51,7 +51,7 @@ export default function AuctionList() {
 
   return (
     <div className="mb-20">
-      <SearchTab tabType={1} />
+      <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={0} />
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">

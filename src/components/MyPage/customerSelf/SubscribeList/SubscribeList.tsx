@@ -38,14 +38,13 @@ export default function SubscribeList() {
 
   const [selectedId, setSelectedId] = useState<string>('');
   
-  
   return (
     <div className="mb-20">
       <SubscribeScroll
         selected={selectedId}
         selectNickname={setSelectedId}
       />
-      <SearchTab tabType={5} />
+      <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={1} />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">
@@ -57,7 +56,12 @@ export default function SubscribeList() {
           </tr>
         </thead>
         <tbody>
-          <SubscribeRow sellerId={selectedId} />
+          {selectedId ? <SubscribeRow sellerId={selectedId} /> :
+            <tr className="h-32">
+              <td className="text-xl font-semibold" colSpan={6}>
+                검색된 게시물이 없습니다.
+              </td>
+            </tr>}
         </tbody>
       </table>
     </div>
