@@ -6,7 +6,7 @@ export const getReview = async (id: number) => {
 };
 
 export const getReviews = async (sellerId: string|undefined, page: number, size: number, sorted: string) => { 
-  const res = await get(`/api/reviews/lists/${sellerId}?page=${page}&size=${size}&sorted=${sorted}`);
+  const res : any = await get(`/api/reviews/lists/${sellerId}?page=${page}&size=${size}&sorted=${sorted}`);
   return res;
 }
 

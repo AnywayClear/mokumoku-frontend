@@ -34,7 +34,7 @@ export default function ReviewRow({review}:Props) {
   return (
     <>
         <tr className='border-y-2 border-neutral-300 border-collapse'>
-            <td className='flex h-fit items-top my-6' >
+            <div className='flex h-fit items-top my-6' >
                 <Image className='h-40 w-60 object-cover' src={review.deal.produce.image} alt="이미지입니다." width={250} height={120}/>
                 <div className='ml-7 w-full'>
                     <div className='flex justify-between'>
@@ -59,7 +59,7 @@ export default function ReviewRow({review}:Props) {
                         <p className='text-lg text-justify'>{review.comment}</p>
                     </div>
                 </div>
-            </td>
+            </div>
             
         </tr>
     </>

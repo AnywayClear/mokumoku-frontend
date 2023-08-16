@@ -1,3 +1,4 @@
+import { pageInfo } from "./page"
 import { Produce } from "./produce"
 import { userData } from "./user"
 
@@ -11,5 +12,6 @@ export type Deal = {
     reviewed:boolean
 }
 export type DealList ={
-    data:Deal[]
+    data: Deal[],
+    pageInfo: pageInfo,
 }
