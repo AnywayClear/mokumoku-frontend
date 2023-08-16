@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FcCancel } from 'react-icons/fc';
 import { Auction, Produce } from '@/model/produce';
 import { dateToStringDot } from '@/myFunc';
+import Link from 'next/link';
 
 type Props = {
   produce: Produce;
@@ -26,12 +27,11 @@ export default function AuctionRow({ produce, auction }: Props) {
         </td>
         <td>
           <div className="flex items-center justify-center">
-            <a
-              href="#"
-              className="pl-4 py-10 max-w-[85%] underline hover:opacity-70 "
-            >
-              <p className="truncate ">{produce.name}</p>
-            </a>
+            <Link href={`/product/${produce.id}`} className='pl-4 py-10 max-w-[85%] underline hover:opacity-70 '>
+              <p className="truncate ">
+                {produce.name}
+              </p>
+            </Link>
             <a
               href="#"
               className="pr-4 py-10 hover:opacity-70 text-sm flex items-center"
@@ -42,7 +42,7 @@ export default function AuctionRow({ produce, auction }: Props) {
           </div>
         </td>
         <td>
-          <p>{produce.ea}</p>
+          <p>{produce.kg}kg</p>
         </td>
         <td>
           <p>{auction.price}</p>
@@ -51,11 +51,9 @@ export default function AuctionRow({ produce, auction }: Props) {
           <p>{dateToStringDot(auction.updatedAt)}</p>
         </td>
         <td>
-          <a href="">
-            <u className="py-10 hover:opacity-70">
-              {auctionStateArr[produce.status]}
-            </u>
-          </a>
+          <p className="py-10 hover:opacity-70">
+            {auctionStateArr[produce.status]}
+          </p>
         </td>
       </tr>
     </>

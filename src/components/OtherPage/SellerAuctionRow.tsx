@@ -4,6 +4,7 @@ import Image from 'next/image';
 import ReviewPopover from './ReviewPopover';
 import { Auction, Produce } from '@/model/produce';
 import { dateToStringDot } from '@/myFunc';
+import Link from 'next/link';
 type Props = {
   produce: Produce;
   auction: Auction;
@@ -40,11 +41,11 @@ export default function SellerAuctionRow({ produce, auction }: Props) {
         />
       </td>
       <td>
-        <a href="#">
+        <Link href={`/product/${produce.id}`}>
           <p className="p-6 underline truncate hover:opacity-70">
             {produce.name}
           </p>
-        </a>
+        </Link>
       </td>
       <td>
         <p>{produce.kg}</p>
