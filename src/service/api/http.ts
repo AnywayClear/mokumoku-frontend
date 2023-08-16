@@ -27,7 +27,12 @@ export const getConfig = (params = {}) => {
 };
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response?.headers?.newaccesstoken) {
+      localStorage.setItem("accessToken", response?.headers?.newaccesstoken);
+    }
+    return response
+  },
   (error) => {
     if (error?.response?.status === 401) {
     }

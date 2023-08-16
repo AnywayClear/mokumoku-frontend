@@ -142,7 +142,7 @@ export default function ConsumerModifyPage() {
 
   return (
     <form
-      className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center"
+      className="flex flex-col w-9/12 align-middle mx-auto justify-center items-center my-4"
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={checkKeyDown}
     >
@@ -199,13 +199,15 @@ export default function ConsumerModifyPage() {
       >
         수정완료
       </button>
-      <button
-        type="button"
-        className="text-gray-500"
-        onClick={() => router.push('/seller/register')}
-      >
-        판매자로 전환하기
-      </button>
+      {!user?.role && (
+        <button
+          type="button"
+          className="text-gray-500"
+          onClick={() => router.push('/seller/register')}
+        >
+          판매자로 전환하기
+        </button>
+      )}
     </form>
   );
 }
