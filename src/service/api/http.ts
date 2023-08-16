@@ -28,8 +28,8 @@ export const getConfig = (params = {}) => {
 
 axios.interceptors.response.use(
   (response) => {
-    if (response?.headers?.newAccessToken) {
-      localStorage.setItem("accessToken", response?.headers?.newAccessToken);
+    if (response?.headers?.newaccesstoken) {
+      localStorage.setItem("accessToken", response?.headers?.newaccesstoken);
     }
     return response
   },
