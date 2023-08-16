@@ -2,9 +2,9 @@
 import { AuthContext } from '@/context/AuthContext';
 import { useContext } from 'react';
 import MainImage from '../../public/images/main/main_top.svg';
-import MainImage2 from '../../public/images/main/main_2.jpg';
-import MainImage3 from '../../public/images/main/main_3.jpg';
-import MainImage4 from '../../public/images/main/main_4.jpg';
+import MainImage6 from '../../public/images/main/main_6.jpg';
+import MainImage7 from '../../public/images/main/main_7.jpg';
+import MainImage8 from '../../public/images/main/main_8.jpg';
 import Image from 'next/image';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
@@ -98,22 +98,18 @@ export default function Home() {
       </div>
 
       <div>
-        <Carousel infiniteLoop>
-          <div className="relative aspect-[16/7]">
-            <Image alt="2" src={MainImage2} fill />
-            <p className="legend">Legend 1</p>
+        <Carousel infiniteLoop autoPlay showStatus={false} showArrows={false}>
+          <div className="relative aspect-[16/9]">
+            <Image alt="2" src={MainImage6} fill />
           </div>
-          <div className="relative aspect-[16/7]">
-            <Image alt="3" src={MainImage3} fill />
-            <p className="legend">Legend 2</p>
+          <div className="relative aspect-[16/9]">
+            <Image alt="3" src={MainImage7} fill />
           </div>
-          <div className="relative aspect-[16/7]">
-            <Image alt="4" src={MainImage4} fill />
-            <p className="legend">Legend 3</p>
+          <div className="relative aspect-[16/9]">
+            <Image alt="4" src={MainImage8} fill />
           </div>
         </Carousel>
       </div>
-      <SSE />
     </>
   );
 }

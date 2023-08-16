@@ -7,6 +7,7 @@ export type Produce = {
   id: number;
   name: string;
   seller: string;
+  sellerId: string;
   description: string;
   image: string;
   startPrice: number;
@@ -27,7 +28,7 @@ export type PostProduce = {
   startPrice: number;
   kg: number;
   startDate: string;
-  endDate: string;
+  // endDate: string;
   ea: number;
 };
 
