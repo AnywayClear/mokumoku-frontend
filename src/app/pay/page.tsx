@@ -106,11 +106,9 @@ export default function PayPage() {
         },
       })
       .then((res) => {
-        if (point) {
-          mutation.mutate({
-            balance: point.balance + data.money,
-          });
-        }
+        mutation.mutate({
+          balance: data.money,
+        });
         return res;
       })
       .then((res) => {
