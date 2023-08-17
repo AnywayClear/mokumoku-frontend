@@ -24,15 +24,13 @@ const schema = yup
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
 
-    companyAddress: yup
-      .string()
-      .max(30, '최대 30자까지 입력 가능합니다')
+    companyAddress: yup.string().max(30, '최대 30자까지 입력 가능합니다'),
   })
   .required();
 
 type Inputs = {
   nickname: string;
-  companyAddress: string;
+  companyAddress: string | undefined;
 };
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
