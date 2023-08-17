@@ -73,8 +73,7 @@ export default function ConsumerModifyPage() {
 
   useEffect(() => {
     if (userData?.nickname) setValue('nickname', userData.nickname);
-    if (userData?.companyAddress)
-      setValue('companyAddress', userData.companyAddress);
+    if (userData?.companyAddress) setInputAddressValue(userData.companyAddress);
   }, [setValue, userData?.companyAddress, userData?.nickname]);
 
   const mutation = useMutation({
@@ -103,12 +102,12 @@ export default function ConsumerModifyPage() {
 
     console.log(image);
 
-    const newData = {
+    const newData: any = {
       ...data,
       companyAddress: `${inputAddress} ${data.companyAddress}`,
-      image: image.Location,
     };
 
+    if (file) newData.image = image.Location;
     mutation.mutate(newData);
   };
 
@@ -153,7 +152,10 @@ export default function ConsumerModifyPage() {
     >
       <h2 className="text-2xl font-extrabold text-center">회원정보 수정</h2>
       <hr className="w-48 h-1 mx-auto my-4 bg-black" />
-      <Uploader onImageSelected={handleImageSelected}></Uploader>
+      <Uploader
+        onImageSelected={handleImageSelected}
+        profileImage={userData?.image}
+      ></Uploader>
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={NICK_STYLE}
