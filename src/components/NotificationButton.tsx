@@ -22,7 +22,7 @@ export default function NotificationButton() {
     queryKey: ['alarm'],
     queryFn: async () => {
       const res: any = await get('/api/notifications/list');
-      return res.map((el: Alarm) => getAlarmMessage(el));
+      return res.alarmResponseList.map((el: Alarm) => getAlarmMessage(el));
     },
     enabled: !!user?.userId,
   });
@@ -70,12 +70,14 @@ export default function NotificationButton() {
                 >
                   <div>
                     <p className="text-gray-600 text-sm mx-2">{el.message}</p>
-                    <p className="text-gray-600 text-sm mx-2">2m</p>
+                    <p className="text-gray-600 text-sm mx-2">
+                      {el.time === "0" ? '지금' : `${el.time}분전`}
+                    </p>
                   </div>
                 </Link>
               ))
             ) : (
-              <div className='py-6'>
+              <div className="py-6">
                 <p className="text-gray-600 text-sm mx-2">알림이 없습니다.</p>
               </div>
             )}

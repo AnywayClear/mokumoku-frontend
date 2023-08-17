@@ -7,11 +7,24 @@ import { toast } from 'react-toastify';
 import { getAlarmMessage } from '@/service/alarm';
 import { Alarm } from '@/model/alarm';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function SSE() {
   const [listening, setListening] = useState(false);
   const [data, setData] = useState({ value: 0, target: 100 });
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const CloseButton = ({ closeToast }: any, link: string) => (
+    <i
+      className="material-icons"
+      onClick={() => {
+        closeToast();
+      }}
+    >
+      이동
+    </i>
+  );
 
   useEffect(() => {
     //     let eventSource: EventSource | undefined = undefined;
@@ -25,24 +38,13 @@ export default function SSE() {
               ? `Bearer ${localStorage.getItem('accessToken')}`
               : '',
         },
+        // heartbeatTimeout: 1200000,
         withCredentials: true,
       },
     );
 
-    const CloseButton = ({ closeToast }: any, link: string) => (
-      <i
-        className="material-icons"
-        onClick={() => {
-          closeToast();
-          if (link) router.push(link);
-        }}
-      >
-        이동
-      </i>
-    );
-
     eventSource.addEventListener('sse', function (event: any) {
-      console.log(event.data);
+      console.log(event);
 
       const data: Alarm = JSON.parse(event.data);
       // const data = event.data;
@@ -52,8 +54,9 @@ export default function SSE() {
         const messageData = getAlarmMessage(data);
         toast.info(messageData.message, {
           autoClose: false,
-          closeButton: (data) => CloseButton(data, messageData.link),
+          // closeButton: (data) => CloseButton(data, messageData.link),
         });
+        queryClient.invalidateQueries({ queryKey: ['alarm'] });
       }
       // (async () => {
       //   // 브라우저 알림
@@ -87,7 +90,14 @@ export default function SSE() {
       //   }
       // })();
     });
-  }, []);
+    eventSource.onmessage = (error) => {
+      console.log(error);
+    };
+
+    eventSource.onerror = (error) => {
+      // console.log(error);
+    };
+  }, [router]);
 
   return <></>;
 }
