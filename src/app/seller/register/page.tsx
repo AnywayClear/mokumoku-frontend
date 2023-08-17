@@ -197,6 +197,7 @@ export default function SellerRegister() {
             <input
               className={NICK_STYLE}
               placeholder="사업자 등록번호"
+              readOnly
               {...register('companyRegistrationNumber')}
               //value={'이전 pg에서 입력한 판매자 번호'}
             ></input>
