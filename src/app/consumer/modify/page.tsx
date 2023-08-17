@@ -80,6 +80,7 @@ export default function ConsumerModifyPage() {
     },
     onSuccess: () => {
       toast('프로필 수정에 성공했습니다.');
+      router.replace('/');
     },
   });
 
