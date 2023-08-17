@@ -8,15 +8,14 @@ import { searchState } from '@/store/mypage';
 import { searchType } from '@/model/mypage';
 import { getProduceList2 } from '@/service/api/produce';
 import Link from 'next/link';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 
 type Props = {
-  produceList: ProduceList|null;
+  produceList: ProduceList | null;
 };
 const auctionStateArr = ['경매전', '경매중', '경매완료'];
 
 export default function SubscribeRow({ produceList }: Props) {
-  
   return (
     <>
       {produceList?.data.length !== 0 && produceList ? (

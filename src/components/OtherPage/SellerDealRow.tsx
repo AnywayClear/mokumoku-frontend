@@ -3,11 +3,15 @@ import React, { useState, MouseEvent } from 'react';
 import Image from 'next/image';
 import ReviewPopover from './ReviewPopover';
 import { Auction, Produce } from '@/model/produce';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { Deal } from '@/model/deal';
-import { UseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  UseQueryResult,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Review } from '@/model/review';
 import { getReview } from '@/service/api/review';
 type Props = {
@@ -15,12 +19,10 @@ type Props = {
   deal: Deal;
 };
 
-
 export default function SellerDealRow({ produce, deal }: Props) {
-
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const queryClient = useQueryClient();
-            
+
   const handlePopoverOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,7 +33,7 @@ export default function SellerDealRow({ produce, deal }: Props) {
 
   const { data: review }: UseQueryResult<Review> = useQuery({
     queryKey: [`review${deal?.dealId}`],
-    queryFn: () => getReview(deal?.dealId||-1),
+    queryFn: () => getReview(deal?.dealId || -1),
   });
   const open = Boolean(anchorEl);
 
@@ -64,7 +66,7 @@ export default function SellerDealRow({ produce, deal }: Props) {
         <p>{deal?.endPrice}</p>
       </td>
       <td>
-        <p>{deal?dateToStringDot(deal.produce.endDate):null}</p>
+        <p>{deal ? dateToStringDot(deal.produce.endDate) : null}</p>
       </td>
       <td>
         <p>결제완료</p>

@@ -121,7 +121,7 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
       </section>
       <section className="w-full my-4">
         <p className="font-bold">상품 설명</p>
-        <p className="my-4 text-center">{produce?.description}</p>
+        <p className="my-4 text-center text-2xl">{produce?.description}</p>
       </section>
       <section className="w-full my-4">
         <p className="font-bold">판매자 리뷰</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Auction, Produce } from '@/model/produce';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 import Link from 'next/link';
 type Props = {
   produce: Produce;
@@ -11,7 +11,6 @@ type Props = {
 const auctionStateArr = ['경매전', '경매중', '경매완료'];
 
 export default function SellerAuctionRow({ produce, auction }: Props) {
-
   return (
     <tr className="border-y text-lg">
       <td>
@@ -46,8 +45,7 @@ export default function SellerAuctionRow({ produce, auction }: Props) {
       <td>
         <p>{auctionStateArr[produce.status]}</p>
       </td>
-      <td>
-      </td>
+      <td></td>
     </tr>
   );
 }

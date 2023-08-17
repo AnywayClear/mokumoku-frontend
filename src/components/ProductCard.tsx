@@ -4,6 +4,7 @@ import { FiHeart } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { Produce } from '@/model/produce';
+import dayjs from 'dayjs';
 
 type Props = {
   produce: Produce;
@@ -97,7 +98,7 @@ export default function ProductCard({
             <FiHeart />
             <p className="text-sm">{dibNum}</p>
           </div>
-          <p className="text-sm">{startDate.toString()}</p>
+          <p className="text-sm">{dayjs(startDate).format("YYYY-MM-DD HH:mm").toString()}</p>
         </div>
       </div>
     </div>

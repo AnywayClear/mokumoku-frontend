@@ -55,7 +55,6 @@ export default function ProductCardGrid() {
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inView]);
-  console.log(produceList);
   return (
     <div>
       {produceList?.pages.map((group, i) => (

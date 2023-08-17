@@ -3,10 +3,15 @@ import Image from 'next/image';
 import { ImHeartBroken } from 'react-icons/im';
 import { Produce } from '@/model/produce';
 import { getProduce } from '@/service/api/produce';
-import { UseQueryResult, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Wish } from '@/model/wish';
 import Link from 'next/link';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 import { cancelWishList } from '@/service/api/wish';
 
 type Props = {
@@ -14,19 +19,18 @@ type Props = {
 };
 
 export default function WishRow({ wishItem }: Props) {
-
   const queryClient = useQueryClient();
 
   const { data: produce }: UseQueryResult<Produce> = useQuery({
     queryKey: ['produce'],
     queryFn: () => getProduce(wishItem.id),
   });
-  
+
   const cancel = useMutation(() => cancelWishList(wishItem.id), {
     onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['wishList'] })
+      queryClient.invalidateQueries({ queryKey: ['wishList'] });
     },
-  }); 
+  });
 
   return (
     <>
@@ -64,8 +68,12 @@ export default function WishRow({ wishItem }: Props) {
           <p>{produce?.startPrice}</p>
         </td>
         <td>
-          <a className="hover:opacity-30 p-6" href="#" onClick={()=>cancel.mutate()}>
-            <ImHeartBroken className="mx-auto"/>
+          <a
+            className="hover:opacity-30 p-6"
+            href="#"
+            onClick={() => cancel.mutate()}
+          >
+            <ImHeartBroken className="mx-auto" />
           </a>
         </td>
       </tr>
