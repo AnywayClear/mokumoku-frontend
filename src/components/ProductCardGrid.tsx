@@ -51,8 +51,8 @@ export default function ProductCardGrid() {
         pages: data.pages.slice(0, 1),
         pageParams: data.pageParams.slice(0, 1),
       }));
-      refetch({ refetchPage: (page, index) => index === 0 });
     }
+    refetch({ refetchPage: (page, index) => index === 0 });
   }, [searchParams, refetch, queryClient, status]);
 
   useEffect(() => {
