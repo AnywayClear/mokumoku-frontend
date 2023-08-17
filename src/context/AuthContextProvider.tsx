@@ -10,7 +10,7 @@ type Props = {
 
 export default function AuthContextProvider({ children }: Props) {
   const { user, setUser } = useAuth();
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem('accessToken');
   useEffect(() => {
     if (token && !user) {
       const base64Payload = token.split('.')[1];
@@ -19,6 +19,7 @@ export default function AuthContextProvider({ children }: Props) {
       setUser({
         userId,
         role: role === 'ROLE_CONSUMER' ? 0 : 1,
+        authToken: token,
       });
     }
   }, [setUser, token, user]);
