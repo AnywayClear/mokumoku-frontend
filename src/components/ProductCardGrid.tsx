@@ -48,8 +48,8 @@ export default function ProductCardGrid() {
   useEffect(() => {
     if (searchParams?.get("name")) {
       queryClient.setQueryData(['produceList', status], (data: any) => ({
-        pages: data.pages.slice(0, 1),
-        pageParams: data.pageParams.slice(0, 1),
+        // pages: data.pages.slice(0, 1),
+        // pageParams: data.pageParams.slice(0, 1),
       }));
     }
     refetch({ refetchPage: (page, index) => index === 0 });
