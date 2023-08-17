@@ -58,6 +58,7 @@ export default function SellerRegister() {
 
   if (!user?.userId) {
     // redirect('/product');
+    console.log("user");
   }
 
   const mutation = useMutation({
