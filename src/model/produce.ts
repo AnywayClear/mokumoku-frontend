@@ -1,6 +1,9 @@
+import { pageInfo } from "./page";
+
 export type ProduceList = {
   // produceResponseList: Produce[];
   data: Produce[];
+  pageInfo: pageInfo;
 };
 
 export type Produce = {

@@ -10,6 +10,7 @@ import LoginButton from './LoginButton';
 import Search from './Search';
 import ToMyPageButton from './ToMyPageButton';
 import ProduceRegisterButton from './ProduceRegisterButton';
+import NotificationButton from './NotificationButton';
 
 type menuData = {
   title: string;
@@ -50,6 +51,7 @@ export default function Header() {
           <Image alt="MokuMoku" src={LogoImage} />
         </Link>
         <nav className="flex gap-6">
+          <NotificationButton />
           {topButton.map(({ icon, title, link }, index) => (
             <Link
               key={index}

@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { userData } from "@/model/user";
 import { getUserInfo } from "@/service/api/user";
+import Link from "next/link";
 
 
 export default function SellerBannerSelf() {
@@ -30,7 +31,7 @@ export default function SellerBannerSelf() {
                     <p className="text-xl mt-4">사업자번호</p>
                     <p className="text-3xl font-bold">{userData?.companyRegistrationNumber}</p>
                     <div className="flex pt-4">
-                        <a href="#"><u className="text-xl text-stone-700 pr-4 hover:opacity-70">회원정보수정</u></a>
+                        <Link href={`/consumer/modify`}><u className="text-xl text-stone-700 pr-4 hover:opacity-70">회원정보수정</u></Link>
                         <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">회원탈퇴</u></a>
                     </div>
                     

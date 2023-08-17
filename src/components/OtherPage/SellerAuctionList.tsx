@@ -8,13 +8,13 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { ProduceList } from '@/model/produce';
 import { getProduceList2 } from '@/service/api/produce';
 import { searchType } from '@/model/mypage';
-import { getDealList, getDealList2 } from '@/service/api/deal';
-import { useContext } from 'react';
-import { AuthContext } from '@/context/AuthContext';
+import { getDealList } from '@/service/api/deal';
 import { DealList } from '@/model/deal';
 import SellerDealRow from './SellerDealRow';
 import { dayjsToStringDash } from '@/myFunc';
 import dayjs from 'dayjs';
+import { Pagination } from '@mui/material';
+import { useEffect } from 'react';
 
 type colType = { name: string; flex: string };
 const cols: colType[] = [
@@ -51,17 +51,30 @@ const cols: colType[] = [
 type Props = {
   slug: string;
 };
+
 export default function SellerAuctionList({ slug }: Props) {
-  const { user } = useContext(AuthContext);
+
   const [{ auctionState, title,startDateStr,endDateStr }] = useRecoilState<searchType>(searchState);
 
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const psize = 2;
+  const dsize = 5;
+
+  useEffect(() => { 
+    setCurrentPage(1);
+  },[auctionState])
+
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+  };
+
   const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
-    queryKey: ['produceList', auctionState, title],
-    queryFn: () => getProduceList2(auctionState.toString(), title, slug, 0, 10),
+    queryKey: ['produceList', auctionState, title, currentPage],
+    queryFn: () => getProduceList2(auctionState.toString(), title, slug, currentPage-1, psize),
   });
-  
+
   const { data: dealList }: UseQueryResult<DealList> = useQuery({
-    queryKey: ['dealList', startDateStr, endDateStr],
+    queryKey: ['dealList', startDateStr, endDateStr, currentPage],
     queryFn: () =>
       getDealList(
         slug,
@@ -78,8 +91,8 @@ export default function SellerAuctionList({ slug }: Props) {
             : dayjs()
           ).add(1, 'day'),
         ),
-        0,
-        5,
+        currentPage-1,
+        dsize,
       ),
   });
 
@@ -142,6 +155,20 @@ export default function SellerAuctionList({ slug }: Props) {
           </tbody>
         </table>
       </div>
+      <Pagination
+        count={auctionState[0] === 3 ?
+          dealList?.pageInfo.totalPages
+          :
+          produceList?.pageInfo.totalPages}
+        page={currentPage}
+        onChange={onPageChange}
+        size="medium"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "15px 0",
+        }}
+      />
     </div>
   );
 }
