@@ -100,7 +100,7 @@ export default function SellerAuctionList({ slug }: Props) {
     <div className="mb-20">
       {
         auctionState[0] !== 3 ?
-          <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={true} auctionType={2} />
+          <SearchTab tabType={0} hasAuctionState={true} hasDateState={false} hasNameState={true} hasOrderState={false} auctionType={2} />
           :
           <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={false} hasOrderState={false} auctionType={2} />
       }
