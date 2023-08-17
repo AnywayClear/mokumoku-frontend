@@ -1,8 +1,7 @@
 'use client';
 import * as React from 'react';
-import SearchTab from './MyPage/searchTab/searchTab';
 import ReviewRow from './MyPage/sellerSelf/ReviewList/ReviewRow';
-import { Review } from '@/model/review';
+import { ReviewList } from '@/model/review';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getReviews } from '@/service/api/review';
 
@@ -11,7 +10,7 @@ type Props = {
 };
 
 export default function ProduceReview({ sellerId }: Props) {
-  const { data: reviewList }: UseQueryResult<{ reviews: Review[] }> = useQuery({
+  const { data: reviewList }: UseQueryResult<ReviewList> = useQuery({
     queryKey: ['reviewList', sellerId],
     queryFn: () => getReviews(sellerId, 0, 10, 'start'),
   });
@@ -19,8 +18,8 @@ export default function ProduceReview({ sellerId }: Props) {
   return (
     <div className="mb-20">
       <table className="w-full mt-12">
-        {!!reviewList?.reviews ? (
-          reviewList?.reviews?.map((review, index) => (
+        {!!reviewList?.data ? (
+          reviewList?.data?.map((review, index) => (
             <ReviewRow key={index} review={review} />
           ))
         ) : (
