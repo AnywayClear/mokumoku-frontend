@@ -120,7 +120,7 @@ export default function SellerRegister() {
       nickname: '',
       description: '',
       companyAddress: '',
-      companyRegistrationNumber: '',
+      companyRegistrationNumber: '2018632486',
       phoneNumber: '',
       // role: 'ROLE_SELLER',
     },
