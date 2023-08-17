@@ -63,7 +63,14 @@ export default function SubscribeList() {
         selectNickname={setSelectedId}
         setCurrentPage={setCurrentPage}
       />
-      <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={1} />
+      <SearchTab
+          tabType={0}
+          hasAuctionState={true}
+          hasDateState={false}
+          hasNameState={true}
+          hasOrderState={false}
+          auctionType={2}
+        />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
           <tr className="border-y">
