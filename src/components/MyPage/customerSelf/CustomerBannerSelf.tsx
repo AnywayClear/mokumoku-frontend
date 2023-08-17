@@ -2,19 +2,22 @@
 import Image from "next/image";
 import LogoImage from '../../../../public/images/mokumokuLogo.svg';
 import { AuthContext } from "@/context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { userData } from "@/model/user";
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { getUserInfo } from "@/service/api/user";
+import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
+import { delUser, getUserInfo } from "@/service/api/user";
 import { getPoint } from "@/service/api/point";
 import { userPoint } from "@/model/point";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, TextField } from "@mui/material";
+import { useFormControl } from '@mui/material/FormControl';
 import Link from "next/link";
-
-
 
 export default function CustomerBannerSelf(){
     
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [quitText, setQuitText] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    
 
     const { data: userData }: UseQueryResult<userData> = useQuery({
         queryKey: ['userData'],
@@ -27,7 +30,31 @@ export default function CustomerBannerSelf(){
         queryFn: () => getPoint(user?.userId ?? ""),
         enabled: !!user?.userId
     });
+
+    const deleteUser = useMutation(() => delUser(), {
+        onSuccess: () => {
+            setOpen(false);
+        },
+    });
     
+    const [open, setOpen] = useState(false);
+
+    const handleDelete = () => { 
+        if (quitText === "탈퇴하겠습니다") {
+            deleteUser.mutate();
+        } else { 
+            setErrMsg("글자를 확인해주세요");
+        }
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return(
         <>
             <div className="bg-stone-200 h-700 w-full flex justify-center pt-20 pb-12">
@@ -44,10 +71,40 @@ export default function CustomerBannerSelf(){
                     </div>
                     <div className="flex pt-4">
                         <Link href={`/consumer/modify`}><u className="text-xl text-stone-700 pr-4 hover:opacity-70">회원정보수정</u></Link>
-                        <a href="#"><u className="text-xl text-stone-700 hover:opacity-70">회원탈퇴</u></a>
+                        <u className="text-xl text-stone-700 hover:opacity-70 cursor-pointer" onClick={handleClickOpen}>회원탈퇴</u>
                     </div>
                     
                 </div>
+                
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>회원탈퇴</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        회원탈퇴를 진행하고 싶으시다면 "탈퇴하겠습니다"를 입력해주세요
+                    </DialogContentText>
+                        <TextField
+                            error={errMsg !== ""}
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="탈퇴하시겠습니까?"
+                            type="email"
+                            fullWidth
+                            variant="standard"
+                            value={quitText}
+                            onChange={(event) => {
+                                setQuitText(event.target.value);
+                                setErrMsg('');
+                            }}
+                            helperText={errMsg}
+                    />
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose}>취소</Button>
+                    <Button onClick={handleDelete}>탈퇴</Button>
+                    </DialogActions>
+                </Dialog>
+                
             </div>
         </>
     );
