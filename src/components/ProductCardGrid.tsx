@@ -1,14 +1,11 @@
 import {
   UseQueryResult,
   useInfiniteQuery,
-  useQuery,
 } from '@tanstack/react-query';
 import ProductCard from './ProductCard';
-import { get } from '@/service/api/http';
 import { getProduceList } from '@/service/api/produce';
 import { useRecoilState } from 'recoil';
 import { filterState } from '@/store/produce';
-import { ProduceList } from '@/model/produce';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
