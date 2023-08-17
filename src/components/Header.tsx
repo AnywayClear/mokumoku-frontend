@@ -51,7 +51,6 @@ export default function Header() {
           <Image alt="MokuMoku" src={LogoImage} />
         </Link>
         <nav className="flex gap-6">
-          <NotificationButton />
           {topButton.map(({ icon, title, link }, index) => (
             <Link
               key={index}
@@ -65,6 +64,7 @@ export default function Header() {
           <ProduceRegisterButton />
           <ToMyPageButton />
           <LoginButton />
+          <NotificationButton />
         </nav>
       </section>
       <div className="flex justify-between items-center ml-3">
