@@ -13,6 +13,8 @@ import AWS from 'aws-sdk';
 import SellerAuth from '@/components/SellerAuth';
 import { getUserInfo } from '@/service/api/user';
 import { userData } from '@/model/user';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
 const ERROR_STYLE = 'text-red-500 h-4 text-xs w-80 align-middle mx-auto';
@@ -52,6 +54,7 @@ export default function SellerRegister() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
   const { user, setUser } = useContext(AuthContext);
+  const router = useRouter();
 
   if (!user?.userId) {
     // redirect('/product');
@@ -65,6 +68,7 @@ export default function SellerRegister() {
       const newUser: any = { ...user, role: 1 };
       setUser(newUser);
       toast('판매자 전환에 성공했습니다.');
+      router.replace('/mypage');
     },
   });
 
