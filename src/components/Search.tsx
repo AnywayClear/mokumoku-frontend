@@ -50,7 +50,7 @@ export default function Search() {
 
   const onValid = (data: IForm) => {
     reset();
-    setSearchOpen((prev) => !prev);
+    toggleSearch();
     router.push(`/product?name=${data.keyword}`);
   };
   const toggleSearch = () => {
