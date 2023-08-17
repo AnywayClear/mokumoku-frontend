@@ -40,7 +40,7 @@ export default function Error({
                   className="w-full my-2 border rounded md py-4 px-8 text-center bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50"
                   onClick={() => reset()}
                 >
-                  Take me there!
+                  Go To Main!
                 </button>
               </div>
             </div>
