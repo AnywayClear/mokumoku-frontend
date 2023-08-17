@@ -30,7 +30,7 @@ export default function SSE() {
 
   useEffect(() => {
     //     let eventSource: EventSource | undefined = undefined;
-
+    console.log(user?.authToken);
     if (user?.authToken) {
       const EventSource = EventSourcePolyfill || NativeEventSource;
       const eventSource = new EventSource(
