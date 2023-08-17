@@ -19,10 +19,10 @@ const itemInfo = [
         id : 0,
         title : "경매 목록"
     },
-    {
-        id : 1,
-        title : "경매 통계"
-    },
+    // {
+    //     id : 1,
+    //     title : "경매 통계"
+    // },
     {
         id : 2,
         title : "리뷰 목록"
