@@ -69,7 +69,7 @@ export default function SubscribeList() {
           hasDateState={false}
           hasNameState={true}
           hasOrderState={false}
-          auctionType={2}
+          auctionType={1}
         />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
         <thead className="font-bold  text-xl">
