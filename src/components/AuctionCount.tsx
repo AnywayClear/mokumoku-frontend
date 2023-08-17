@@ -11,8 +11,8 @@ const calTime = (updateAt: Date) => {
   let today = dayjs();
   let expired_at = dayjs(updateAt);
   let result = Math.floor(expired_at.diff(today, 'second', true));
-  return result + 300 ;
-}
+  return result + 60;
+};
 
 export default function AuctionCount({ updatedAt }: Props) {
   const [time, setTime] = useState<number>(() => calTime(updatedAt));
