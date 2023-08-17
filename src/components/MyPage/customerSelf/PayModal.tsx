@@ -6,7 +6,12 @@ import { GrClose } from 'react-icons/gr';
 import { useContext, useState } from 'react';
 import styles from './Scrollbar.module.css';
 import { changePoint, getPoint } from '@/service/api/point';
-import { UseQueryResult, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { userPoint } from '@/model/point';
 import { AuthContext } from '@/context/AuthContext';
 import { postDealPaid } from '@/service/api/deal';
@@ -78,7 +83,7 @@ export default function PayModal({
       onMouseDown={() => setMouseDownOutside(true)}
     >
       <div
-        className={` bg-white border-2 w-[600px] h-[650px] pb-4 rounded-lg relative overflow-hidden overflow-y-scroll ${styles.verticalScroll}`}
+        className={` bg-white border-2 w-[600px] h-[630px] pb-4 rounded-lg relative overflow-hidden overflow-y-scroll ${styles.verticalScroll}`}
         onMouseUp={(e) => {
           e.stopPropagation();
           setMouseDownOutside(false);
@@ -91,9 +96,7 @@ export default function PayModal({
         >
           <GrClose />
         </button>
-        <p className="text-center font-semibold text-3xl py-5 border-b">
-          물품 리뷰 작성
-        </p>
+        <p className="text-center font-semibold text-3xl py-5 border-b">결제</p>
         <div className="p-6 mb-8 flex border-b-4 border-gray-200">
           <Image
             src={img}
@@ -109,14 +112,22 @@ export default function PayModal({
             </p>
           </div>
         </div>
-        <div>
-          <p>현재금액 {price}원</p>
-          <p>내 돈 {userPoint?.balance}원</p>
-          <p>
-            결제 후 남는 돈{' '}
-            {userPoint !== undefined ? userPoint.balance - price : '?'}원
+        <div className="my-4 mx-7">
+          <p className="text-2xl">현재 포인트</p>
+          <p className="text-4xl text-right">{userPoint?.balance}</p>
+          <p className="text-2xl">가격</p>
+          <p className="text-4xl text-right">{price}</p>
+          <p className="text-2xl">잔액 포인트 </p>
+          <p className="text-4xl text-right">
+            {userPoint !== undefined ? userPoint.balance - price : '?'}
           </p>
-          <button
+        </div>
+        <div className="flex justify-center items-center mt-10">
+          <div className='flex flex-col items-center'>
+          <button 
+            disabled={
+              !(userPoint !== undefined && userPoint.balance - price > 0)
+            }
             onClick={() => {
               if (userPoint) {
                 if (price > userPoint.balance) {
@@ -126,9 +137,16 @@ export default function PayModal({
                 }
               }
             }}
+            className={` disabled:bg-gray-500 text-3xl bg-green-700 hover:opacity-70 rounded-lg text-white px-4 py-2`}
           >
-            돈 내기
+            결제하기
           </button>
+          {!(userPoint !== undefined && userPoint.balance - price > 0) ? (
+            <p className='text-red-500 text-lg'>포인트가 부족합니다!</p>
+          ) : (
+            <></>
+          )}
+          </div>
         </div>
       </div>
     </div>
