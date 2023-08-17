@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Deal } from '@/model/deal';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 import Link from 'next/link';
 
 type Props = {

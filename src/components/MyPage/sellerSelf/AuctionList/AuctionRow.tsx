@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FcCancel } from 'react-icons/fc';
 import { Auction, Produce } from '@/model/produce';
-import { dateToStringDot } from '@/myFunc';
+import { dateToStringDot } from '@/service/myFunc';
 import Link from 'next/link';
 
 type Props = {
@@ -26,11 +26,12 @@ export default function AuctionRow({ produce, auction }: Props) {
           ) : null}
         </td>
         <td className="flex items-center justify-center">
-            <Link href={`/product/${produce.id}`} className='pl-4 py-10 max-w-[85%] underline hover:opacity-70 '>
-              <p className="truncate ">
-                {produce.name}
-              </p>
-            </Link>
+          <Link
+            href={`/product/${produce.id}`}
+            className="pl-4 py-10 max-w-[85%] underline hover:opacity-70 "
+          >
+            <p className="truncate ">{produce.name}</p>
+          </Link>
         </td>
         <td>
           <p>{produce.kg}kg</p>

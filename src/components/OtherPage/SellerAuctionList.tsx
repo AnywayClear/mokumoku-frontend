@@ -11,7 +11,7 @@ import { searchType } from '@/model/mypage';
 import { getDealList } from '@/service/api/deal';
 import { DealList } from '@/model/deal';
 import SellerDealRow from './SellerDealRow';
-import { dayjsToStringDash } from '@/myFunc';
+import { dayjsToStringDash } from '@/service/myFunc';
 import dayjs from 'dayjs';
 import { Pagination } from '@mui/material';
 import { useEffect } from 'react';
@@ -53,24 +53,31 @@ type Props = {
 };
 
 export default function SellerAuctionList({ slug }: Props) {
-
-  const [{ auctionState, title,startDateStr,endDateStr }] = useRecoilState<searchType>(searchState);
+  const [{ auctionState, title, startDateStr, endDateStr }] =
+    useRecoilState<searchType>(searchState);
 
   const [currentPage, setCurrentPage] = React.useState(1);
   const psize = 2;
   const dsize = 5;
 
-  useEffect(() => { 
+  useEffect(() => {
     setCurrentPage(1);
-  },[auctionState])
+  }, [auctionState]);
 
   const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
-      setCurrentPage(page);
+    setCurrentPage(page);
   };
 
   const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
     queryKey: ['produceList', auctionState, title, currentPage],
-    queryFn: () => getProduceList2(auctionState.toString(), title, slug, currentPage-1, psize),
+    queryFn: () =>
+      getProduceList2(
+        auctionState.toString(),
+        title,
+        slug,
+        currentPage - 1,
+        psize,
+      ),
   });
 
   const { data: dealList }: UseQueryResult<DealList> = useQuery({
@@ -91,19 +98,32 @@ export default function SellerAuctionList({ slug }: Props) {
             : dayjs()
           ).add(1, 'day'),
         ),
-        currentPage-1,
+        currentPage - 1,
         dsize,
       ),
   });
 
   return (
     <div className="mb-20">
-      {
-        auctionState[0] !== 3 ?
-          <SearchTab tabType={0} hasAuctionState={true} hasDateState={false} hasNameState={true} hasOrderState={false} auctionType={2} />
-          :
-          <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={false} hasOrderState={false} auctionType={2} />
-      }
+      {auctionState[0] !== 3 ? (
+        <SearchTab
+          tabType={0}
+          hasAuctionState={true}
+          hasDateState={false}
+          hasNameState={true}
+          hasOrderState={false}
+          auctionType={2}
+        />
+      ) : (
+        <SearchTab
+          tabType={0}
+          hasAuctionState={true}
+          hasDateState={true}
+          hasNameState={false}
+          hasOrderState={false}
+          auctionType={2}
+        />
+      )}
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
@@ -121,7 +141,7 @@ export default function SellerAuctionList({ slug }: Props) {
                 produceList?.data?.map((produce, index) =>
                   produce.auctionResponseList.map((auction, index2) => (
                     <SellerAuctionRow
-                      key={index*10+index2}
+                      key={index * 10 + index2}
                       produce={produce}
                       auction={auction}
                     />
@@ -134,39 +154,33 @@ export default function SellerAuctionList({ slug }: Props) {
                   </td>
                 </tr>
               )
+            ) : dealList?.data.length !== 0 && dealList !== undefined ? (
+              dealList?.data?.map((deal, index) => (
+                <SellerDealRow key={index} deal={deal} produce={deal.produce} />
+              ))
             ) : (
-              dealList?.data.length !== 0 && dealList !== undefined ? (
-                dealList?.data?.map((deal, index) =>
-                    <SellerDealRow
-                    key={index}
-                    deal={deal}
-                    produce={deal.produce}
-                    />
-                  ,
-                )
-              ) : (
-                <tr className="h-32">
-                  <td className="text-xl font-semibold" colSpan={cols.length}>
-                    검색된 게시물이 없습니다.
-                  </td>
-                </tr>
-              )
+              <tr className="h-32">
+                <td className="text-xl font-semibold" colSpan={cols.length}>
+                  검색된 게시물이 없습니다.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
       <Pagination
-        count={auctionState[0] === 3 ?
-          dealList?.pageInfo.totalPages
-          :
-          produceList?.pageInfo.totalPages}
+        count={
+          auctionState[0] === 3
+            ? dealList?.pageInfo.totalPages
+            : produceList?.pageInfo.totalPages
+        }
         page={currentPage}
         onChange={onPageChange}
         size="medium"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "15px 0",
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '15px 0',
         }}
       />
     </div>

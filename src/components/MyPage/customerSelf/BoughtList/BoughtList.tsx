@@ -10,9 +10,7 @@ import { Deal, DealList } from '@/model/deal';
 import { useRecoilState } from 'recoil';
 import { searchType } from '@/model/mypage';
 import { searchState } from '@/store/mypage';
-import {
-  dayjsToStringDash,
-} from '@/myFunc';
+import { dayjsToStringDash } from '@/service/myFunc';
 import { getDealList } from '@/service/api/deal';
 import dayjs from 'dayjs';
 import PayModal from '../PayModal';
@@ -55,11 +53,10 @@ type modalType = {
 };
 
 export default function BoughtList() {
-
   const [currentPage, setCurrentPage] = useState(1);
   const size = 5;
   const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
-      setCurrentPage(page);
+    setCurrentPage(page);
   };
 
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -101,11 +98,11 @@ export default function BoughtList() {
             : dayjs()
           ).add(1, 'day'),
         ),
-        currentPage-1,
+        currentPage - 1,
         size,
       ),
   });
-  
+
   function closeReviewModal() {
     setShowReviewModal(false);
   }
@@ -137,8 +134,6 @@ export default function BoughtList() {
     setShowPayModal(true);
   }
 
-
-
   return (
     <div className="mb-20">
       {showReviewModal ? (
@@ -161,7 +156,14 @@ export default function BoughtList() {
           closeModal={closePayModal}
         />
       ) : null}
-      <SearchTab tabType={0} hasAuctionState={false} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={0} />
+      <SearchTab
+        tabType={0}
+        hasAuctionState={false}
+        hasDateState={true}
+        hasNameState={true}
+        hasOrderState={false}
+        auctionType={0}
+      />
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
@@ -176,7 +178,12 @@ export default function BoughtList() {
           <tbody>
             {dealList?.data.length != 0 ? (
               dealList?.data.map((row: Deal, index) => (
-                <BoughtRow row={row} key={index} openReviewModal={openReviewModal} openPayModal={openPayModal}/>
+                <BoughtRow
+                  row={row}
+                  key={index}
+                  openReviewModal={openReviewModal}
+                  openPayModal={openPayModal}
+                />
               ))
             ) : (
               <tr className="h-32">
@@ -189,16 +196,15 @@ export default function BoughtList() {
         </table>
       </div>
       <Pagination
-        count={dealList?.pageInfo.totalPages||0}
+        count={dealList?.pageInfo.totalPages || 0}
         page={currentPage}
         onChange={onPageChange}
         size="medium"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "15px 0",
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '15px 0',
         }}
-        
       />
     </div>
   );
