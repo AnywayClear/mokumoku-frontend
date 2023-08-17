@@ -46,10 +46,10 @@ export default function ProductCardGrid() {
   });
 
   useEffect(() => {
-    if (searchParams?.get("name")) {
+    if (searchParams?.get('name')) {
       queryClient.setQueryData(['produceList', status], (data: any) => ({
-        // pages: data.pages.slice(0, 1),
-        // pageParams: data.pageParams.slice(0, 1),
+        pages: data?.pages?.slice(0, 1) ?? [],
+        pageParams: data?.pageParams?.slice(0, 1) ?? [],
       }));
     }
     refetch({ refetchPage: (page, index) => index === 0 });
@@ -62,7 +62,7 @@ export default function ProductCardGrid() {
   }, [fetchNextPage, hasNextPage, inView]);
   return (
     <div>
-      {produceList?.pages.map((group, i) => (
+      {produceList?.pages?.map((group, i) => (
         <div className="flex gap-1 flex-wrap justify-center basis-4/5" key={i}>
           {group?.data?.map((produce: any, index: any) => (
             <ProductCard key={index} produce={produce} />

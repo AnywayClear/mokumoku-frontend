@@ -45,14 +45,14 @@ interface IForm {
 export default function Search() {
   const [searchOpen, setSearchOpen] = useState(false);
   const inputAnimation = useAnimation();
-  const { register, handleSubmit, reset } = useForm<IForm>();
+  const { register, handleSubmit, reset, setValue } = useForm<IForm>();
   const router = useRouter();
 
   const onValid = (data: IForm) => {
-    const keyword = data.keyword;
-    reset();
-    toggleSearch();
-    router.push(`/product?name=${keyword}`);
+    // const keyword = data.keyword;
+    // setValue('keyword', '');
+    // toggleSearch();
+    router.push(`/product?name=${data.keyword}`);
   };
   const toggleSearch = () => {
     if (searchOpen) {
