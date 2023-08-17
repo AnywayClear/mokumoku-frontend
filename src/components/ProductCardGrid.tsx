@@ -1,6 +1,7 @@
 import {
   UseQueryResult,
   useInfiniteQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 import ProductCard from './ProductCard';
 import { getProduceList } from '@/service/api/produce';
@@ -18,6 +19,7 @@ type Props = {
 export default function ProductCardGrid() {
   const [status, setStatus] = useRecoilState<string>(filterState);
   const { ref, inView } = useInView();
+  const queryClient = useQueryClient();
 
   const searchParams = useSearchParams();
 
@@ -44,8 +46,11 @@ export default function ProductCardGrid() {
   });
 
   useEffect(() => {
-    refetch();
-  }, [searchParams, refetch]);
+    if (searchParams?.get('name')) {
+      queryClient.invalidateQueries({ queryKey: ['produceList', status] });
+      refetch();
+    }
+  }, [searchParams, refetch, queryClient, status]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
