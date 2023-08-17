@@ -66,7 +66,7 @@ export default function AuctionList() {
           hasDateState={false}
           hasNameState={true}
           hasOrderState={false}
-          auctionType={2}
+          auctionType={1}
         />
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
