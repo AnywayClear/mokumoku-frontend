@@ -62,12 +62,16 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
   });
 
   const buttonHandleClick = (diff: number) => {
-    const sum = watch('money') + diff;
+    const sum = Number(watch('money')) + diff;
     setValue('money', sum < auction.price ? auction.price : sum);
   };
 
   const auctionHandleClick = (auctionId: number, price: number) => {
-    mutation.mutate({ auctionId, price });
+    if (price > auction.price) {
+      mutation.mutate({ auctionId, price });
+    } else {
+      toast.error('이전 입찰가보다 높은 가격을 등록해주세요.');
+    }
   };
 
   return (
@@ -106,9 +110,15 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
 
       <div className="flex flex-col justify-center">
         {auction.status ? (
-          <div className='"text-sm font-semibold leading-6 text-gray-900"'>
-            {`최종 입찰가 :  ${auction.price}원`}
-          </div>
+          auction.nickname ? (
+            <div className='"text-sm font-semibold leading-6 text-gray-900"'>
+              {`최종 입찰가 :  ${auction.price}원`}
+            </div>
+          ) : (
+            <div className='"text-sm font-semibold leading-6 text-gray-900"'>
+              {`낙찰자 없음`}
+            </div>
+          )
         ) : (
           <>
             <label
