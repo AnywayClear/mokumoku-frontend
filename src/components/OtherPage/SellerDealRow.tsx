@@ -60,7 +60,7 @@ export default function SellerDealRow({ produce, deal }: Props) {
         </Link>
       </td>
       <td>
-        <p>{produce.kg}</p>
+        <p>{produce.kg}kg</p>
       </td>
       <td>
         <p>{deal?.endPrice}</p>
