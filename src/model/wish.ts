@@ -1,9 +1,8 @@
+import { pageInfo } from "./page"
+
 export type WishListType = {
     data: Wish[],
-    page:number,
-    size: number,
-    totalElements: number,
-    totalPages: number
+    pageInfo: pageInfo
 }
   
 export type Wish = {

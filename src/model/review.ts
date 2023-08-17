@@ -1,10 +1,11 @@
 import { Deal } from "./deal";
+import { pageInfo } from "./page";
 
 export type Review = {
     id:number;
     comment: string;
     score: number;
-    img: string;
+    image: string;
     title: string;
     unit: string;
     nickname: string;
@@ -25,11 +26,4 @@ export type ReviewItem = {
     reviewerId: String;
     reviewerNickname:String
     score:number;
-}
-
-type pageInfo = {
-    page:number;
-    size:number;
-    totalElements:number;
-    totalPages:number;
 }

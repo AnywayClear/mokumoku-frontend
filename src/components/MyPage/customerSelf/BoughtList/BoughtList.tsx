@@ -16,6 +16,7 @@ import {
 import { getDealList } from '@/service/api/deal';
 import dayjs from 'dayjs';
 import PayModal from '../PayModal';
+import { Pagination } from '@mui/material';
 
 type colType = { name: string; flex: string };
 const cols: colType[] = [
@@ -54,6 +55,13 @@ type modalType = {
 };
 
 export default function BoughtList() {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const size = 5;
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+  };
+
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewModalInfo, setReviewModalInfo] = useState<modalType>({
     id: 0,
@@ -76,7 +84,7 @@ export default function BoughtList() {
 
   const { user } = useContext(AuthContext);
   const { data: dealList }: UseQueryResult<DealList> = useQuery({
-    queryKey: ['dealList', startDateStr, endDateStr],
+    queryKey: ['dealList', startDateStr, endDateStr, currentPage],
     queryFn: () =>
       getDealList(
         user?.userId,
@@ -93,11 +101,11 @@ export default function BoughtList() {
             : dayjs()
           ).add(1, 'day'),
         ),
-        0,
-        5,
+        currentPage-1,
+        size,
       ),
   });
-
+  
   function closeReviewModal() {
     setShowReviewModal(false);
   }
@@ -180,6 +188,18 @@ export default function BoughtList() {
           </tbody>
         </table>
       </div>
+      <Pagination
+        count={dealList?.pageInfo.totalPages||0}
+        page={currentPage}
+        onChange={onPageChange}
+        size="medium"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "15px 0",
+        }}
+        
+      />
     </div>
   );
 }

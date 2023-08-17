@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import { Produce, ProduceList } from '@/model/produce';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
@@ -11,18 +11,12 @@ import Link from 'next/link';
 import { dateToStringDot } from '@/myFunc';
 
 type Props = {
-  sellerId: string;
+  produceList: ProduceList|null;
 };
 const auctionStateArr = ['경매전', '경매중', '경매완료'];
 
-export default function SubscribeRow({ sellerId }: Props) {
-  const [{ title, auctionState }] = useRecoilState<searchType>(searchState);
+export default function SubscribeRow({ produceList }: Props) {
   
-  const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
-    queryKey: ['produceList', title, sellerId, auctionState],
-    queryFn: () => getProduceList2(auctionState.toString(), title, sellerId, 0, 10),
-  });
-
   return (
     <>
       {produceList?.data.length !== 0 && produceList ? (
