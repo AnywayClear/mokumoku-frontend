@@ -51,7 +51,7 @@ type Inputs = {
 export default function SellerRegister() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   if (!user?.userId) {
     // redirect('/product');
@@ -62,6 +62,8 @@ export default function SellerRegister() {
       return patch(`/api/members`, data);
     },
     onSuccess: () => {
+      const newUser: any = { ...user, role: 1 };
+      setUser(newUser);
       toast('판매자 전환에 성공했습니다.');
     },
   });
