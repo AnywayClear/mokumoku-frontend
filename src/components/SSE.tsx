@@ -4,11 +4,14 @@ import { getConfig, post } from '@/service/api/http';
 import { useEffect, useState } from 'react';
 import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import { toast } from 'react-toastify';
+import { getAlarmMessage } from '@/service/alarm';
+import { Alarm } from '@/model/alarm';
+import { useRouter } from 'next/navigation';
 
 export default function SSE() {
   const [listening, setListening] = useState(false);
   const [data, setData] = useState({ value: 0, target: 100 });
-
+  const router = useRouter();
 
   useEffect(() => {
     //     let eventSource: EventSource | undefined = undefined;
@@ -26,16 +29,32 @@ export default function SSE() {
       },
     );
 
+    const CloseButton = ({ closeToast }: any, link: string) => (
+      <i
+        className="material-icons"
+        onClick={() => {
+          closeToast();
+          if (link) router.push(link);
+        }}
+      >
+        이동
+      </i>
+    );
+
     eventSource.addEventListener('sse', function (event: any) {
       console.log(event.data);
 
-      // const data = JSON.parse(event.data);
-      const data = event.data;
-      console.log(event);
+      const data: Alarm = JSON.parse(event.data);
+      // const data = event.data;
+      // console.log(event);
 
-      toast.info(data, {
-        autoClose: false,
-      });
+      if (event.type !== 'connection') {
+        const messageData = getAlarmMessage(data);
+        toast.info(messageData.message, {
+          autoClose: false,
+          closeButton: (data) => CloseButton(data, messageData.link),
+        });
+      }
       // (async () => {
       //   // 브라우저 알림
       //   const showNotification = () => {
