@@ -61,6 +61,7 @@ export default function SubscribeList() {
       <SubscribeScroll
         selected={selectedId}
         selectNickname={setSelectedId}
+        setCurrentPage={setCurrentPage}
       />
       <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={1} />
       <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
