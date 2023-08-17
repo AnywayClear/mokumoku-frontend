@@ -15,7 +15,7 @@ import { getSubscribeList } from '@/service/api/subscribe';
 import { AuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { tapState } from '@/store/mypage';
-
+import { useRecoilState } from 'recoil';
 type Props = {
   selected: string;
   selectNickname: Function;
@@ -111,8 +111,5 @@ export default function SubscribeScroll({
       )}
     </div>
   );
-}
-function useRecoilState<T>(tapState: any): [any, any] {
-  throw new Error('Function not implemented.');
 }
 
