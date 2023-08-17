@@ -7,4 +7,5 @@ export type userData = {
     companyAddress:string|null,
     companyRegistrationNumber:string|null,
     phoneNumber:string|null,
+    role: string|null,
 }

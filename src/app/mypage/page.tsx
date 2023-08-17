@@ -7,7 +7,9 @@ import SellerContent from "@/components/MyPage/sellerSelf/SellerContent";
 import { AuthContext } from "@/context/AuthContext";
 import { useContext } from "react";
 import { usePathname, useRouter } from 'next/navigation';
-
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/service/api/user";
+import {userData} from "@/model/user"
 export default function MyPage(){
 
     const {user} = useContext(AuthContext);
@@ -15,14 +17,21 @@ export default function MyPage(){
     const pathname = usePathname();
     const router = useRouter();
 
-    if(user?.role===0){
+    const { data: userData }: UseQueryResult<userData> = useQuery({
+        queryKey: ['subscribeUsers'],
+        queryFn: () => getUserInfo(user?.userId || ""),
+    });
+
+
+
+    if(userData?.role==="ROLE_CUSTOMER"){
         return(
             <>
                 <CustomerBannerSelf></CustomerBannerSelf>
                 <CustomerContent></CustomerContent>
             </>
         );
-    }else if(user?.role===1){
+    }else if(userData?.role==="ROLE_SELLER"){
         return(
             <>
                 <SellerBannerSelf></SellerBannerSelf>
