@@ -41,7 +41,7 @@ export default function ProductCardGrid() {
     queryFn: ({ pageParam = 0 }) => {
       return getProduceList(status, pageParam, searchParams?.get('name') ?? '');
     },
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => lastPage?.nextPage || 0,
     enabled: !!user?.userId,
   });
 
