@@ -35,7 +35,7 @@ const Input = styled(motion.input)`
 `;
 
 const Svg = styled(motion.svg)`
-    z-index: 2;
+  z-index: 2;
 `;
 
 interface IForm {
@@ -45,10 +45,12 @@ interface IForm {
 export default function Search() {
   const [searchOpen, setSearchOpen] = useState(false);
   const inputAnimation = useAnimation();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, reset } = useForm<IForm>();
   const router = useRouter();
 
   const onValid = (data: IForm) => {
+    reset();
+    setSearchOpen((prev) => !prev);
     router.push(`/product?name=${data.keyword}`);
   };
   const toggleSearch = () => {
