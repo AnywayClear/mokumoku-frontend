@@ -1,9 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import LogoImage from '../../../public/images/mokumokuLogo.svg';
 import { BsBookmarkPlus } from "react-icons/bs";
-import { getUserInfo } from "@/service/api/user";
 import { userData } from "@/model/user";
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/context/AuthContext";
@@ -14,31 +12,32 @@ const titleClass = "font-bold text-xl mt-2";
 const contentClass = "text-xl";
 
 type Props={
-    sellerInfo : userData|undefined;
+    sellerInfo: userData | undefined;
+    slug: string;
+}
+type isSUbscribed={
+    sub:boolean
 }
 
-
-export default function SellerBannerOther({ sellerInfo }: Props) {
+export default function SellerBannerOther({ sellerInfo, slug }: Props) {
 
     const { user } = useContext(AuthContext);
     const queryClient = useQueryClient();
     
-    const { data: isSubscribed }: UseQueryResult<boolean> = useQuery({
+    const { data: isSubscribed }: UseQueryResult<isSUbscribed> = useQuery({
         queryKey: ['isSubscribed'],
-        queryFn: () => hasSubscribed(sellerInfo?.userId||""),
+        queryFn: () => hasSubscribed(slug),
     });
 
-    const subscribe = useMutation(() => doSubscribe(sellerInfo?.userId||""), {
+    const subscribe = useMutation(() => doSubscribe(slug||""), {
         onSuccess: () => {
-            console.log("구독 성공");
-            queryClient.invalidateQueries({ queryKey: ['isSubscribed'] })
+            queryClient.invalidateQueries({ queryKey: ['isSubscribed'] });
         },
     });
 
-    const cancelsubscribe = useMutation(() => cancelSubscribe(sellerInfo?.userId||""), {
+    const cancelsubscribe = useMutation(() => cancelSubscribe(slug||""), {
         onSuccess: () => {
-            console.log("캔슬 성공");
-            queryClient.invalidateQueries({ queryKey: ['isSubscribed'] })
+            queryClient.invalidateQueries({ queryKey: ['isSubscribed'] });
         },
     });
 
@@ -49,16 +48,16 @@ export default function SellerBannerOther({ sellerInfo }: Props) {
                     <Image alt="MokuMoku" src={sellerInfo?.image ? sellerInfo?.image : "https://images.unsplash.com/photo-1690149347325-13435f400dd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80"} className="w-72 h-72 bg-white rounded-full" width={1000} height={1000}/>
                     
                     {user?.role == 0 ?
-                        (isSubscribed ?
-                            <button className="bg-green-600 hover:bg-green-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => subscribe}>
+                        (!isSubscribed?.sub ?
+                            <button className="bg-green-600 hover:bg-green-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => subscribe.mutate()}>
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독하기</p>
                             </button> :
-                            <button className="bg-black hover:bg-neutral-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => cancelsubscribe}>
+                            <button className="bg-black hover:bg-neutral-800  rounded-md flex items-center px-[0.4rem] py-1 mx-auto mt-3 text-white text-lg " onClick={() => cancelsubscribe.mutate()}>
                                 <BsBookmarkPlus />
                                 <p className="ml-1" >구독취소</p>
                             </button>)
-                        :null}
+                        :<div className="h-10"></div>}
                         
                 </div>
                 <div className="text-left w-[29rem]">

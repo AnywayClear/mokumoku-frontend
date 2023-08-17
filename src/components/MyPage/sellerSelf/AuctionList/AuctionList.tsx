@@ -10,6 +10,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { ProduceList } from '@/model/produce';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext } from 'react';
+import { Pagination } from '@mui/material';
 
 type colType = { name: string; flex: string };
 const cols: colType[] = [
@@ -43,15 +44,23 @@ export default function AuctionList() {
 
   const { user } = useContext(AuthContext);
   const [{ auctionState, title }] = useRecoilState<searchType>(searchState);
+  const [currentPage, setCurrentPage] = React.useState(1);
+
+  const size = 2;
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+  };
 
   const { data: produceList }: UseQueryResult<ProduceList> = useQuery({
-    queryKey: ['produceList',auctionState, title],
-    queryFn: () => getProduceList2(auctionState.toString(), title, user?.userId, 0, 10),
+    queryKey: ['produceList',auctionState, title,currentPage],
+    queryFn: () => getProduceList2(auctionState.toString(), title, user?.userId, currentPage-1, size),
   });
+
+  
 
   return (
     <div className="mb-20">
-      <SearchTab tabType={1} />
+      <SearchTab tabType={0} hasAuctionState={true} hasDateState={true} hasNameState={true} hasOrderState={false} auctionType={0} />
       <div>
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
@@ -74,6 +83,18 @@ export default function AuctionList() {
           </tbody>
         </table>
       </div>
+      <Pagination
+        count={produceList?.pageInfo.totalPages||0}
+        page={currentPage}
+        onChange={onPageChange}
+        size="medium"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "15px 0",
+        }}
+        
+      />
     </div>
   );
 }

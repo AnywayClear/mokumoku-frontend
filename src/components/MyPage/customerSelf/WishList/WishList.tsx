@@ -6,6 +6,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getWishList } from '@/service/api/wish';
 import { AuthContext } from '@/context/AuthContext';
 import { WishListType } from '@/model/wish';
+import { Pagination } from '@mui/material';
 
 type colType = { name: string; flex: string };
 
@@ -43,15 +44,22 @@ const cols: colType[] = [
 export default function WishList() {
   const { user } = useContext(AuthContext);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const size = 5;
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+  };
+
   const { data: wishList }: UseQueryResult<WishListType> = useQuery({
-    queryKey: ['wishList'],
-    queryFn: () => getWishList(user?.userId, 0, 5),
+    queryKey: ['wishList', currentPage],
+    queryFn: () => getWishList(user?.userId, currentPage-1, size),
   });
+  console.log(wishList);
 
   return (
     <div className="mb-20">
-      <SearchTab tabType={3} />
-      <div>
+      {/* <SearchTab tabType={3} /> */}
+      <div className="mt-20">
         <table className="table-fixed border-collapse border-y-2 w-full text-center border-neutral-300">
           <thead className="font-bold  text-xl">
             <tr className="border-y">
@@ -72,6 +80,18 @@ export default function WishList() {
           </tbody>
         </table>
       </div>
+      <Pagination
+        count={wishList?.pageInfo.totalPages||0}
+        page={currentPage}
+        onChange={onPageChange}
+        size="medium"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "15px 0",
+        }}
+        
+      />
     </div>
   );
 }

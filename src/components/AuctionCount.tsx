@@ -1,13 +1,21 @@
 'use client';
 
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 type Props = {
   updatedAt: Date;
 };
 
+const calTime = (updateAt: Date) => {
+  let today = dayjs();
+  let expired_at = dayjs(updateAt);
+  let result = Math.floor(expired_at.diff(today, 'second', true));
+  return result + 300 ;
+}
+
 export default function AuctionCount({ updatedAt }: Props) {
-  const [time, setTime] = useState<number>(300);
+  const [time, setTime] = useState<number>(() => calTime(updatedAt));
 
   //   useEffect(() => {
   //     const interval = setInterval(() => {
@@ -37,7 +45,7 @@ export default function AuctionCount({ updatedAt }: Props) {
   }, []);
 
   useEffect(() => {
-    setTime(300);
+    setTime(() => calTime(updatedAt));
   }, [updatedAt]);
 
   return (

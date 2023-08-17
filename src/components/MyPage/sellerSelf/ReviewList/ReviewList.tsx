@@ -1,54 +1,55 @@
 'use client';
 import * as React from 'react';
-import Image from 'next/image';
-import { BsStar, BsStarFill } from 'react-icons/bs';
 import SearchTab from '../../searchTab/searchTab';
 import ReviewRow from './ReviewRow';
+import { useContext } from 'react';
+import { searchType } from '@/model/mypage';
+import { useRecoilState } from 'recoil';
+import { searchState } from '@/store/mypage';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { ReviewList } from '@/model/review';
+import { getReviews } from '@/service/api/review';
+import { AuthContext } from '@/context/AuthContext';
+import { Pagination } from '@mui/material';
 
-type reviewType = {
-  img: string;
-  title: string;
-  unit: string;
-  nickname: string;
-  content: string;
-  date: string;
-  rate: number;
-};
 
 export default function ReviewList() {
-  const reviews: reviewType[] = [
-    {
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '생생야채모듬',
-      unit: '10kg',
-      nickname: '송수현짱짱123',
-      content:
-        '진짜 이건 아니지 않나요...? 아무리 유기농이라고는 해도 야채랑 과일에 모두 상처에 벌레 파먹은 흔적에... 다시는 구매 안합니다 다른 분들도 참고하셔서 여기서 구매하지마세요',
-      date: '2023.07.23',
-      rate: 1,
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1690375636915-29d19feae92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1092&q=80',
-      title: '생생야채모듬',
-      unit: '10kg',
-      nickname: '송수현짱짱123',
-      content:
-        '잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다잘먹었습니다',
-      date: '2023.07.23',
-      rate: 5,
-    },
-  ];
+
+  const { user } = useContext(AuthContext);
+  const [{ auctionState, title }] = useRecoilState<searchType>(searchState);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const size = 5;
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+  };
+
+  const { data: reviewList }: UseQueryResult<ReviewList> = useQuery({
+    queryKey: ['reviewList',auctionState, title, currentPage],
+    queryFn: () => getReviews(user?.userId, currentPage-1, size,"start"),
+  });
 
   return (
     <div className="mb-20">
-      <SearchTab tabType={2} />
-      <table className="">
-        {reviews.length!==0 && reviews!==undefined?(reviews.map((review, index) => (
+      {/* <SearchTab tabType={2} /> */}
+      <table className="w-full mt-12">
+        {reviewList?.data?.length!==0 && reviewList?.data!==undefined?(reviewList?.data?.map((review, index) => (
           <ReviewRow key={index} review={review} />
         ))):
-        <tr className='h-32'><td className="text-xl font-semibold">검색된 게시물이 없습니다.</td></tr>
+        <tr className='h-32 border-y-2'><td className="text-xl font-semibold text-center">검색된 게시물이 없습니다.</td></tr>
       }
       </table>
+      <Pagination
+        count={reviewList?.pageInfo.totalPages||0}
+        page={currentPage}
+        onChange={onPageChange}
+        size="medium"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "15px 0",
+        }}
+      />
     </div>
   );
 }

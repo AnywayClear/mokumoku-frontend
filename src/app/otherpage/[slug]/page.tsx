@@ -20,7 +20,7 @@ export default function OtherPage({params:{slug}}: Props) {
     
     return(
         <>
-            <SellerBannerOther sellerInfo={sellerInfo} />
+            <SellerBannerOther sellerInfo={sellerInfo} slug={slug} />
             <SellerAuctionList slug={slug} />
         </>
     );

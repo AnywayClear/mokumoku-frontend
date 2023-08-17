@@ -5,15 +5,15 @@ import { useRecoilState } from 'recoil';
 import { tapState } from '@/store/mypage';
 const boxItems = [
   {
-    tag: <AuctionList />,
+    tag: <AuctionList key={0} />,
     number: 0,
   },
   {
-    tag: <AuctionChart />,
+    tag: <AuctionChart key={1}/>,
     number: 1,
   },
   {
-    tag: <ReviewList />,
+    tag: <ReviewList key={2}/>,
     number: 2,
   },
 ];

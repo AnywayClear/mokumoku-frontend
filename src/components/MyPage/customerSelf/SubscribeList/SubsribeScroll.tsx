@@ -77,7 +77,7 @@ export default function SubscribeScroll({
                       </p>
                 </div>
         ))):
-        <p>없엉...</p>
+        <p className='w-full text-center text-xl font-bold border-y py-10'>구독하고 있는 판매자가 없습니다</p>
         }
       
     </div>
