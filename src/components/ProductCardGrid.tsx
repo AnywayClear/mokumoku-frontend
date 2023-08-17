@@ -46,11 +46,13 @@ export default function ProductCardGrid() {
   });
 
   useEffect(() => {
-    queryClient.setQueryData(['produceList', status], (data: any) => ({
-      pages: data.pages.slice(0, 1),
-      pageParams: data.pageParams.slice(0, 1),
-    }));
-    refetch({ refetchPage: (page, index) => index === 0 });
+    if (searchParams?.get("name")) {
+      queryClient.setQueryData(['produceList', status], (data: any) => ({
+        pages: data.pages.slice(0, 1),
+        pageParams: data.pageParams.slice(0, 1),
+      }));
+      refetch({ refetchPage: (page, index) => index === 0 });
+    }
   }, [searchParams, refetch, queryClient, status]);
 
   useEffect(() => {
