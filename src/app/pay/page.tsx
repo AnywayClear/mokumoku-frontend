@@ -94,9 +94,12 @@ export default function PayPage() {
     params.append('quantity', '1');
     params.append('total_amount', money);
     params.append('tax_free_amount', money);
-    params.append('approval_url', 'http://localhost:3000/pay');
-    params.append('cancel_url', 'http://localhost:3000/pay');
-    params.append('fail_url', 'http://localhost:3000/pay');
+    params.append(
+      'approval_url',
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/pay`,
+    );
+    params.append('cancel_url', `${process.env.NEXT_PUBLIC_FRONTEND_URL}/pay`);
+    params.append('fail_url', `${process.env.NEXT_PUBLIC_FRONTEND_URL}/pay`);
 
     axios
       .post('https://kapi.kakao.com/v1/payment/ready', params, {
