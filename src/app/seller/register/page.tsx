@@ -67,8 +67,6 @@ export default function SellerRegister() {
     onSuccess: () => {
       const newUser: any = { ...user, role: 1 };
       setUser(newUser);
-      localStorage.removeItem("accessToken");
-      // setUser(null);
       toast('판매자 전환에 성공했습니다.');
       router.replace('/mypage');
     },
