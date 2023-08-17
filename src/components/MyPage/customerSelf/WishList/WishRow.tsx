@@ -59,7 +59,7 @@ export default function WishRow({ wishItem }: Props) {
           </Link>
         </td>
         <td>
-          <p>{produce?.ea}</p>
+          <p>{produce?.kg}kg</p>
         </td>
         <td>
           <p>{produce ? dateToStringDot(produce.startDate) : null}</p>
