@@ -18,7 +18,7 @@ export default function MyPage(){
     const router = useRouter();
 
     const { data: userData }: UseQueryResult<userData> = useQuery({
-        queryKey: ['subscribeUsers'],
+        queryKey: ['userData'],
         queryFn: () => getUserInfo(user?.userId || ""),
     });
 
