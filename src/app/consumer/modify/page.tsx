@@ -187,7 +187,7 @@ export default function ConsumerModifyPage() {
       <div className={WRAPPER_INPUT_STYLE}>
         <input
           className={ADDRESS_STYLE}
-          placeholder="상세주소 입력창 - 여기서 안쓸듯"
+          placeholder="상세주소 입력창"
           // {...register('address')}
         ></input>
         {/* <p className={ERROR_STYLE}>{errors.address?.message}</p> */}
