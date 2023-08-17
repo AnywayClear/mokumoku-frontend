@@ -1,6 +1,5 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import './uploader.css';
-import { Button } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
 
