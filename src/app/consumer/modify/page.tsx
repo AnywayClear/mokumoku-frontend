@@ -24,15 +24,16 @@ const schema = yup
       .max(10, '최대 10자까지 입력가능합니다.')
       .required('닉네임을 입력하세요.'),
 
-    // address: yup
-    //   .string()
-    //   .max(30, '최대 30자까지 입력 가능합니다')
-    //   .required('주소를 입력하세요.'),
+    companyAddress: yup
+      .string()
+      .max(30, '최대 30자까지 입력 가능합니다')
+      .required('주소를 입력하세요.'),
   })
   .required();
 
 type Inputs = {
   nickname: string;
+  companyAddress: string;
 };
 
 const WRAPPER_INPUT_STYLE = 'w-9/12 mt-3';
@@ -72,7 +73,9 @@ export default function ConsumerModifyPage() {
 
   useEffect(() => {
     if (userData?.nickname) setValue('nickname', userData.nickname);
-  }, [setValue, userData?.nickname]);
+    if (userData?.companyAddress)
+      setValue('companyAddress', userData.companyAddress);
+  }, [setValue, userData?.companyAddress, userData?.nickname]);
 
   const mutation = useMutation({
     mutationFn: (data: Inputs) => {
@@ -102,6 +105,7 @@ export default function ConsumerModifyPage() {
 
     const newData = {
       ...data,
+      companyAddress: `${inputAddress} ${data.companyAddress}`,
       image: image.Location,
     };
 
@@ -189,7 +193,7 @@ export default function ConsumerModifyPage() {
         <input
           className={ADDRESS_STYLE}
           placeholder="상세주소 입력창"
-          // {...register('address')}
+          {...register('companyAddress')}
         ></input>
         {/* <p className={ERROR_STYLE}>{errors.address?.message}</p> */}
       </div>
