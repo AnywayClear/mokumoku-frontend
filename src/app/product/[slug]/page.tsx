@@ -9,6 +9,7 @@ import ProduceAuctionList from '@/components/ProduceAuctionList';
 import Link from 'next/link';
 import DibButton from '@/components/DibButton';
 import ProduceReview from '@/components/ProduceReview';
+import dayjs from 'dayjs';
 
 type Props = {
   params: {
@@ -96,19 +97,25 @@ export default function ProductDetailPage({ params: { slug } }: Props) {
             {produce?.status === 0 ? (
               <input
                 type="button"
-                value={`경매 대기       |       ${produce?.startDate}`}
+                value={`경매 대기       |       ${dayjs(produce?.startDate)
+                  .format('YYYY-MM-DD HH:mm')
+                  .toString()}`}
                 className="bg-yellow-300  border-2 border-black rounded-md py-2 px-20"
               />
             ) : produce?.status === 1 ? (
               <input
                 type="button"
-                value={`진행중       |       ${produce?.startDate}`}
+                value={`진행중       |       ${dayjs(produce?.startDate)
+                  .format('YYYY-MM-DD HH:mm')
+                  .toString()}`}
                 className="bg-green-500  border-2 border-black rounded-md py-2 px-20"
               />
             ) : (
               <input
                 type="button"
-                value={`경매 종료       |       ${produce?.startDate}`}
+                value={`경매 종료       |       ${dayjs(produce?.startDate)
+                  .format('YYYY-MM-DD HH:mm')
+                  .toString()}`}
                 className="bg-red-500  border-2 border-black rounded-md py-2 px-20"
               />
             )}
