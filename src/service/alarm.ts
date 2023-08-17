@@ -22,7 +22,7 @@ export const getAlarmMessage = ({
   switch (type) {
     case 0:
       data.message = `${senderName} 농산물의 경매가 시작되었습니다.`;
-      data.link = `/produce/${senderId}`;
+      data.link = `/product/${senderId}`;
       break;
     case 1:
       data.message = `구독한 판매자 ${senderName}의 글이 등록되었습니다.`;

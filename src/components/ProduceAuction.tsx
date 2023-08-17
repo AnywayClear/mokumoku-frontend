@@ -99,7 +99,7 @@ export default function ProduceAuction({ auction, produceStatus }: Props) {
             </p>
             {produceStatus !== 1 ? (
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {`5분 0초`}
+                {`1분 0초`}
               </p>
             ) : (
               <AuctionCount updatedAt={auction.updatedAt} />

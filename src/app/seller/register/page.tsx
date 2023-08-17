@@ -117,10 +117,10 @@ export default function SellerRegister() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      nickname: '로그인 유저의 닉네임',
+      nickname: '',
       description: '',
       companyAddress: '',
-      companyRegistrationNumber: '방금 입력한 판매자 번호',
+      companyRegistrationNumber: '',
       phoneNumber: '',
       // role: 'ROLE_SELLER',
     },

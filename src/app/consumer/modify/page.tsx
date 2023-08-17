@@ -76,10 +76,11 @@ export default function ConsumerModifyPage() {
 
   const mutation = useMutation({
     mutationFn: (data: Inputs) => {
-      return patch(`/api/members/${user?.userId}`, data);
+      return patch(`/api/members`, data);
     },
     onSuccess: () => {
       toast('프로필 수정에 성공했습니다.');
+      router.replace('/');
     },
   });
 
