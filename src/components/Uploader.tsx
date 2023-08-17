@@ -68,8 +68,8 @@ const Uploader = ({ onImageSelected, profileImage }: any) => {
       />
       <div className="img-wrapper">
         <Image
-          alt={image.preview_URL}
-          src={image.preview_URL}
+          alt={image.preview_URL || '/images/user.png'}
+          src={image.preview_URL || '/images/user.png'}
           width={120}
           height={120}
         />

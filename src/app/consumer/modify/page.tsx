@@ -27,7 +27,6 @@ const schema = yup
     companyAddress: yup
       .string()
       .max(30, '최대 30자까지 입력 가능합니다')
-      .required('주소를 입력하세요.'),
   })
   .required();
 
