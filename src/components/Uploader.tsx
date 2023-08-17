@@ -4,11 +4,15 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
 
-const Uploader = ({ onImageSelected }: any) => {
+const Uploader = ({ onImageSelected, profileImage }: any) => {
   const [image, setImage] = useState({
     image_file: '' as File | string,
     preview_URL: '/images/user.png',
   });
+
+  useEffect(() => {
+    setImage((prev) => ({ ...prev, preview_URL: profileImage }));
+  }, [profileImage]);
 
   let inputRef: HTMLInputElement | null;
 
