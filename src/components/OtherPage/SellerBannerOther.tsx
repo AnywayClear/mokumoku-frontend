@@ -45,7 +45,8 @@ export default function SellerBannerOther({ sellerInfo, slug }: Props) {
 
   const cancelsubscribe = useMutation(() => cancelSubscribe(slug || ''), {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['isSubscribed'] });
+      queryClient.invalidateQueries({ queryKey: ['isSubscribed','subscribeUsers'] });
+
     },
   });
 

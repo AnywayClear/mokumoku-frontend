@@ -6,13 +6,15 @@ import React, {
   useContext,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
 import Image from 'next/image';
 import styles from '../Scrollbar.module.css';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSubscribeList } from '@/service/api/subscribe';
 import { AuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { tapState } from '@/store/mypage';
 
 type Props = {
   selected: string;
@@ -27,13 +29,14 @@ export default function SubscribeScroll({
 }: Props) {
   const { user } = useContext(AuthContext);
   const router = useRouter();
-
+  const [status, setStatus] = useRecoilState<number>(tapState);
+  
   const handleClick = (e: MouseEvent<HTMLDivElement>, id: string) => {
     router.push(`/otherpage/${id}`);
   };
   
   const { data: subscribeUsers }: UseQueryResult<subscribeUserType> = useQuery({
-    queryKey: ['subscribeUsers'],
+    queryKey: ['subscribeUsers',status],
     queryFn: () => getSubscribeList(user?.userId),
   });
 
@@ -109,3 +112,7 @@ export default function SubscribeScroll({
     </div>
   );
 }
+function useRecoilState<T>(tapState: any): [any, any] {
+  throw new Error('Function not implemented.');
+}
+
