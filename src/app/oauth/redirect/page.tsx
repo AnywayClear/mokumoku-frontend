@@ -27,6 +27,7 @@ export default function Page() {
       setUser({
         userId,
         role: role === 'ROLE_CONSUMER' ? 0 : 1,
+        authToken: token,
       });
     }
     router.replace('/');
