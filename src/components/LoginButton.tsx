@@ -9,7 +9,8 @@ export default function LoginButton() {
   const { user, setUser } = useContext(AuthContext);
 
   const handleClick = () => {
-    localStorage.removeItem("accessToken");
+    // localStorage.removeItem("accessToken");
+    localStorage.setItem('accessToken', '');
     setUser(null);
     location.href = `https://kauth.kakao.com/oauth/logout?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&logout_redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`;
   };
