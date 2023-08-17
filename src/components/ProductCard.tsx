@@ -37,14 +37,6 @@ export default function ProductCard({
       className="shadow-md m-4 w-64 cursor-pointer"
       onClick={(e) => handleClick(e, id)}
     >
-      {/* <Image
-        className="w-full"
-        alt="temp"
-        src={tempImage}
-        // fill
-        // width={300}
-        // height={500}
-      /> */}
 
       <div className="relative w-full aspect-square">
         <Image
@@ -98,7 +90,9 @@ export default function ProductCard({
             <FiHeart />
             <p className="text-sm">{dibNum}</p>
           </div>
-          <p className="text-sm">{dayjs(startDate).format("YYYY-MM-DD HH:mm").toString()}</p>
+          <p className="text-sm">
+            {dayjs(startDate).format('YYYY-MM-DD HH:mm').toString()}
+          </p>
         </div>
       </div>
     </div>
