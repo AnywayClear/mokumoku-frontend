@@ -46,11 +46,8 @@ export default function ProductCardGrid() {
   });
 
   useEffect(() => {
-    if (searchParams?.get('name')) {
-      queryClient.invalidateQueries({ queryKey: ['produceList', status] });
-      refetch();
-    }
-  }, [searchParams, refetch, queryClient, status]);
+    refetch({ refetchPage: (page, index) => index === 0 });
+  }, [searchParams, refetch]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
