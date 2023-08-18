@@ -64,8 +64,6 @@ export default function SellerAuth({ setIsAuth }: Props) {
         data: { businesses },
       });
 
-      // 테스트 김형준 2013 04 01 2018632486
-
       if (response.status === 200) {
         if (response?.data?.data?.[0]?.valid == '02') {
           console.log(response.data);
